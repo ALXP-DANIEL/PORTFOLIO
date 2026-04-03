@@ -3,7 +3,7 @@
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 import * as React from "react";
 
-function ThemeProvider({
+export default function ThemeProvider({
   children,
   ...props
 }: React.ComponentProps<typeof NextThemesProvider>) {
@@ -67,5 +67,3 @@ function ThemeHotkey() {
 
   return null;
 }
-
-export { ThemeProvider };

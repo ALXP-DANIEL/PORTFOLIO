@@ -1,7 +1,8 @@
 import { Geist, JetBrains_Mono } from "next/font/google";
 
 import "@/styles/globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
+import ThemeProvider from "@/components/provider/theme";
+import LayoutWrapper from "@/components/wrapper/layout";
 import { cn } from "@/lib/utils";
 
 const fontSans = Geist({
@@ -24,14 +25,15 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       className={cn(
-        "antialiased",
+        "antialiased overscroll-none font-mono",
         fontSans.variable,
-        "font-mono",
         jetbrainsMono.variable,
       )}
     >
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
+      <body className="min-h-screen bg-background">
+        <ThemeProvider>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );
