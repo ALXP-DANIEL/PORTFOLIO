@@ -3,6 +3,7 @@ import { Geist, JetBrains_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import ThemeProvider from "@/components/provider/theme";
 import LayoutWrapper from "@/components/wrapper/layout";
+import SplashGate from "@/components/wrapper/splash-gate";
 import { cn } from "@/lib/utils";
 
 const fontSans = Geist({
@@ -32,7 +33,9 @@ export default function RootLayout({
     >
       <body className="min-h-dvh bg-background">
         <ThemeProvider>
-          <LayoutWrapper>{children}</LayoutWrapper>
+          <SplashGate>
+            <LayoutWrapper>{children}</LayoutWrapper>
+          </SplashGate>
         </ThemeProvider>
       </body>
     </html>
