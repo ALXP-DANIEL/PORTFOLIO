@@ -1,5 +1,5 @@
-function ProjectPage() {
-  return <div>ProjectPage</div>;
-}
+import ProjectsShowcase from "@/components/projects/projects-showcase";
 
-export default ProjectPage;
+export default function ProjectPage() {
+  return <ProjectsShowcase />;
+}

@@ -1,9 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSessionStorage } from "usehooks-ts";
+
+import BlurImage from "@/components/ui/blur-image";
 
 type SplashGateProps = {
   children: React.ReactNode;
@@ -75,12 +76,13 @@ export default function SplashGate({ children }: SplashGateProps) {
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="animate-pulse"
               >
-                <Image
+                <BlurImage
                   src="/brand/logo.svg"
                   alt="Loading portfolio"
                   width={128}
                   height={128}
-                  priority
+                  eager
+                  wrapperClassName="inline-flex h-28 w-28 sm:h-32 sm:w-32"
                   className="h-28 w-28 select-none sm:h-32 sm:w-32"
                   draggable={false}
                 />

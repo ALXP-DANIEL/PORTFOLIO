@@ -1,7 +1,8 @@
 import { motion } from "motion/react";
-import Image from "next/image";
 import Link from "next/link";
 import { memo } from "react";
+
+import BlurImage from "@/components/ui/blur-image";
 
 type HeaderBrandProps = {
   onNavigate: () => void;
@@ -25,12 +26,14 @@ function HeaderBrand({ onNavigate }: HeaderBrandProps) {
         className="flex size-full items-center justify-center"
         onClick={onNavigate}
       >
-        <Image
+        <BlurImage
           src="/brand/logo.svg"
           alt="My App"
           width={28}
           height={28}
           draggable={false}
+          eager
+          wrapperClassName="inline-flex h-7 w-7"
           className="h-7 w-7 object-contain"
         />
       </Link>
