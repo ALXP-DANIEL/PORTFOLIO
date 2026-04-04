@@ -21,7 +21,7 @@ export default function LayoutWrapper({ children, className }: LayoutProps) {
       >
         <Header />
 
-        <main className="pb-40 sm:pb-48">
+        <main className="pb-40 sm:pb-48 space-y-8">
           <ViewTransitionShell>{children}</ViewTransitionShell>
         </main>
 
