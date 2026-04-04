@@ -1,10 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-import { Icons, type IconName } from "@/components/icons/icons";
+import { type IconName, Icons } from "@/components/icons/icons";
 
 const socials = [
   { href: "https://github.com", label: "GitHub", icon: "github" },
@@ -93,11 +93,7 @@ export default function Footer() {
 
             <div className="flex items-center gap-2">
               {socials.map((item) => (
-                <SocialIconLink
-                  key={item.label}
-                  item={item}
-                  size="desktop"
-                />
+                <SocialIconLink key={item.label} item={item} size="desktop" />
               ))}
 
               <Link

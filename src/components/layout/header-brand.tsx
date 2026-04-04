@@ -19,6 +19,7 @@ function HeaderBrand({ onNavigate }: HeaderBrandProps) {
     >
       <Link
         href="/"
+        transitionTypes={["page"]}
         draggable={false}
         onDragStart={(event) => event.preventDefault()}
         className="flex size-full items-center justify-center"

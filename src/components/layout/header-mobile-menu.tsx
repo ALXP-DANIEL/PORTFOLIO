@@ -46,6 +46,7 @@ function HeaderMobileMenu({
                   <motion.div key={link.href} variants={mobileMenuItemVariants}>
                     <Link
                       href={link.href}
+                      transitionTypes={["page"]}
                       onClick={onNavigate}
                       className={cn(
                         "block w-full rounded-[1.25rem] px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",

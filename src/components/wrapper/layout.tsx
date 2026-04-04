@@ -1,6 +1,7 @@
-import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/header";
 import GridPattern from "@/components/pattern/grid";
+import ViewTransitionShell from "@/components/wrapper/view-transition-shell";
 import { cn } from "@/lib/utils";
 
 type LayoutProps = {
@@ -20,7 +21,9 @@ export default function LayoutWrapper({ children, className }: LayoutProps) {
       >
         <Header />
 
-        <main className="pb-40 sm:pb-48">{children}</main>
+        <main className="pb-40 sm:pb-48">
+          <ViewTransitionShell>{children}</ViewTransitionShell>
+        </main>
 
         <Footer />
       </div>

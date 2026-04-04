@@ -17,11 +17,38 @@ export default function ThemeToggle() {
 
   const isDark = mounted && resolvedTheme === "dark";
 
+  const handleThemeChange = () => {
+    const nextTheme = isDark ? "light" : "dark";
+    const applyTheme = () => setTheme(nextTheme);
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme();
+      return;
+    }
+
+    const viewTransitionDocument = document as Document & {
+      startViewTransition?: (update: () => void) => void;
+    };
+
+    if (viewTransitionDocument.startViewTransition) {
+      viewTransitionDocument.startViewTransition(() => {
+        applyTheme();
+      });
+      return;
+    }
+
+    document.documentElement.classList.add("theme-fade");
+    applyTheme();
+    window.setTimeout(() => {
+      document.documentElement.classList.remove("theme-fade");
+    }, 340);
+  };
+
   return (
     <motion.button
       type="button"
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      onClick={handleThemeChange}
       whileHover={{ y: -1, scale: 1.03 }}
       whileTap={{ y: 0, scale: 0.95 }}
       transition={{ type: "spring", stiffness: 420, damping: 24 }}

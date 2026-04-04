@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSessionStorage } from "usehooks-ts";
@@ -46,7 +46,10 @@ export default function SplashGate({ children }: SplashGateProps) {
     <>
       <motion.div
         initial={false}
-        animate={{ opacity: showOverlay ? 0 : 1, scale: showOverlay ? 0.995 : 1 }}
+        animate={{
+          opacity: showOverlay ? 0 : 1,
+          scale: showOverlay ? 0.995 : 1,
+        }}
         transition={{ duration: 0.45, ease: "easeOut" }}
       >
         {children}

@@ -15,8 +15,7 @@ export default function SectionWrapper({
     <section
       className={cn(
         "relative overflow-hidden rounded-[2rem]",
-        withBlur &&
-          "opacity-70 backdrop-blur-lg "+
+        withBlur && "opacity-70 backdrop-blur-lg",
         className,
       )}
     >
