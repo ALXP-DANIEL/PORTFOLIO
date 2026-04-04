@@ -46,6 +46,7 @@ function SocialIconLink({
 }
 
 export default function Footer() {
+  const [isReady, setIsReady] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
 
@@ -55,6 +56,7 @@ export default function Footer() {
     const updateDesktopState = () => setIsDesktop(mediaQuery.matches);
 
     updateDesktopState();
+    setIsReady(true);
     mediaQuery.addEventListener("change", updateDesktopState);
 
     return () => mediaQuery.removeEventListener("change", updateDesktopState);
@@ -65,6 +67,10 @@ export default function Footer() {
       setIsMobileExpanded(false);
     }
   }, [isDesktop]);
+
+  if (!isReady) {
+    return null;
+  }
 
   return (
     <motion.footer

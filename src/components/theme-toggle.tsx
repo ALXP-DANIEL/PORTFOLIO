@@ -5,6 +5,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 import { Icons } from "@/components/icons/icons";
+import { applyThemeWithTransition } from "@/lib/theme-transition";
 import { cn } from "@/lib/utils";
 
 export default function ThemeToggle() {
@@ -19,29 +20,7 @@ export default function ThemeToggle() {
 
   const handleThemeChange = () => {
     const nextTheme = isDark ? "light" : "dark";
-    const applyTheme = () => setTheme(nextTheme);
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      applyTheme();
-      return;
-    }
-
-    const viewTransitionDocument = document as Document & {
-      startViewTransition?: (update: () => void) => void;
-    };
-
-    if (viewTransitionDocument.startViewTransition) {
-      viewTransitionDocument.startViewTransition(() => {
-        applyTheme();
-      });
-      return;
-    }
-
-    document.documentElement.classList.add("theme-fade");
-    applyTheme();
-    window.setTimeout(() => {
-      document.documentElement.classList.remove("theme-fade");
-    }, 340);
+    applyThemeWithTransition(nextTheme, setTheme);
   };
 
   return (

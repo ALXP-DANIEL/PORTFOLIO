@@ -140,21 +140,13 @@
 ::view-transition-old(root) {
   animation-duration: 340ms;
   animation-timing-function: ease-in-out;
+  animation-name: fade-out-soft;
 }
 
 /* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
 ::view-transition-new(root) {
   animation-duration: 340ms;
   animation-timing-function: ease-in-out;
-}
-
-/* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
-::view-transition-old(root) {
-  animation-name: fade-out-soft;
-}
-
-/* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
-::view-transition-new(root) {
   animation-name: fade-in-soft;
 }
 
