@@ -3,8 +3,6 @@
 import { ArrowUpRightIcon } from "@phosphor-icons/react";
 import { motion } from "motion/react";
 import Link from "next/link";
-
-import { projects } from "@/components/projects/projects-data";
 import { buttonVariants } from "@/components/ui/shadcn/button";
 import {
   Card,
@@ -13,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/shadcn/card";
+import { projects } from "@/data/projects/projects-data";
 import { cn } from "@/lib/utils";
 
 export default function ProjectsLibrary() {

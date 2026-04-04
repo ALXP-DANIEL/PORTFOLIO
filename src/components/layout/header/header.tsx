@@ -4,12 +4,12 @@ import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
-import HeaderBrand from "@/components/layout/header-brand";
-import HeaderDesktopNav from "@/components/layout/header-desktop-nav";
-import HeaderMobileMenu from "@/components/layout/header-mobile-menu";
-import HeaderMobileToggle from "@/components/layout/header-mobile-toggle";
-import HeaderSection from "@/components/layout/header-section";
-import ThemeToggle from "@/components/theme-toggle";
+import HeaderBrand from "@/components/layout/header/header-brand";
+import HeaderDesktopNav from "@/components/layout/header/header-desktop-nav";
+import HeaderMobileMenu from "@/components/layout/header/header-mobile-menu";
+import HeaderMobileToggle from "@/components/layout/header/header-mobile-toggle";
+import HeaderSection from "@/components/layout/header/header-section";
+import ThemeToggle from "@/components/ui/theme-toggle";
 
 export default function Header() {
   const pathname = usePathname();

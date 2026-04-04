@@ -1,4 +1,4 @@
-import SectionWrapper from "../wrapper/section";
+import SectionWrapper from "@/components/wrapper/section";
 
 export default function MockupSectionOne() {
   return (

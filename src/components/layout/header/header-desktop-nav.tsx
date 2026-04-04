@@ -5,7 +5,7 @@ import { memo } from "react";
 import {
   isLinkActive,
   primaryLinks,
-} from "@/components/layout/header.constants";
+} from "@/components/layout/header/header.constants";
 import { cn } from "@/lib/utils";
 
 type HeaderDesktopNavProps = {

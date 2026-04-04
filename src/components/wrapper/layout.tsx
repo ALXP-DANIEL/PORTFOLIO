@@ -1,5 +1,5 @@
-import Footer from "@/components/layout/footer";
-import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer/footer";
+import Header from "@/components/layout/header/header";
 import GridPattern from "@/components/pattern/grid";
 import ViewTransitionShell from "@/components/wrapper/view-transition-shell";
 import { cn } from "@/lib/utils";
