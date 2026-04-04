@@ -1,5 +1,6 @@
-import { List, X } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "motion/react";
+
+import { Icons } from "@/components/icons/icons";
 
 type HeaderMobileToggleProps = {
   isOpen: boolean;
@@ -31,7 +32,7 @@ export default function HeaderMobileToggle({
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="absolute"
           >
-            <X weight="bold" className="size-5" />
+            <Icons.close weight="bold" className="size-5" />
           </motion.span>
         ) : (
           <motion.span
@@ -42,7 +43,7 @@ export default function HeaderMobileToggle({
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="absolute"
           >
-            <List weight="bold" className="size-5" />
+            <Icons.menu weight="bold" className="size-5" />
           </motion.span>
         )}
       </AnimatePresence>

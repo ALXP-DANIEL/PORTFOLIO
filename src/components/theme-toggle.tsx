@@ -1,10 +1,10 @@
 "use client";
 
-import { Moon, Sun } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
+import { Icons } from "@/components/icons/icons";
 import { cn } from "@/lib/utils";
 
 export default function ThemeToggle() {
@@ -40,7 +40,7 @@ export default function ThemeToggle() {
             transition={{ type: "spring", stiffness: 360, damping: 26 }}
             className="absolute"
           >
-            <Moon weight="duotone" className="size-5.5" />
+            <Icons.moon weight="duotone" className="size-5.5" />
           </motion.span>
         ) : (
           <motion.span
@@ -51,7 +51,7 @@ export default function ThemeToggle() {
             transition={{ type: "spring", stiffness: 360, damping: 26 }}
             className="absolute"
           >
-            <Sun weight="duotone" className="size-5.5" />
+            <Icons.sun weight="duotone" className="size-5.5" />
           </motion.span>
         )}
       </AnimatePresence>

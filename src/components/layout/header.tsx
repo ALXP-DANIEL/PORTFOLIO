@@ -38,7 +38,7 @@ export default function Header() {
   }, [isDesktop]);
 
   return (
-    <header className="sticky top-0 z-20 mb-8">
+    <header className="sticky top-5 z-20 mb-5">
       <nav className="flex items-stretch justify-between gap-3">
         <div className="flex items-stretch gap-3">
           <HeaderSection className="aspect-square h-auto self-stretch justify-center p-0">

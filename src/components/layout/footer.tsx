@@ -1,21 +1,49 @@
 "use client";
 
-import {
-  ArrowUpRight,
-  CaretUp,
-  GithubLogo,
-  LinkedinLogo,
-  XLogo,
-} from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import { Icons, type IconName } from "@/components/icons/icons";
+
 const socials = [
-  { href: "https://github.com", label: "GitHub", icon: GithubLogo },
-  { href: "https://linkedin.com", label: "LinkedIn", icon: LinkedinLogo },
-  { href: "https://x.com", label: "X", icon: XLogo },
+  { href: "https://github.com", label: "GitHub", icon: "github" },
+  { href: "https://linkedin.com", label: "LinkedIn", icon: "linkedin" },
+  { href: "https://x.com", label: "X", icon: "x" },
 ] as const;
+
+type SocialItem = (typeof socials)[number];
+
+function SocialIconLink({
+  item,
+  size = "desktop",
+}: {
+  item: SocialItem;
+  size?: "desktop" | "mobile";
+}) {
+  const { href, label, icon } = item;
+  const Icon = Icons[icon as IconName];
+
+  const classes =
+    size === "mobile"
+      ? "group inline-flex size-11 items-center justify-center rounded-full border border-border/60 bg-background/70 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      : "group inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-background/70 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground";
+
+  return (
+    <Link
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className={classes}
+    >
+      <Icon
+        className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+        weight="bold"
+      />
+    </Link>
+  );
+}
 
 export default function Footer() {
   const [isDesktop, setIsDesktop] = useState(false);
@@ -64,20 +92,12 @@ export default function Footer() {
             </div>
 
             <div className="flex items-center gap-2">
-              {socials.map(({ href, label, icon: Icon }) => (
-                <Link
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={label}
-                  className="group inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-background/70 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                >
-                  <Icon
-                    className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                    weight="bold"
-                  />
-                </Link>
+              {socials.map((item) => (
+                <SocialIconLink
+                  key={item.label}
+                  item={item}
+                  size="desktop"
+                />
               ))}
 
               <Link
@@ -85,7 +105,7 @@ export default function Footer() {
                 className="ml-1 inline-flex items-center gap-2 rounded-full border border-border/60 bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-transform hover:-translate-y-0.5"
               >
                 Say hello
-                <ArrowUpRight className="size-4" weight="bold" />
+                <Icons.arrowUpRight className="size-4" weight="bold" />
               </Link>
             </div>
           </motion.div>
@@ -110,25 +130,17 @@ export default function Footer() {
                       onClick={() => setIsMobileExpanded(false)}
                       className="inline-flex size-9 items-center justify-center rounded-full border border-border/60 bg-background/70 text-foreground transition-colors hover:bg-muted"
                     >
-                      <CaretUp className="size-4" weight="bold" />
+                      <Icons.caretUp className="size-4" weight="bold" />
                     </button>
                   </div>
 
                   <div className="mb-4 flex items-center justify-between gap-2">
-                    {socials.map(({ href, label, icon: Icon }) => (
-                      <Link
-                        key={label}
-                        href={href}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={label}
-                        className="group inline-flex size-11 items-center justify-center rounded-full border border-border/60 bg-background/70 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                      >
-                        <Icon
-                          className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                          weight="bold"
-                        />
-                      </Link>
+                    {socials.map((item) => (
+                      <SocialIconLink
+                        key={item.label}
+                        item={item}
+                        size="mobile"
+                      />
                     ))}
                   </div>
 
@@ -137,7 +149,7 @@ export default function Footer() {
                     className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-border/60 bg-primary px-4 py-3 text-sm font-medium text-primary-foreground"
                   >
                     Say hello
-                    <ArrowUpRight className="size-4" weight="bold" />
+                    <Icons.arrowUpRight className="size-4" weight="bold" />
                   </Link>
                 </motion.div>
               ) : (
@@ -154,7 +166,7 @@ export default function Footer() {
                   whileTap={{ scale: 0.96, y: 0 }}
                   className="inline-flex size-12 items-center justify-center rounded-full border border-border/70 bg-background/85 text-foreground shadow-[0_16px_40px_-28px_rgba(0,0,0,0.5)] backdrop-blur-md"
                 >
-                  <CaretUp className="size-5" weight="bold" />
+                  <Icons.caretUp className="size-5" weight="bold" />
                 </motion.button>
               )}
             </AnimatePresence>

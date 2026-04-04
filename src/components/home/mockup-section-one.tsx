@@ -1,0 +1,7 @@
+import SectionWrapper from "../wrapper/section";
+
+export default function MockupSectionOne() {
+  return (
+    <SectionWrapper className="mt-8 min-h-[70svh] rounded-[2rem] border border-dashed border-border/70 bg-transparent" />
+  );
+}
