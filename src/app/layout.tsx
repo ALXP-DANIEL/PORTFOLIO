@@ -6,7 +6,9 @@ import ThemeProvider from "@/components/provider/theme";
 import LayoutWrapper from "@/components/wrapper/layout";
 import SplashGate from "@/components/wrapper/splash-gate";
 import { siteConfig } from "@/config/site";
+import { env } from "@/env";
 import { cn } from "@/lib/utils";
+import Maintenance from "./maintenance";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url.base),
@@ -56,6 +58,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isMaintenance = env.IS_MAINTENANCE === "true";
+
   return (
     <html
       lang="en"
@@ -68,9 +72,13 @@ export default function RootLayout({
     >
       <body className="min-h-dvh bg-background">
         <ThemeProvider attribute="class" defaultTheme="dark">
-          <SplashGate>
-            <LayoutWrapper>{children}</LayoutWrapper>
-          </SplashGate>
+          {isMaintenance ? (
+            <Maintenance />
+          ) : (
+            <SplashGate>
+              <LayoutWrapper>{children}</LayoutWrapper>
+            </SplashGate>
+          )}
         </ThemeProvider>
       </body>
     </html>
