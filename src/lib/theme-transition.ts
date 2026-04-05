@@ -3,6 +3,7 @@ export function applyThemeWithTransition(
   setTheme: (theme: string) => void,
 ) {
   const applyTheme = () => setTheme(nextTheme);
+  const root = document.documentElement;
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     applyTheme();
@@ -10,13 +11,26 @@ export function applyThemeWithTransition(
   }
 
   const viewTransitionDocument = document as Document & {
-    startViewTransition?: (update: () => void) => void;
+    startViewTransition?: (update: () => void) => { finished?: Promise<void> };
   };
 
   if (viewTransitionDocument.startViewTransition) {
-    viewTransitionDocument.startViewTransition(() => {
+    root.classList.add("theme-switching");
+
+    const transition = viewTransitionDocument.startViewTransition(() => {
       applyTheme();
     });
+
+    if (transition?.finished) {
+      transition.finished.finally(() => {
+        root.classList.remove("theme-switching");
+      });
+    } else {
+      window.setTimeout(() => {
+        root.classList.remove("theme-switching");
+      }, 1000);
+    }
+
     return;
   }
 

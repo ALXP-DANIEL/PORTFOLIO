@@ -137,18 +137,18 @@
 }
 
 /* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
-::view-transition-group(root) {
+html.theme-switching::view-transition-group(root) {
   animation-duration: 1000ms;
   animation-timing-function: ease-in-out;
 }
 
 /* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
-::view-transition-old(root) {
+html.theme-switching::view-transition-old(root) {
   animation-name: theme-fade-out;
 }
 
 /* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
-::view-transition-new(root) {
+html.theme-switching::view-transition-new(root) {
   animation-name: theme-fade-in;
 }
 
