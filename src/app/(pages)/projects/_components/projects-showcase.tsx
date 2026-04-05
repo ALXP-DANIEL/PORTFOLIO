@@ -83,10 +83,10 @@ export default function ProjectsShowcase() {
             </div>
 
             <div className="flex items-center gap-2">
-              <CarouselPrevious className="!static !top-auto !left-auto !translate-x-0 !translate-y-0">
+              <CarouselPrevious className="static! top-auto! left-auto! translate-x-0! translate-y-0!">
                 <Icons.caretLeft className="size-4" weight="bold" />
               </CarouselPrevious>
-              <CarouselNext className="!static !top-auto !right-auto !translate-x-0 !translate-y-0">
+              <CarouselNext className="static! top-auto! right-auto! translate-x-0! translate-y-0!">
                 <Icons.caretRight className="size-4" weight="bold" />
               </CarouselNext>
             </div>
@@ -118,7 +118,7 @@ export default function ProjectsShowcase() {
                             aria-hidden="true"
                           />
                           <div
-                            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background/92 via-background/60 to-transparent"
+                            className="pointer-events-none absolute inset-0 bg-linear-to-r from-background/92 via-background/60 to-transparent"
                             aria-hidden="true"
                           />
 

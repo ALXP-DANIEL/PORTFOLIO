@@ -3,6 +3,7 @@ import Header from "@/components/layout/header/header";
 import GridPattern from "@/components/pattern/grid";
 import ViewTransitionShell from "@/components/wrapper/view-transition-shell";
 import { cn } from "@/lib/utils";
+import { TooltipProvider } from "../ui/shadcn/tooltip";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -12,21 +13,23 @@ type LayoutProps = {
 export default function LayoutWrapper({ children, className }: LayoutProps) {
   return (
     <div className="relative min-h-dvh">
-      <GridPattern className="pointer-events-none absolute inset-0 -z-10 p-4" />
-      <div
-        className={cn(
-          "relative z-10 w-full px-4 py-4 transition-[padding] duration-300 ease-out motion-reduce:transition-none sm:px-6 sm:py-6 lg:px-8 lg:py-8",
-          className,
-        )}
-      >
-        <Header />
+      <TooltipProvider>
+        <GridPattern className="pointer-events-none absolute inset-0 -z-10 p-4" />
+        <div
+          className={cn(
+            "relative z-10 w-full px-4 py-4 transition-[padding] duration-300 ease-out motion-reduce:transition-none sm:px-6 sm:py-6 lg:px-8 lg:py-8",
+            className,
+          )}
+        >
+          <Header />
 
-        <main className="pb-40 sm:pb-48 space-y-8">
-          <ViewTransitionShell>{children}</ViewTransitionShell>
-        </main>
+          <main className="pb-40 sm:pb-48 space-y-8">
+            <ViewTransitionShell>{children}</ViewTransitionShell>
+          </main>
 
-        <Footer />
-      </div>
+          <Footer />
+        </div>
+      </TooltipProvider>
     </div>
   );
 }
