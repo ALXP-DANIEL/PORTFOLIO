@@ -1,6 +1,23 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-
 import SectionWrapper from "@/components/wrapper/section";
+import { siteConfig } from "@/config/site";
+
+export const metadata: Metadata = {
+  title: "Home",
+  description: siteConfig.description,
+  openGraph: {
+    title: `${siteConfig.name} | Home`,
+    description: siteConfig.description,
+    url: "/",
+    images: [siteConfig.ogImage],
+  },
+  twitter: {
+    title: `${siteConfig.name} | Home`,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+};
 
 export default function HomePage() {
   return (

@@ -1,10 +1,45 @@
+import type { Metadata } from "next";
 import { Geist, JetBrains_Mono } from "next/font/google";
 
 import "@/styles/globals.css";
 import ThemeProvider from "@/components/provider/theme";
 import LayoutWrapper from "@/components/wrapper/layout";
 import SplashGate from "@/components/wrapper/splash-gate";
+import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url.base),
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  keywords: siteConfig.keywords,
+  authors: [{ name: siteConfig.author, url: siteConfig.links.github }],
+  creator: siteConfig.author,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: siteConfig.name,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  other: {
+    "github:repo": siteConfig.links.github,
+  },
+};
 
 const fontSans = Geist({
   subsets: ["latin"],
