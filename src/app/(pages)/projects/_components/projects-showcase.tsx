@@ -1,15 +1,13 @@
 "use client";
 
-import {
-  CaretLeftIcon,
-  CaretRightIcon,
-  SparkleIcon,
-} from "@phosphor-icons/react";
 import Autoplay from "embla-carousel-autoplay";
 import { motion } from "motion/react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import ProjectImagePreview from "@/app/(pages)/projects/_components/project-image-preview";
+import { Icons } from "@/components/icons/icons";
+import { buttonVariants } from "@/components/ui/shadcn/button";
 import {
   Carousel,
   type CarouselApi,
@@ -33,6 +31,9 @@ export default function ProjectsShowcase() {
       stopOnMouseEnter: true,
     }),
   );
+
+  const isExternalHref = (href: string) =>
+    href.startsWith("http://") || href.startsWith("https://");
 
   useEffect(() => {
     if (!carouselApi) {
@@ -83,10 +84,10 @@ export default function ProjectsShowcase() {
 
             <div className="flex items-center gap-2">
               <CarouselPrevious className="!static !top-auto !left-auto !translate-x-0 !translate-y-0">
-                <CaretLeftIcon className="size-4" weight="bold" />
+                <Icons.caretLeft className="size-4" weight="bold" />
               </CarouselPrevious>
               <CarouselNext className="!static !top-auto !right-auto !translate-x-0 !translate-y-0">
-                <CaretRightIcon className="size-4" weight="bold" />
+                <Icons.caretRight className="size-4" weight="bold" />
               </CarouselNext>
             </div>
           </div>
@@ -102,16 +103,22 @@ export default function ProjectsShowcase() {
                   const heroImage = item.previewImages[0];
                   const heroImageSrc =
                     typeof heroImage === "string" ? heroImage : heroImage.src;
+                  const openHref = item.actions.open;
+                  const githubHref = item.actions.github;
+                  const customHref = item.actions.custom.href;
+                  const customLabel = item.actions.custom.label;
 
                   return (
                     <CarouselItem key={item.title} className="pl-4">
                       <div className="p-1">
-                        <div className="relative overflow-hidden rounded-2xl border border-white/10 p-5 sm:p-7">
+                        <div className="relative overflow-hidden rounded-2xl border border-border/70 p-5 sm:p-7">
                           <div
                             className="pointer-events-none absolute inset-0 bg-cover bg-center"
-                            style={{
-                              backgroundImage: `linear-gradient(to right, rgb(0 0 0 / 0.82), rgb(0 0 0 / 0.18) 58%, rgb(0 0 0 / 0)), url(${heroImageSrc})`,
-                            }}
+                            style={{ backgroundImage: `url(${heroImageSrc})` }}
+                            aria-hidden="true"
+                          />
+                          <div
+                            className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background/92 via-background/60 to-transparent"
                             aria-hidden="true"
                           />
 
@@ -128,23 +135,88 @@ export default function ProjectsShowcase() {
                               </p>
 
                               <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/75 px-3 py-1 text-xs text-muted-foreground">
-                                <SparkleIcon
+                                <Icons.sparkle
                                   className="size-3.5"
                                   weight="fill"
                                 />
                                 {item.stat}
                               </div>
+
+                              <div className="mt-5 flex flex-wrap items-center gap-2 md:absolute md:bottom-0 md:left-0">
+                                {isExternalHref(openHref) ? (
+                                  <a
+                                    href={openHref}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className={cn(
+                                      buttonVariants({
+                                        variant: "outline",
+                                        size: "sm",
+                                      }),
+                                      "bg-background/65 backdrop-blur",
+                                    )}
+                                  >
+                                    <Icons.arrowSquareOut className="size-3.5" />
+                                    Open
+                                  </a>
+                                ) : (
+                                  <Link
+                                    href={openHref}
+                                    className={cn(
+                                      buttonVariants({
+                                        variant: "outline",
+                                        size: "sm",
+                                      }),
+                                      "bg-background/65 backdrop-blur",
+                                    )}
+                                  >
+                                    <Icons.arrowSquareOut className="size-3.5" />
+                                    Open
+                                  </Link>
+                                )}
+
+                                <a
+                                  href={githubHref}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className={cn(
+                                    buttonVariants({
+                                      variant: "secondary",
+                                      size: "sm",
+                                    }),
+                                    "bg-background/65 backdrop-blur",
+                                  )}
+                                >
+                                  <Icons.github className="size-3.5" />
+                                  GitHub
+                                </a>
+
+                                <a
+                                  href={customHref}
+                                  target={
+                                    isExternalHref(customHref)
+                                      ? "_blank"
+                                      : undefined
+                                  }
+                                  rel={
+                                    isExternalHref(customHref)
+                                      ? "noreferrer"
+                                      : undefined
+                                  }
+                                  className={cn(
+                                    buttonVariants({
+                                      variant: "ghost",
+                                      size: "sm",
+                                    }),
+                                    "bg-background/45 backdrop-blur",
+                                  )}
+                                >
+                                  {customLabel}
+                                </a>
+                              </div>
                             </div>
 
-                            <motion.div
-                              layout
-                              transition={{
-                                type: "spring",
-                                stiffness: 240,
-                                damping: 28,
-                              }}
-                              className="mt-6 rounded-2xl bg-background/35 p-3 shadow-[0_24px_45px_-24px_rgba(0,0,0,0.75)] backdrop-blur-sm md:absolute md:bottom-0 md:right-0 md:mt-0"
-                            >
+                            <div className="mt-6 rounded-2xl bg-background/35 p-3 shadow-[0_24px_45px_-24px_rgba(0,0,0,0.75)] backdrop-blur-sm md:absolute md:bottom-0 md:right-0 md:mt-0">
                               <ProjectImagePreview
                                 title={item.title}
                                 kicker={item.kicker}
@@ -152,7 +224,7 @@ export default function ProjectsShowcase() {
                                 stat={item.stat}
                                 previewImages={item.previewImages}
                               />
-                            </motion.div>
+                            </div>
                           </div>
                         </div>
                       </div>

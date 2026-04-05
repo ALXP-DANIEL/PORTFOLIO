@@ -75,7 +75,7 @@ export default function ProjectImagePreview({
       >
         <DialogContent
           showCloseButton={false}
-          className="z-200 max-w-5xl overflow-hidden rounded-[1.75rem] border border-white/10 bg-background/95 p-0 shadow-[0_24px_80px_-30px_rgba(0,0,0,0.8)] sm:max-w-5xl"
+          className="z-200 max-w-5xl overflow-hidden rounded-[1.75rem] border border-border/70 bg-background/95 p-0 shadow-[0_24px_80px_-30px_rgba(0,0,0,0.8)] sm:max-w-5xl"
           aria-label={`Preview image ${previewIndex + 1}`}
         >
           <DialogTitle className="sr-only">
@@ -96,12 +96,12 @@ export default function ProjectImagePreview({
               type="button"
               aria-label="Close preview"
               onClick={() => setSelectedImage(null)}
-              className="absolute right-4 top-4 z-10 rounded-full border border-white/10 bg-background/80 px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur-md transition-colors hover:bg-muted"
+              className="absolute right-4 top-4 z-10 rounded-full border border-border/70 bg-background/80 px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur-md transition-colors hover:bg-muted"
             >
               Close
             </button>
 
-            <div className="border-b border-white/10 px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-6">
+            <div className="border-b border-border/70 px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-6">
               <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                 {kicker}
               </p>
@@ -117,7 +117,7 @@ export default function ProjectImagePreview({
             </div>
 
             <div className="grid gap-0 md:grid-cols-[1.1fr_0.9fr]">
-              <div className="min-h-72 bg-black/5 md:min-h-112">
+              <div className="min-h-72 bg-muted/45 md:min-h-112">
                 <BlurImage
                   src={currentImageSrc}
                   alt={currentImageAlt}

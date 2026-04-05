@@ -33,10 +33,10 @@ export default function ImageGallery({
 }: ImageGalleryProps) {
   const [active, setActive] = useState<number | null>(null);
 
-  const activeWidth = compact ? "132px" : "180px";
-  const idleWidth = compact ? "84px" : "120px";
-  const activeHeight = compact ? "110px" : "150px";
-  const idleHeight = compact ? "84px" : "100px";
+  const activeWidth = compact ? 132 : 180;
+  const idleWidth = compact ? 84 : 120;
+  const activeHeight = compact ? 110 : 150;
+  const idleHeight = compact ? 84 : 100;
 
   return (
     <div className="flex h-full w-full items-center justify-center overflow-visible">
@@ -52,16 +52,21 @@ export default function ImageGallery({
             <motion.button
               key={imageSrc}
               type="button"
-              layout
               transition={{
                 type: "tween",
                 duration: 0.25,
                 ease: "easeOut",
               }}
+              animate={{
+                scaleX: hover && active === index ? activeWidth / idleWidth : 1,
+                scaleY:
+                  hover && active === index ? activeHeight / idleHeight : 1,
+              }}
               style={{
                 opacity: hover && active !== null && active !== index ? 0.5 : 1,
-                width: hover && active === index ? activeWidth : idleWidth,
-                height: hover && active === index ? activeHeight : idleHeight,
+                width: `${idleWidth}px`,
+                height: `${idleHeight}px`,
+                transformOrigin: "bottom center",
               }}
               onMouseEnter={
                 hover

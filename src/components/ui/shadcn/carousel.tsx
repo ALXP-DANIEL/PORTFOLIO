@@ -1,11 +1,11 @@
 "use client";
 
-import { CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
 import * as React from "react";
 
+import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/shadcn/button";
 import { cn } from "@/lib/utils";
 
@@ -191,7 +191,7 @@ function CarouselPrevious({
       onClick={scrollPrev}
       {...props}
     >
-      <CaretLeftIcon />
+      <Icons.caretLeft />
       <span className="sr-only">Previous slide</span>
     </Button>
   );
@@ -221,7 +221,7 @@ function CarouselNext({
       onClick={scrollNext}
       {...props}
     >
-      <CaretRightIcon />
+      <Icons.caretRight />
       <span className="sr-only">Next slide</span>
     </Button>
   );

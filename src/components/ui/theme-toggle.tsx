@@ -1,10 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 import { Icons } from "@/components/icons/icons";
-import { useTheme } from "@/components/provider/theme";
+import { applyThemeWithTransition } from "@/lib/theme-transition";
 import { cn } from "@/lib/utils";
 
 export default function ThemeToggle() {
@@ -19,7 +20,8 @@ export default function ThemeToggle() {
 
   const handleThemeChange = () => {
     const nextTheme = isDark ? "light" : "dark";
-    setTheme(nextTheme);
+
+    applyThemeWithTransition(nextTheme, setTheme);
   };
 
   return (

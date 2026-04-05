@@ -20,6 +20,7 @@ export function applyThemeWithTransition(
     return;
   }
 
+  document.documentElement.classList.remove("theme-fade");
   document.documentElement.classList.add("theme-fade");
   applyTheme();
   window.setTimeout(() => {

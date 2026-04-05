@@ -1,9 +1,9 @@
 "use client";
 
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
-import { XIcon } from "@phosphor-icons/react";
 import type * as React from "react";
 
+import { Icons } from "@/components/icons/icons";
 import { Button } from "@/components/ui/shadcn/button";
 import { cn } from "@/lib/utils";
 
@@ -31,7 +31,7 @@ function DialogOverlay({
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+        "fixed inset-0 isolate z-50 bg-foreground/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
         className,
       )}
       {...props}
@@ -70,7 +70,7 @@ function DialogContent({
               />
             }
           >
-            <XIcon />
+            <Icons.close />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         )}

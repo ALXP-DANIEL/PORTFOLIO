@@ -5,6 +5,14 @@ export const projects = [
     summary: "Conversion-focused storefront with fast checkout and analytics.",
     year: "2026",
     href: "#",
+    actions: {
+      open: "#",
+      github: "https://github.com",
+      custom: {
+        label: "Live Demo",
+        href: "#",
+      },
+    },
   },
   {
     title: "Nova Hiring",
@@ -12,6 +20,14 @@ export const projects = [
     summary: "Applicant tracking with AI summaries and interview scorecards.",
     year: "2025",
     href: "#",
+    actions: {
+      open: "#",
+      github: "https://github.com",
+      custom: {
+        label: "Read Details",
+        href: "#",
+      },
+    },
   },
   {
     title: "Beacon Ops",
@@ -19,6 +35,14 @@ export const projects = [
     summary: "Live operations board for logistics and incident response teams.",
     year: "2025",
     href: "#",
+    actions: {
+      open: "#",
+      github: "https://github.com",
+      custom: {
+        label: "Case Study",
+        href: "#",
+      },
+    },
   },
   {
     title: "Framefolio",
@@ -27,6 +51,14 @@ export const projects = [
       "Creative showcase with CMS-powered content and smooth transitions.",
     year: "2024",
     href: "#",
+    actions: {
+      open: "#",
+      github: "https://github.com",
+      custom: {
+        label: "Preview",
+        href: "#",
+      },
+    },
   },
   {
     title: "Signal API",
@@ -35,6 +67,14 @@ export const projects = [
       "Observability toolkit with traces, alerts, and quick diagnostics.",
     year: "2024",
     href: "#",
+    actions: {
+      open: "#",
+      github: "https://github.com",
+      custom: {
+        label: "Docs",
+        href: "#",
+      },
+    },
   },
   {
     title: "Orbit Notes",
@@ -42,6 +82,14 @@ export const projects = [
     summary: "Knowledge hub blending notes, tasks, and project context.",
     year: "2023",
     href: "#",
+    actions: {
+      open: "#",
+      github: "https://github.com",
+      custom: {
+        label: "Overview",
+        href: "#",
+      },
+    },
   },
 ] as const;
 
@@ -78,6 +126,14 @@ export const carouselProjects = [
       //   alt: "Team activity feed in Atlas workspace",
       // },
     ],
+    actions: {
+      open: "/projects",
+      github: "https://github.com",
+      custom: {
+        label: "Case Study",
+        href: "#",
+      },
+    },
   },
   {
     title: "Pulse Commerce",
@@ -111,6 +167,14 @@ export const carouselProjects = [
         alt: "Commerce analytics dashboard",
       },
     ],
+    actions: {
+      open: "#",
+      github: "https://github.com",
+      custom: {
+        label: "Live Demo",
+        href: "#",
+      },
+    },
   },
   {
     title: "Nova Hiring",
@@ -144,6 +208,14 @@ export const carouselProjects = [
         alt: "Offer center with approvals",
       },
     ],
+    actions: {
+      open: "#",
+      github: "https://github.com",
+      custom: {
+        label: "Read Details",
+        href: "#",
+      },
+    },
   },
   {
     title: "Signal API",
@@ -177,5 +249,13 @@ export const carouselProjects = [
         alt: "Quick diagnostics service health cards",
       },
     ],
+    actions: {
+      open: "#",
+      github: "https://github.com",
+      custom: {
+        label: "Docs",
+        href: "#",
+      },
+    },
   },
 ] as const;

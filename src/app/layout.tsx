@@ -32,7 +32,7 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-dvh bg-background">
-        <ThemeProvider>
+        <ThemeProvider attribute="class" defaultTheme="dark">
           <SplashGate>
             <LayoutWrapper>{children}</LayoutWrapper>
           </SplashGate>

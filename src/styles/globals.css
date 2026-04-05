@@ -137,43 +137,42 @@
 }
 
 /* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
-::view-transition-old(root) {
-  animation-duration: 340ms;
+::view-transition-group(root) {
+  animation-duration: 1000ms;
   animation-timing-function: ease-in-out;
-  animation-name: fade-out-soft;
+}
+
+/* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
+::view-transition-old(root) {
+  animation-name: theme-fade-out;
 }
 
 /* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
 ::view-transition-new(root) {
-  animation-duration: 340ms;
-  animation-timing-function: ease-in-out;
-  animation-name: fade-in-soft;
+  animation-name: theme-fade-in;
 }
 
-@keyframes fade-out-soft {
+@keyframes theme-fade-out {
   from {
     opacity: 1;
-    filter: blur(0px);
   }
 
   to {
     opacity: 0;
-    filter: blur(4px);
   }
 }
 
-@keyframes fade-in-soft {
+@keyframes theme-fade-in {
   from {
     opacity: 0;
-    filter: blur(5px);
   }
 
   to {
     opacity: 1;
-    filter: blur(0px);
   }
 }
 
+html.theme-fade,
 html.theme-fade body {
   animation: theme-fade-soft 340ms ease-in-out;
 }
@@ -185,8 +184,8 @@ html.theme-fade body {
   }
 
   50% {
-    opacity: 0.5;
-    filter: blur(3px);
+    opacity: 0.55;
+    filter: blur(10px);
   }
 
   100% {
