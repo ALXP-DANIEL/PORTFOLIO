@@ -4,6 +4,8 @@ export const projects = [
     type: "Ecommerce",
     summary: "Conversion-focused storefront with fast checkout and analytics.",
     year: "2026",
+    cover:
+      "https://i.pinimg.com/originals/f8/ba/9b/f8ba9b7f92fa91361e251c72e213c11a.gif",
     href: "#",
     actions: {
       open: "#",
@@ -19,6 +21,8 @@ export const projects = [
     type: "SaaS",
     summary: "Applicant tracking with AI summaries and interview scorecards.",
     year: "2025",
+    cover:
+      "https://i.pinimg.com/originals/ce/7f/35/ce7f35ec213d896247c7c2e8620d81f9.gif",
     href: "#",
     actions: {
       open: "#",
@@ -34,6 +38,8 @@ export const projects = [
     type: "Dashboard",
     summary: "Live operations board for logistics and incident response teams.",
     year: "2025",
+    cover:
+      "https://i.pinimg.com/736x/64/20/b5/6420b5ba0dd45dc35aae9705c8e275dd.jpg",
     href: "#",
     actions: {
       open: "#",
@@ -50,6 +56,8 @@ export const projects = [
     summary:
       "Creative showcase with CMS-powered content and smooth transitions.",
     year: "2024",
+    cover:
+      "https://i.pinimg.com/originals/3a/a4/6f/3aa46f5701fc6ed92234ea0a9f86e2cd.gif",
     href: "#",
     actions: {
       open: "#",
@@ -66,6 +74,8 @@ export const projects = [
     summary:
       "Observability toolkit with traces, alerts, and quick diagnostics.",
     year: "2024",
+    cover:
+      "https://i.pinimg.com/originals/ce/7f/35/ce7f35ec213d896247c7c2e8620d81f9.gif",
     href: "#",
     actions: {
       open: "#",
@@ -81,6 +91,8 @@ export const projects = [
     type: "Productivity",
     summary: "Knowledge hub blending notes, tasks, and project context.",
     year: "2023",
+    cover:
+      "https://i.pinimg.com/originals/f8/ba/9b/f8ba9b7f92fa91361e251c72e213c11a.gif",
     href: "#",
     actions: {
       open: "#",

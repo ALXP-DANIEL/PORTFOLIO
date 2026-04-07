@@ -58,6 +58,7 @@ export default function BlurImage({
         ref={imageRef}
         {...props}
         src={src}
+        draggable={props.draggable ?? false}
         loading={eager ? "eager" : (props.loading ?? "lazy")}
         decoding={props.decoding ?? "async"}
         alt={alt}
@@ -70,7 +71,7 @@ export default function BlurImage({
           onError?.(event);
         }}
         className={cn(
-          "transition-[filter,opacity,transform] duration-500 ease-out motion-reduce:transition-none",
+          "transition-[filter,opacity,transform] duration-500 ease-out motion-reduce:transition-none select-none",
           isReady ? "scale-100 blur-0" : "scale-[1.02] blur-2xl",
           className,
           imageClassName,
