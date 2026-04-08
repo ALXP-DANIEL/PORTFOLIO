@@ -77,6 +77,8 @@ export async function generateMetadata({
 
 const pillClassName =
   "inline-flex items-center rounded-full border border-border/70 bg-background/80 px-3 py-1 text-sm text-foreground";
+const isLocalHref = (href: string) =>
+  href.startsWith("/") || href.startsWith("#") || href.startsWith("?");
 
 export default async function ProjectDetailPage({
   params,
@@ -172,6 +174,24 @@ export default async function ProjectDetailPage({
               >
                 Preview gallery
               </a>
+
+              {isLocalHref(project.actions.open) ? (
+                <Link
+                  href={project.actions.open}
+                  className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/70 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                >
+                  Open project
+                </Link>
+              ) : (
+                <a
+                  href={project.actions.open}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/70 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                >
+                  Open project
+                </a>
+              )}
 
               <a
                 href={project.actions.github}

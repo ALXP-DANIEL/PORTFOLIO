@@ -41,24 +41,7 @@ export type ProjectShowcaseItem = Pick<
 
 const FALLBACK_GITHUB_URL = "https://github.com";
 
-const getProjectHref = (slug: string) => `/projects/${slug}`;
-
-const createProjectActions = (
-  slug: string,
-  customLabel: string,
-  github = FALLBACK_GITHUB_URL,
-): ProjectActions => {
-  const href = getProjectHref(slug);
-
-  return {
-    open: href,
-    github,
-    custom: {
-      label: customLabel,
-      href,
-    },
-  };
-};
+export const getProjectDetailHref = (slug: string) => `/projects/${slug}`;
 
 export const getPreviewImageSrc = (image: HoverPreviewImage) =>
   typeof image === "string" ? image : image.src;
@@ -108,7 +91,14 @@ export const projectDetails = [
         alt: "Editor surface with content blocks",
       },
     ],
-    actions: createProjectActions("atlas-workspace", "Case Study"),
+    actions: {
+      open: "https://example.com/projects/atlas-workspace",
+      github: FALLBACK_GITHUB_URL,
+      custom: {
+        label: "Case Study",
+        href: getProjectDetailHref("atlas-workspace"),
+      },
+    },
   },
   {
     slug: "pulse-commerce",
@@ -154,7 +144,14 @@ export const projectDetails = [
         alt: "Commerce analytics dashboard",
       },
     ],
-    actions: createProjectActions("pulse-commerce", "Live Demo"),
+    actions: {
+      open: "https://example.com/projects/pulse-commerce",
+      github: FALLBACK_GITHUB_URL,
+      custom: {
+        label: "Live Demo",
+        href: getProjectDetailHref("pulse-commerce"),
+      },
+    },
   },
   {
     slug: "nova-hiring",
@@ -206,7 +203,14 @@ export const projectDetails = [
         alt: "Offer center with approvals",
       },
     ],
-    actions: createProjectActions("nova-hiring", "Read Details"),
+    actions: {
+      open: "https://example.com/projects/nova-hiring",
+      github: FALLBACK_GITHUB_URL,
+      custom: {
+        label: "Read Details",
+        href: getProjectDetailHref("nova-hiring"),
+      },
+    },
   },
   {
     slug: "beacon-ops",
@@ -251,7 +255,14 @@ export const projectDetails = [
         alt: "Beacon Ops summary metrics",
       },
     ],
-    actions: createProjectActions("beacon-ops", "Case Study"),
+    actions: {
+      open: "https://example.com/projects/beacon-ops",
+      github: FALLBACK_GITHUB_URL,
+      custom: {
+        label: "Case Study",
+        href: getProjectDetailHref("beacon-ops"),
+      },
+    },
   },
   {
     slug: "framefolio",
@@ -298,7 +309,14 @@ export const projectDetails = [
         alt: "Framefolio project collection grid",
       },
     ],
-    actions: createProjectActions("framefolio", "Preview"),
+    actions: {
+      open: "https://example.com/projects/framefolio",
+      github: FALLBACK_GITHUB_URL,
+      custom: {
+        label: "Preview",
+        href: getProjectDetailHref("framefolio"),
+      },
+    },
   },
   {
     slug: "signal-api",
@@ -350,7 +368,14 @@ export const projectDetails = [
         alt: "Quick diagnostics service health cards",
       },
     ],
-    actions: createProjectActions("signal-api", "Docs"),
+    actions: {
+      open: "https://example.com/projects/signal-api",
+      github: FALLBACK_GITHUB_URL,
+      custom: {
+        label: "Docs",
+        href: getProjectDetailHref("signal-api"),
+      },
+    },
   },
   {
     slug: "orbit-notes",
@@ -397,7 +422,14 @@ export const projectDetails = [
         alt: "Orbit Notes project context dashboard",
       },
     ],
-    actions: createProjectActions("orbit-notes", "Overview"),
+    actions: {
+      open: "https://example.com/projects/orbit-notes",
+      github: FALLBACK_GITHUB_URL,
+      custom: {
+        label: "Overview",
+        href: getProjectDetailHref("orbit-notes"),
+      },
+    },
   },
 ] satisfies readonly ProjectDetail[];
 

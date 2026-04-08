@@ -17,7 +17,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/shadcn/carousel";
 import SectionWrapper from "@/components/wrapper/section";
-import { carouselProjects } from "@/data/projects/projects-data";
+import {
+  carouselProjects,
+  getProjectDetailHref,
+} from "@/data/projects/projects-data";
 import { cn } from "@/lib/utils";
 
 export default function ProjectsShowcase() {
@@ -32,8 +35,8 @@ export default function ProjectsShowcase() {
     }),
   );
 
-  const isExternalHref = (href: string) =>
-    href.startsWith("http://") || href.startsWith("https://");
+  const isLocalHref = (href: string) =>
+    href.startsWith("/") || href.startsWith("#") || href.startsWith("?");
 
   useEffect(() => {
     if (!carouselApi) {
@@ -103,6 +106,7 @@ export default function ProjectsShowcase() {
                   const heroImage = item.previewImages[0];
                   const heroImageSrc =
                     typeof heroImage === "string" ? heroImage : heroImage.src;
+                  const detailHref = getProjectDetailHref(item.slug);
                   const openHref = item.actions.open;
                   const githubHref = item.actions.github;
                   const customHref = item.actions.custom.href;
@@ -113,7 +117,7 @@ export default function ProjectsShowcase() {
                       <div className="p-1">
                         <div className="relative overflow-hidden rounded-2xl border border-border/70 p-5 transition-shadow duration-300 hover:shadow-[0_28px_55px_-34px_rgba(0,0,0,0.78)] sm:p-7">
                           <Link
-                            href={openHref}
+                            href={detailHref}
                             aria-label={`Open ${item.title} details`}
                             className="absolute inset-0 z-10 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
                           >
@@ -152,7 +156,21 @@ export default function ProjectsShowcase() {
                               </div>
 
                               <div className="relative z-20 mt-5 flex flex-wrap items-center gap-2 md:absolute md:bottom-0 md:left-0">
-                                {isExternalHref(openHref) ? (
+                                {isLocalHref(openHref) ? (
+                                  <Link
+                                    href={openHref}
+                                    className={cn(
+                                      buttonVariants({
+                                        variant: "outline",
+                                        size: "sm",
+                                      }),
+                                      "bg-background/65 backdrop-blur",
+                                    )}
+                                  >
+                                    <Icons.arrowSquareOut className="size-3.5" />
+                                    Open
+                                  </Link>
+                                ) : (
                                   <a
                                     href={openHref}
                                     target="_blank"
@@ -168,20 +186,6 @@ export default function ProjectsShowcase() {
                                     <Icons.arrowSquareOut className="size-3.5" />
                                     Open
                                   </a>
-                                ) : (
-                                  <Link
-                                    href={openHref}
-                                    className={cn(
-                                      buttonVariants({
-                                        variant: "outline",
-                                        size: "sm",
-                                      }),
-                                      "bg-background/65 backdrop-blur",
-                                    )}
-                                  >
-                                    <Icons.arrowSquareOut className="size-3.5" />
-                                    Open
-                                  </Link>
                                 )}
 
                                 <a
@@ -200,7 +204,20 @@ export default function ProjectsShowcase() {
                                   GitHub
                                 </a>
 
-                                {isExternalHref(customHref) ? (
+                                {isLocalHref(customHref) ? (
+                                  <Link
+                                    href={customHref}
+                                    className={cn(
+                                      buttonVariants({
+                                        variant: "ghost",
+                                        size: "sm",
+                                      }),
+                                      "bg-background/45 backdrop-blur",
+                                    )}
+                                  >
+                                    {customLabel}
+                                  </Link>
+                                ) : (
                                   <a
                                     href={customHref}
                                     target="_blank"
@@ -215,19 +232,6 @@ export default function ProjectsShowcase() {
                                   >
                                     {customLabel}
                                   </a>
-                                ) : (
-                                  <Link
-                                    href={customHref}
-                                    className={cn(
-                                      buttonVariants({
-                                        variant: "ghost",
-                                        size: "sm",
-                                      }),
-                                      "bg-background/45 backdrop-blur",
-                                    )}
-                                  >
-                                    {customLabel}
-                                  </Link>
                                 )}
                               </div>
                             </div>
