@@ -111,7 +111,16 @@ export default function ProjectsShowcase() {
                   return (
                     <CarouselItem key={item.title} className="pl-4">
                       <div className="p-1">
-                        <div className="relative overflow-hidden rounded-2xl border border-border/70 p-5 sm:p-7">
+                        <div className="relative overflow-hidden rounded-2xl border border-border/70 p-5 transition-shadow duration-300 hover:shadow-[0_28px_55px_-34px_rgba(0,0,0,0.78)] sm:p-7">
+                          <Link
+                            href={openHref}
+                            aria-label={`Open ${item.title} details`}
+                            className="absolute inset-0 z-10 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+                          >
+                            <span className="sr-only">
+                              Open {item.title} details
+                            </span>
+                          </Link>
                           <div
                             className="pointer-events-none absolute inset-0 bg-cover bg-center"
                             style={{ backgroundImage: `url(${heroImageSrc})` }}
@@ -142,7 +151,7 @@ export default function ProjectsShowcase() {
                                 {item.stat}
                               </div>
 
-                              <div className="mt-5 flex flex-wrap items-center gap-2 md:absolute md:bottom-0 md:left-0">
+                              <div className="relative z-20 mt-5 flex flex-wrap items-center gap-2 md:absolute md:bottom-0 md:left-0">
                                 {isExternalHref(openHref) ? (
                                   <a
                                     href={openHref}
@@ -191,32 +200,39 @@ export default function ProjectsShowcase() {
                                   GitHub
                                 </a>
 
-                                <a
-                                  href={customHref}
-                                  target={
-                                    isExternalHref(customHref)
-                                      ? "_blank"
-                                      : undefined
-                                  }
-                                  rel={
-                                    isExternalHref(customHref)
-                                      ? "noreferrer"
-                                      : undefined
-                                  }
-                                  className={cn(
-                                    buttonVariants({
-                                      variant: "ghost",
-                                      size: "sm",
-                                    }),
-                                    "bg-background/45 backdrop-blur",
-                                  )}
-                                >
-                                  {customLabel}
-                                </a>
+                                {isExternalHref(customHref) ? (
+                                  <a
+                                    href={customHref}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className={cn(
+                                      buttonVariants({
+                                        variant: "ghost",
+                                        size: "sm",
+                                      }),
+                                      "bg-background/45 backdrop-blur",
+                                    )}
+                                  >
+                                    {customLabel}
+                                  </a>
+                                ) : (
+                                  <Link
+                                    href={customHref}
+                                    className={cn(
+                                      buttonVariants({
+                                        variant: "ghost",
+                                        size: "sm",
+                                      }),
+                                      "bg-background/45 backdrop-blur",
+                                    )}
+                                  >
+                                    {customLabel}
+                                  </Link>
+                                )}
                               </div>
                             </div>
 
-                            <div className="mt-6 rounded-2xl bg-background/35 p-3 shadow-[0_24px_45px_-24px_rgba(0,0,0,0.75)] backdrop-blur-sm md:absolute md:bottom-0 md:right-0 md:mt-0">
+                            <div className="relative z-20 mt-6 rounded-2xl bg-background/35 p-3 shadow-[0_24px_45px_-24px_rgba(0,0,0,0.75)] backdrop-blur-sm md:absolute md:bottom-0 md:right-0 md:mt-0">
                               <ProjectImagePreview
                                 title={item.title}
                                 kicker={item.kicker}

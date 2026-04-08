@@ -29,6 +29,13 @@ export default function ProjectsLibrary() {
           }}
         >
           <Card className="group relative h-full overflow-hidden rounded-[2rem] border-border/70 bg-background/80 p-3 shadow-[0_16px_40px_-28px_rgba(0,0,0,0.65)] transition-all duration-300 hover:-translate-y-1 hover:border-border hover:shadow-[0_26px_55px_-30px_rgba(0,0,0,0.82)]">
+            <Link
+              href={project.actions.open}
+              aria-label={`Open ${project.title} details`}
+              className="absolute inset-0 z-10 rounded-[2rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            >
+              <span className="sr-only">Open {project.title} details</span>
+            </Link>
             <div className="relative overflow-hidden rounded-[1.7rem] bg-muted/40">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,oklch(0.68_0.16_24/0.18),transparent_34%),linear-gradient(135deg,transparent_0%,transparent_55%,oklch(0.68_0.16_24/0.12)_100%)]" />
 
@@ -41,7 +48,7 @@ export default function ProjectsLibrary() {
                 />
                 <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-background/75 via-background/10 to-transparent" />
 
-                <div className="absolute right-4 top-4 flex items-center gap-2">
+                <div className="absolute right-4 top-4 z-20 flex items-center gap-2">
                   <a
                     href={project.actions.github}
                     target="_blank"
@@ -93,6 +100,11 @@ export default function ProjectsLibrary() {
 
               <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
                 {project.summary}
+              </p>
+
+              <p className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-foreground">
+                View details
+                <Icons.arrowUpRight className="size-4" />
               </p>
             </CardHeader>
           </Card>
