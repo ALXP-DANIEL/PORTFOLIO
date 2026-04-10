@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./public/brand/readme-header.svg" alt="Muhammad Alif Daniel header banner" width="100%" />
+</p>
+
 # Muhammad Alif Daniel
 
 Fullstack web developer focused on building fast, scalable, and maintainable products with clean TypeScript.
