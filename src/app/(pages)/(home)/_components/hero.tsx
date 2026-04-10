@@ -47,20 +47,6 @@ export default function Hero() {
               continuously improving both code and craft.”
             </motion.p>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-            className="flex flex-wrap gap-3"
-          >
-            <Link
-              href="/projects"
-              className="inline-flex h-10 items-center justify-center rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Explore Projects
-            </Link>
-          </motion.div>
         </motion.div>
 
         <motion.div
