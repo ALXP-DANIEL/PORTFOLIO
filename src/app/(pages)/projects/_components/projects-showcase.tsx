@@ -81,7 +81,7 @@ export default function ProjectsShowcase() {
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
-                Project Spotlight
+                Spotlight
               </p>
             </div>
 

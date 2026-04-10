@@ -12,6 +12,9 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_URL: z.url().optional(),
     NEXT_PUBLIC_SITE_URL: z.url().optional(),
     NEXT_PUBLIC_GITHUB_REPO_URL: z.url().optional(),
+    NEXT_PUBLIC_GITHUB_PROFILE_URL: z.url().optional(),
+    NEXT_PUBLIC_INSTAGRAM_URL: z.url().optional(),
+    NEXT_PUBLIC_LINKEDIN_URL: z.url().optional(),
   },
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
@@ -19,6 +22,9 @@ export const env = createEnv({
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
     NEXT_PUBLIC_GITHUB_REPO_URL: process.env.NEXT_PUBLIC_GITHUB_REPO_URL,
+    NEXT_PUBLIC_GITHUB_PROFILE_URL: process.env.NEXT_PUBLIC_GITHUB_PROFILE_URL,
+    NEXT_PUBLIC_INSTAGRAM_URL: process.env.NEXT_PUBLIC_INSTAGRAM_URL,
+    NEXT_PUBLIC_LINKEDIN_URL: process.env.NEXT_PUBLIC_LINKEDIN_URL,
   },
   emptyStringAsUndefined: true,
 });

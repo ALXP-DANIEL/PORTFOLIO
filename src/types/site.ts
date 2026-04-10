@@ -9,6 +9,9 @@ export type SiteTypes = {
   };
   links: {
     github: string;
+    instagram: string;
+    linkedin: string;
+    email: string;
   };
   ogImage: string;
 };
