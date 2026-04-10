@@ -5,6 +5,9 @@ import Link from "next/link";
 import BlurImage from "@/components/ui/blur-image";
 import SectionWrapper from "@/components/wrapper/section";
 
+const RESUME_DOWNLOAD_HREF = "/cv/MUHAMMAD%20ALIF%20DANIEL%20CV%20v2.8.pdf";
+const RESUME_DOWNLOAD_NAME = "MUHAMMAD-ALIF-DANIEL-CV-v2.8.pdf";
+
 export default function Hero() {
   return (
     <SectionWrapper className="relative overflow-hidden border border-border/70 bg-linear-to-br from-background via-background to-muted/30 px-6 py-10 sm:px-8 sm:py-14 lg:px-10 lg:py-16">
@@ -92,13 +95,13 @@ export default function Hero() {
                   MUHAMMAD ALIF DANIEL BIN MOHD HAIRUL HEZZELIN
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Fullstack Devweloper
+                  Fullstack Developer
                 </p>
               </div>
 
               <a
-                href="/resume.pdf"
-                download
+                href={RESUME_DOWNLOAD_HREF}
+                download={RESUME_DOWNLOAD_NAME}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90 active:scale-95"
               >
                 <svg

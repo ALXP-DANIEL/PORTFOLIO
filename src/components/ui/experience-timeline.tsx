@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { Icons } from "@/components/icons/icons";
 import BlurImage from "@/components/ui/blur-image";
@@ -48,6 +48,10 @@ export default function ExperienceTimeline({
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [activeConnectorFill, setActiveConnectorFill] = useState(0);
   const activeConnectorFillRef = useRef(0);
+  const detailPanelRef = useRef<HTMLDivElement>(null);
+  const [detailPanelHeight, setDetailPanelHeight] = useState<number | null>(
+    null,
+  );
 
   useEffect(() => {
     if (items.length < 2) {
@@ -90,6 +94,31 @@ export default function ExperienceTimeline({
 
     return () => window.cancelAnimationFrame(frameId);
   }, [activeIndex, isPaused, items.length]);
+
+  useLayoutEffect(() => {
+    const node = detailPanelRef.current;
+    if (!node) {
+      return;
+    }
+
+    const updateHeight = () => {
+      setDetailPanelHeight(node.getBoundingClientRect().height);
+    };
+
+    updateHeight();
+
+    if (typeof ResizeObserver === "undefined") {
+      return;
+    }
+
+    const observer = new ResizeObserver(() => {
+      updateHeight();
+    });
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
 
   if (items.length === 0) {
     return null;
@@ -227,97 +256,113 @@ export default function ExperienceTimeline({
         </div>
 
         <div className="relative mt-6 w-full overflow-visible rounded-[2rem] border border-border/70 bg-muted/35 p-2.5 sm:mt-8 sm:p-3">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={`${activeItem.company}-${activeItem.period}`}
-              initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
-              transition={{ duration: 0.28, ease: "easeOut" }}
-            >
-              <div className="flex flex-col items-start gap-2 px-4 pb-5 pt-3 sm:px-5">
-                <h3 className="text-3xl font-semibold tracking-tight text-foreground">
-                  {activeItem.role}
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {activeItem.company} | {activeItem.location}
-                </p>
-                <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                  <span>{activeItem.employmentType}</span>
-                  <span className="text-foreground">|</span>
-                  <span>{activeItem.period}</span>
-                </div>
-              </div>
-
-              <div className="rounded-[1.5rem] border border-border/70 bg-background/94 p-5 sm:p-6">
-                <p className="text-sm leading-7 text-muted-foreground">
-                  {activeItem.summary}
-                </p>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {activeItem.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="rounded-full border border-border/70 bg-background px-3 py-1 text-xs font-medium text-foreground/90"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="mt-6 ml-1 flex flex-col gap-4">
-                  {activeItem.bullets.map((bullet) => (
-                    <div key={bullet} className="flex items-start gap-3">
-                      <span className="mt-2 size-2 shrink-0 rounded-full bg-primary" />
-                      <p className="text-base leading-8 text-foreground/92">
-                        {bullet}
-                      </p>
+          <motion.div
+            initial={false}
+            animate={
+              detailPanelHeight === null
+                ? undefined
+                : { height: detailPanelHeight }
+            }
+            transition={{ duration: 0.36, ease: "easeOut" }}
+            className="overflow-hidden"
+          >
+            <div ref={detailPanelRef}>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={`${activeItem.company}-${activeItem.period}`}
+                  initial={{ opacity: 0, y: 18, filter: "blur(6px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
+                  transition={{ duration: 0.28, ease: "easeOut" }}
+                >
+                  <div className="flex flex-col items-start gap-2 px-4 pb-5 pt-3 sm:px-5">
+                    <h3 className="text-3xl font-semibold tracking-tight text-foreground">
+                      {activeItem.role}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {activeItem.company} | {activeItem.location}
+                    </p>
+                    <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                      <span>{activeItem.employmentType}</span>
+                      <span className="text-foreground">|</span>
+                      <span>{activeItem.period}</span>
                     </div>
-                  ))}
-                </div>
-
-                {activeItem.ctaHref ? (
-                  <div className="mt-8">
-                    <Link
-                      href={activeItem.ctaHref}
-                      className={cn(
-                        buttonVariants({
-                          size: "lg",
-                        }),
-                        "rounded-full px-5",
-                      )}
-                    >
-                      {activeItem.ctaLabel ?? "View details"}
-                      <Icons.arrowUpRight className="size-4" weight="bold" />
-                    </Link>
                   </div>
-                ) : null}
 
-                {hasImages ? (
-                  <div className="relative mt-8 overflow-visible">
-                    <div className="-mx-1 overflow-x-auto px-1 pb-2 pt-7">
-                      <div
-                        className="relative z-10 flex items-end overflow-visible"
-                        style={{
-                          width: `${stableGalleryWidth}px`,
-                          minWidth: `${stableGalleryWidth}px`,
-                          height: `${compactActiveHeight}px`,
-                        }}
-                      >
-                        <ImageGallery
-                          images={activeImages}
-                          compact
-                          onSelectImage={({ index }) => {
-                            setSelectedImage(index);
-                          }}
-                        />
+                  <div className="rounded-[1.5rem] border border-border/70 bg-background/94 p-5 sm:p-6">
+                    <p className="text-sm leading-7 text-muted-foreground">
+                      {activeItem.summary}
+                    </p>
+
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {activeItem.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="rounded-full border border-border/70 bg-background px-3 py-1 text-xs font-medium text-foreground/90"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 ml-1 flex flex-col gap-4">
+                      {activeItem.bullets.map((bullet) => (
+                        <div key={bullet} className="flex items-start gap-3">
+                          <span className="mt-2 size-2 shrink-0 rounded-full bg-primary" />
+                          <p className="text-base leading-8 text-foreground/92">
+                            {bullet}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {activeItem.ctaHref ? (
+                      <div className="mt-8">
+                        <Link
+                          href={activeItem.ctaHref}
+                          className={cn(
+                            buttonVariants({
+                              size: "lg",
+                            }),
+                            "rounded-full px-5",
+                          )}
+                        >
+                          {activeItem.ctaLabel ?? "View details"}
+                          <Icons.arrowUpRight
+                            className="size-4"
+                            weight="bold"
+                          />
+                        </Link>
                       </div>
-                    </div>
+                    ) : null}
+
+                    {hasImages ? (
+                      <div className="relative mt-8 overflow-visible">
+                        <div className="-mx-1 overflow-x-auto px-1 pb-2 pt-7">
+                          <div
+                            className="relative z-10 flex items-end overflow-visible"
+                            style={{
+                              width: `${stableGalleryWidth}px`,
+                              minWidth: `${stableGalleryWidth}px`,
+                              height: `${compactActiveHeight}px`,
+                            }}
+                          >
+                            <ImageGallery
+                              images={activeImages}
+                              compact
+                              onSelectImage={({ index }) => {
+                                setSelectedImage(index);
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
-                ) : null}
-              </div>
-            </motion.div>
-          </AnimatePresence>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </motion.div>
         </div>
       </fieldset>
 

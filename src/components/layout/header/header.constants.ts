@@ -3,7 +3,7 @@ import type { Variants } from "motion/react";
 export const primaryLinks = [
   { href: "/", label: "Home" },
   { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
+  // { href: "/blog", label: "Blog" },
 ] as const;
 
 export const mobileMenuListVariants: Variants = {
