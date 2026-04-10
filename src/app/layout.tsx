@@ -70,7 +70,7 @@ export default function RootLayout({
         jetbrainsMono.variable,
       )}
     >
-      <body className="min-h-dvh bg-background">
+      <body className="min-h-dvh bg-background scroll-smooth">
         <ThemeProvider attribute="class" defaultTheme="dark">
           {isMaintenance ? (
             <Maintenance />

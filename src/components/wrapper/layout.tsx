@@ -12,18 +12,18 @@ type LayoutProps = {
 
 export default function LayoutWrapper({ children, className }: LayoutProps) {
   return (
-    <div className="relative min-h-dvh">
+    <div className="relative">
       <TooltipProvider>
         <GridPattern className="pointer-events-none absolute inset-0 -z-10 p-4" />
         <div
           className={cn(
-            "relative z-10 w-full px-4 py-4 transition-[padding] duration-300 ease-out motion-reduce:transition-none sm:px-6 sm:py-6 lg:px-8 lg:py-8",
+            "relative z-10 flex min-h-dvh w-full flex-col px-4 py-4 transition-[padding] duration-300 ease-out motion-reduce:transition-none sm:px-6 sm:py-6 lg:px-8 lg:py-8",
             className,
           )}
         >
           <Header />
 
-          <main className="pb-40 sm:pb-48 space-y-8">
+          <main className="flex flex-1 flex-col pb-40 sm:pb-48">
             <ViewTransitionShell>{children}</ViewTransitionShell>
           </main>
 
