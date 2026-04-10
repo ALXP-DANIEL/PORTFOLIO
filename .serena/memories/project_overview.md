@@ -1,7 +1,7 @@
 # my-app overview
-- Purpose: early-stage Next.js app with App Router structure, shadcn/ui components, and Tailwind CSS v4 styling. The repo currently looks like a personal/site-style app with home, blog, and projects route groups under `src/app/(pages)`.
-- Tech stack: Next.js 16.2.2, React 19.2.4, TypeScript 5, Tailwind CSS 4, shadcn/ui (style `base-nova`), Biome 2.2.0, next-themes, class-variance-authority, clsx, tailwind-merge, phosphor icons.
-- Important note: AGENTS.md says this Next.js version has breaking changes and relevant guides in `node_modules/next/dist/docs/` should be consulted before making framework-specific code changes.
-- Top-level structure: `src/app` for routes/layout, `src/components` for shared components, `src/components/ui/shadcn` for UI primitives, `src/styles/globals.css` for Tailwind theme tokens, `src/lib` for utilities, `public` for assets.
-- Styling setup: Tailwind CSS is imported from `src/styles/globals.css` with CSS variables and OKLCH tokens for light/dark themes.
-- Fonts/layout: root layout defines font variables and applies a monospace default through global styles.
+- Purpose: personal portfolio site for Alif Daniel with a strong landing hero, animated experience timeline, education cards, featured project showcase, project detail pages, and a placeholder blog route.
+- Secondary purpose: the repo also contains a reusable schema-driven form package under `src/components/ui/form` that is tested and documented independently from the portfolio UI.
+- Tech stack: Next.js 16.2.2 App Router, React 19.2.4, TypeScript 5, Tailwind CSS v4, motion/react, shadcn/ui (`base-nova` registry style), next-themes, @t3-oss/env-nextjs, Vitest + Testing Library, and Biome.
+- App shell: `src/app/layout.tsx` loads Geist + JetBrains Mono, applies the global Tailwind theme, wraps the app with `ThemeProvider`, gates the UI with `SplashGate`, and can switch the entire app to `Maintenance` mode via `IS_MAINTENANCE`.
+- Content sources: `src/config/site.ts` holds site metadata and social links, home page education/experience are inline data arrays in their section components, and all project records live in `src/data/projects/projects-data.ts`.
+- Assets: hero art lives in `public/assets/hero-profile.svg`, the downloadable resume lives in `public/cv/MUHAMMAD ALIF DANIEL CV v2.8.pdf`, and the brand logo is in `public/brand/logo.svg`.

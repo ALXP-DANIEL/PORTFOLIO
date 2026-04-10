@@ -4,4 +4,8 @@
 - `npm run start` — run the production server after building.
 - `npm run lint` — run Biome checks.
 - `npm run format` — format files with Biome.
-- Useful Darwin shell commands: `ls`, `cd`, `pwd`, `rg`, `find`, `git status`, `git diff`, `sed -n 'start,endp' <file>`.
+- `npm run test` — run the Vitest suite once.
+- `npm run test:watch` — run Vitest in watch mode.
+- `rg --files src` — fast file listing for app code.
+- `rg -n "pattern" src` — fast content search.
+- In zsh, quote route-group paths like `'src/app/(pages)/projects/page.tsx'` when using shell commands.

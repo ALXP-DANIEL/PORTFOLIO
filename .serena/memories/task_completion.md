@@ -1,6 +1,6 @@
 # What to do after changes
-- Run `npm run lint` after code changes.
-- Run `npm run build` when changes affect app behavior, routing, or framework integration.
-- Run `npm run format` if formatting is needed or before finalizing larger edits.
-- There is currently no dedicated test script in `package.json`, so rely on lint/build unless tests are added later.
-- For Next.js framework work, sanity-check current behavior against docs in `node_modules/next/dist/docs/` when APIs or conventions are involved.
+- Run `npm run lint` after most code changes.
+- Run `npm run test` whenever you touch the shared schema-form package or its related helpers/tests.
+- Run `npm run build` when changes affect routing, metadata, layout, or framework integration.
+- Run `npm run format` if Biome reports formatting drift or before finalizing larger edits.
+- For Next.js-specific work, sanity-check current behavior against the docs in `node_modules/next/dist/docs/` because this repo targets a newer, breaking-change-heavy release.

@@ -1,9 +1,9 @@
 # Style and conventions
-- Use TypeScript and TSX.
-- Formatting is managed by Biome with 2-space indentation.
-- Imports can be organized automatically by Biome (`source.organizeImports` is on).
-- Biome lints with recommended rules plus Next and React domains.
-- Project aliases from `components.json`: `@/components`, `@/lib`, `@/hooks`, `@/components/ui/shadcn`, `@/lib/utils`.
-- UI layer uses shadcn/ui components in `src/components/ui/shadcn` and Tailwind utility classes.
-- Tailwind theme tokens are centralized in `src/styles/globals.css` using CSS variables.
-- Keep in mind the repo-specific instruction from AGENTS.md: review docs in `node_modules/next/dist/docs/` before writing Next.js-specific code because the app uses a newer breaking-change-heavy Next.js release.
+- Use TypeScript and TSX with Biome formatting (2-space indentation, organize-imports enabled).
+- Prefer Serena-first exploration/editing when possible; AGENTS.md explicitly asks for Serena-first indexing and symbol lookup.
+- This repo uses Next.js 16.x with breaking changes; before framework-specific edits, check the relevant docs under `node_modules/next/dist/docs/`.
+- Do not modify base shadcn registry files under `src/components/ui/shadcn/` unless the user explicitly asks. Add wrappers or app-specific components elsewhere under `src/components/ui/`.
+- Styling is data-token driven from `src/styles/globals.css`; the UI leans on translucent surfaces, rounded cards, subtle borders, and motion-heavy presentation.
+- Shared layout primitives include `LayoutWrapper` for the app shell and `SectionWrapper` for bordered card-like sections.
+- The project prefers `motion/react` animations, route groups under `src/app/(pages)`, and data-driven sections instead of hardcoded repeated markup.
+- For form work, prefer the barrel import `@/components/ui/form`. New field types should be reflected in `schema-form.types.ts`, `schema-form-field-control.tsx`, tests, and docs.

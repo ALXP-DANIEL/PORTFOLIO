@@ -1,250 +1,98 @@
-# My App
+# Muhammad Alif Daniel
 
-## SchemaForm Usage Guide
+Fullstack web developer focused on building fast, scalable, and maintainable products with clean TypeScript.
 
-`SchemaForm` is a schema-driven form builder powered by TanStack Form + Zod.
+## About Me
 
-Source files:
-- `src/components/ui/schema-form.tsx`
-- `src/components/ui/schema-form-helpers.ts`
-- Demo: `src/app/(pages)/(home)/_components/schema-form-all-types-demo.tsx`
+I’m Alif Daniel, a developer from Malaysia who enjoys turning ideas into polished web experiences. I care a lot about performance, reusable UI systems, and writing code that stays understandable as products grow.
 
-## Quick Start
+My work usually sits at the intersection of frontend craft and practical product delivery. I enjoy building with React and Next.js, improving developer experience, cleaning up messy systems, and shaping interfaces that feel modern without becoming hard to maintain.
 
-```tsx
-import { z } from "zod";
-import { SchemaForm, defineSchemaFormFields, type SchemaFormValues } from "@/components/ui/schema-form";
+## What I Do Best
 
-const schema = z.object({
-  name: z.string().min(2),
-  role: z.enum(["owner", "editor"]).nullable().optional(),
-});
+- Build modern frontend and fullstack web applications
+- Create reusable component systems and scalable UI patterns
+- Migrate legacy systems into cleaner and faster modern stacks
+- Improve product performance, maintainability, and developer workflow
+- Translate product and design ideas into production-ready code
 
-type Values = SchemaFormValues<typeof schema>;
+## Tech I Work With
 
-const fields = defineSchemaFormFields<typeof schema>([
-  { name: "name", label: "Name", type: "text" },
-  {
-    name: "role",
-    label: "Role",
-    type: "select",
-    clearable: true,
-    emptyOptionLabel: "No role",
-    emptyValueStrategy: "null",
-    options: [
-      { label: "Owner", value: "owner" },
-      { label: "Editor", value: "editor" },
-    ],
-  },
-]);
+- React
+- Next.js
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Vite
+- Laravel
+- NestJS
+- Zod
+- UI systems and design-to-code workflows
 
-const defaults: Values = {
-  name: "",
-  role: null,
-};
-```
+## Experience
 
-## Supported Field Types
+### Lapasar Sdn Bhd [WFH]
+**Fullstack Web Developer**  
+Jun 2024 - Mar 2026
 
-String-like:
-- `text`
-- `email`
-- `textarea`
-- `date`
+- Migrated a legacy CodeIgniter system to React with Vite
+- Improved load time and reduced development complexity
+- Refactored legacy modules to reduce technical debt
+- Delivered UI and UX improvements across marketplace and dashboard flows
 
-Numeric/boolean:
-- `number`
-- `switch`
+### AllMeans Pte. Ltd. [WFH]
+**Frontend Web Developer Intern**  
+Aug 2023 - Feb 2024
 
-Selects:
-- `select`
-- `native-select`
-- `searchable-select`
-- `searchable-select-async`
+- Built an Admin Management System using React and Material UI
+- Turned Figma designs into reusable components
+- Integrated frontend flows with backend APIs
+- Improved UI consistency through component reuse
 
-Arrays:
-- `multiselect`
-- `multiselect-async`
+### Pizza Hut
+**Service Crew**  
+2022
 
-Advanced:
-- `date-range` (value shape: `{ from: string | null; to: string | null }`)
-- `file` (value type: `File | null | undefined`)
+- Built discipline, teamwork, and consistency in a fast-paced environment
+- Strengthened communication and customer-facing problem solving
 
-Conditional visibility:
-- `showWhen(values) => boolean`
-- `hideWhen(values) => boolean`
+## Education
 
-## Async Field Features
+### Harvard University
+**CS50x: Introduction to Computer Science**  
+2024 - 2026
 
-For `searchable-select-async` and `multiselect-async`:
-- Debounce: `debounceMs`
-- Minimum query length: `minSearchLength`
-- Retry UI: `retryLabel`, `errorLabel`
-- Pagination hooks: `loadMoreOptions`, `hasMoreOptions`, `loadMoreLabel`, `loadingMoreLabel`
-- Cache controls (`searchable-select-async`): `cacheTtlMs`, `cacheMaxEntries`
+Focused on algorithms, data structures, memory, C, Python, SQL, and JavaScript.
 
-Async function signatures:
+### Industrial Training Institute, Kuala Langat
+**Diploma in Web Development**  
+2022 - 2024
 
-```ts
-searchOptions(query, { signal }) => Promise<Option[]>
+Graduated with a CGPA of `3.71 / 4.00`.
 
-loadMoreOptions(query, { signal, currentOptions }) => Promise<Option[]>
-```
+### SMK Banting
+**SPM**  
+2016 - 2022
 
-## Empty Value Strategy
+Completed secondary education with strong interest in computer science and technical foundations.
 
-Use `emptyValueStrategy` to control empty state writes:
-- `"undefined"` (default)
-- `"null"`
+## How I Like To Build
 
-This is used for clearable selects, numeric inputs, dates, date-range, file, and multiselect variants.
+I like products that feel intentional: fast loading, cleanly structured, visually sharp, and easy to extend. I’m especially interested in frontend architecture, developer tooling, reusable systems, and projects where I can improve both user experience and code quality at the same time.
 
-## Draft & Hidden Field Controls
+## Current Direction
 
-SchemaForm runtime options:
-- `enableDraftAutosave`
-- `draftKey`
-- `promptDraftRestore`
-- `clearDraftOnSubmit`
-- `hiddenFieldBehavior` (`"preserve"` or `"clear-on-hide"`)
+I’m continuing to grow as a fullstack developer with a strong frontend foundation. My focus is on building better production systems, sharpening architecture decisions, and working on products where performance, usability, and long-term maintainability all matter.
 
-Example:
+## Contact
 
-```tsx
-<SchemaForm
-  schema={schema}
-  fields={fields}
-  defaultValues={defaults}
-  enableDraftAutosave
-  draftKey="project-intake-draft"
-  promptDraftRestore
-  clearDraftOnSubmit
-  hiddenFieldBehavior="clear-on-hide"
-  onSubmit={async (values) => {
-    console.log(values);
-  }}
-/>
-```
+- Email: `alifdaniel.workspace@gmail.com`
+- GitHub: `https://github.com/THEALIFHAKER1`
+- LinkedIn: `https://linkedin.com/in/thealifhaker1`
+- Instagram: `https://instagram.com/thealifhaker1`
 
-## File Constraints
+## Resume
 
-`file` fields support client-side constraints:
-- `maxSizeBytes`
-- `allowedMimeTypes`
-- `allowedExtensions`
-- `fileValidationMessage` (override default validation message)
+My resume is available in this repo at:
 
-## Real Form Example
-
-This example combines conditional fields, file constraints, and async pagination:
-
-```tsx
-const schema = z.object({
-  hasAttachment: z.boolean(),
-  attachment: z.instanceof(File).nullable().optional(),
-  assignee: z.enum(["ali", "nadia", "amir"]).nullable().optional(),
-});
-
-const fields = defineSchemaFormFields<typeof schema>([
-  {
-    name: "hasAttachment",
-    label: "Has Attachment",
-    type: "switch",
-    sectionTitle: "Submission",
-    sectionDescription: "Upload proof only when needed.",
-  },
-  {
-    name: "attachment",
-    label: "Attachment",
-    type: "file",
-    showWhen: (values) => values.hasAttachment,
-    accept: ".png,.jpg,.jpeg,.pdf",
-    maxSizeBytes: 2_000_000,
-    allowedMimeTypes: ["image/png", "image/jpeg", "application/pdf"],
-    allowedExtensions: [".png", ".jpg", ".jpeg", ".pdf"],
-    fileValidationMessage: "Attachment must be PNG/JPG/PDF and <= 2MB.",
-    emptyValueStrategy: "null",
-    sectionTitle: "Submission",
-  },
-  {
-    name: "assignee",
-    label: "Assignee",
-    type: "searchable-select-async",
-    minSearchLength: 2,
-    debounceMs: 300,
-    clearable: true,
-    emptyOptionLabel: "Unassigned",
-    initialOptions: [{ label: "Ali", value: "ali" }],
-    searchOptions: async (query, { signal }) => {
-      // Replace with your async search source.
-      void signal;
-      return query.toLowerCase().includes("na")
-        ? [{ label: "Nadia", value: "nadia" }]
-        : [{ label: "Amir", value: "amir" }];
-    },
-    loadMoreOptions: async (_query, { signal, currentOptions }) => {
-      void signal;
-      return currentOptions.length === 1
-        ? [{ label: "Nadia", value: "nadia" }]
-        : [];
-    },
-    hasMoreOptions: (options) => options.length < 2,
-    sectionTitle: "Assignment",
-  },
-]);
-```
-
-## Patterns Cookbook
-
-1. Conditional + Async Select
-
-```tsx
-{
-  name: "assignee",
-  label: "Assignee",
-  type: "searchable-select-async",
-  showWhen: (values) => values.assignMode === "manual",
-  minSearchLength: 2,
-  searchOptions: async (query, { signal }) => {
-    void signal;
-    return [{ label: `Result for ${query}`, value: "ali" }];
-  },
-}
-```
-
-2. File Constraints + Validation
-
-```tsx
-{
-  name: "attachment",
-  label: "Attachment",
-  type: "file",
-  accept: ".png,.jpg,.jpeg,.pdf",
-  maxSizeBytes: 2_000_000,
-  allowedMimeTypes: ["image/png", "image/jpeg", "application/pdf"],
-  allowedExtensions: [".png", ".jpg", ".jpeg", ".pdf"],
-  fileValidationMessage: "Attachment must be PNG/JPG/PDF and <= 2MB.",
-}
-```
-
-3. Date Range + Error Summary Submit UX
-
-```tsx
-<SchemaForm
-  schema={schema}
-  fields={fields}
-  defaultValues={defaults}
-  errorSummaryTitle="Please review required dates before submit."
-  focusErrorLabel="Jump to first invalid field"
-  onSubmit={submitHandler}
-/>
-```
-
-## Testing
-
-Commands:
-- `npm run test`
-- `npm run test:watch`
-
-Current tests cover helper logic used by async/select behavior in:
-- `src/components/ui/schema-form-helpers.test.ts`
+`public/cv/MUHAMMAD ALIF DANIEL CV v2.8.pdf`
