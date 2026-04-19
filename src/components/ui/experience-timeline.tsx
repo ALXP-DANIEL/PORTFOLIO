@@ -158,8 +158,8 @@ export default function ExperienceTimeline({
         onBlurCapture={() => setIsPaused(false)}
       >
         <legend className="sr-only">Experience timeline</legend>
-        <div className="w-full overflow-x-auto pb-2">
-          <ul className="flex min-w-max items-start justify-between gap-6 md:gap-8 lg:gap-10">
+        <div className="w-full overflow-x-auto pb-2 scrollbar-thin">
+          <ul className="flex min-w-0 items-start justify-between gap-3 sm:gap-6 md:gap-8 lg:gap-10">
             {items.map((item, index) => {
               const isActive = index === activeIndex;
               const isComplete = index < activeIndex;
@@ -175,7 +175,7 @@ export default function ExperienceTimeline({
               return (
                 <li
                   key={`${item.company}-${item.period}`}
-                  className="min-w-[11.5rem] flex-1 text-muted-foreground"
+                  className="min-w-[5rem] sm:min-w-[8rem] md:min-w-[11.5rem] flex-1 text-muted-foreground"
                 >
                   <button
                     type="button"
@@ -235,16 +235,16 @@ export default function ExperienceTimeline({
                       ) : null}
                     </div>
 
-                    <div className="mt-3 flex flex-col md:hidden">
+                    <div className="mt-2 sm:mt-3 flex flex-col md:hidden">
                       <p
                         className={cn(
-                          "text-sm font-medium tracking-tight transition-colors",
+                          "text-xs sm:text-sm font-medium tracking-tight transition-colors line-clamp-2",
                           isActive ? "text-foreground" : "text-foreground/80",
                         )}
                       >
                         {item.role}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-1">
                         {item.milestone}
                       </p>
                     </div>
@@ -255,7 +255,7 @@ export default function ExperienceTimeline({
           </ul>
         </div>
 
-        <div className="relative mt-6 w-full overflow-visible rounded-[2rem] border border-border/70 bg-muted/35 p-2.5 sm:mt-8 sm:p-3">
+        <div className="relative mt-4 sm:mt-6 w-full overflow-visible rounded-xl sm:rounded-[2rem] border border-border/70 bg-muted/35 p-2 sm:p-2.5 md:mt-8 md:p-3">
           <motion.div
             initial={false}
             animate={
@@ -275,41 +275,44 @@ export default function ExperienceTimeline({
                   exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
                   transition={{ duration: 0.28, ease: "easeOut" }}
                 >
-                  <div className="flex flex-col items-start gap-2 px-4 pb-5 pt-3 sm:px-5">
-                    <h3 className="text-3xl font-semibold tracking-tight text-foreground">
+                  <div className="flex flex-col items-start gap-1.5 sm:gap-2 px-3 sm:px-4 pb-4 sm:pb-5 pt-2 sm:pt-3 md:px-5">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
                       {activeItem.role}
                     </h3>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs sm:text-sm text-muted-foreground">
                       {activeItem.company} | {activeItem.location}
                     </p>
-                    <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm text-muted-foreground">
                       <span>{activeItem.employmentType}</span>
                       <span className="text-foreground">|</span>
                       <span>{activeItem.period}</span>
                     </div>
                   </div>
 
-                  <div className="rounded-[1.5rem] border border-border/70 bg-background/94 p-5 sm:p-6">
-                    <p className="text-sm leading-7 text-muted-foreground">
+                  <div className="rounded-xl sm:rounded-[1.5rem] border border-border/70 bg-background/94 p-3 sm:p-5 md:p-6">
+                    <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-muted-foreground">
                       {activeItem.summary}
                     </p>
 
-                    <div className="mt-5 flex flex-wrap gap-2">
+                    <div className="mt-3 sm:mt-5 flex flex-wrap gap-1.5 sm:gap-2">
                       {activeItem.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="rounded-full border border-border/70 bg-background px-3 py-1 text-xs font-medium text-foreground/90"
+                          className="rounded-full border border-border/70 bg-background px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium text-foreground/90"
                         >
                           {skill}
                         </span>
                       ))}
                     </div>
 
-                    <div className="mt-6 ml-1 flex flex-col gap-4">
+                    <div className="mt-4 sm:mt-6 ml-0.5 sm:ml-1 flex flex-col gap-3 sm:gap-4">
                       {activeItem.bullets.map((bullet) => (
-                        <div key={bullet} className="flex items-start gap-3">
-                          <span className="mt-2 size-2 shrink-0 rounded-full bg-primary" />
-                          <p className="text-base leading-8 text-foreground/92">
+                        <div
+                          key={bullet}
+                          className="flex items-start gap-2 sm:gap-3"
+                        >
+                          <span className="mt-1.5 sm:mt-2 size-1.5 sm:size-2 shrink-0 rounded-full bg-primary" />
+                          <p className="text-sm sm:text-base leading-6 sm:leading-8 text-foreground/92">
                             {bullet}
                           </p>
                         </div>
@@ -317,19 +320,19 @@ export default function ExperienceTimeline({
                     </div>
 
                     {activeItem.ctaHref ? (
-                      <div className="mt-8">
+                      <div className="mt-5 sm:mt-8">
                         <Link
                           href={activeItem.ctaHref}
                           className={cn(
                             buttonVariants({
-                              size: "lg",
+                              size: "default",
                             }),
-                            "rounded-full px-5",
+                            "sm:h-11 sm:px-8 rounded-full px-4 text-sm",
                           )}
                         >
                           {activeItem.ctaLabel ?? "View details"}
                           <Icons.arrowUpRight
-                            className="size-4"
+                            className="size-3.5 sm:size-4"
                             weight="bold"
                           />
                         </Link>
@@ -337,8 +340,8 @@ export default function ExperienceTimeline({
                     ) : null}
 
                     {hasImages ? (
-                      <div className="relative mt-8 overflow-visible">
-                        <div className="-mx-1 overflow-x-auto px-1 pb-2 pt-7">
+                      <div className="relative mt-5 sm:mt-8 overflow-visible">
+                        <div className="-mx-1 overflow-x-auto px-1 pb-2 pt-5 sm:pt-7">
                           <div
                             className="relative z-10 flex items-end overflow-visible"
                             style={{
@@ -376,7 +379,7 @@ export default function ExperienceTimeline({
       >
         <DialogContent
           showCloseButton={false}
-          className="z-200 max-w-5xl overflow-hidden rounded-[1.75rem] border border-border/70 bg-background/95 p-0 shadow-[0_24px_80px_-30px_rgba(0,0,0,0.8)] sm:max-w-5xl"
+          className="z-200 max-w-[95vw] sm:max-w-5xl overflow-hidden rounded-xl sm:rounded-[1.75rem] border border-border/70 bg-background/95 p-0 shadow-[0_24px_80px_-30px_rgba(0,0,0,0.8)]"
           aria-label={`${activeItem.role} preview image ${previewIndex + 1}`}
         >
           <DialogTitle className="sr-only">
@@ -398,31 +401,31 @@ export default function ExperienceTimeline({
                 type="button"
                 aria-label="Close preview"
                 onClick={() => setSelectedImage(null)}
-                className="absolute right-4 top-4 z-10 rounded-full border border-border/70 bg-background/80 px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur-md transition-colors hover:bg-muted"
+                className="absolute right-2 sm:right-4 top-2 sm:top-4 z-10 rounded-full border border-border/70 bg-background/80 px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-medium text-foreground backdrop-blur-md transition-colors hover:bg-muted"
               >
                 Close
               </button>
 
-              <div className="border-b border-border/70 px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-6">
-                <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
+              <div className="border-b border-border/70 px-3 sm:px-5 pb-3 sm:pb-4 pt-3 sm:pt-5 md:px-7 md:pb-5 md:pt-6">
+                <p className="text-[10px] sm:text-xs uppercase tracking-[0.14em] text-muted-foreground">
                   Experience gallery
                 </p>
-                <h3 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+                <h3 className="mt-1.5 sm:mt-2 text-lg sm:text-2xl font-semibold tracking-tight md:text-3xl">
                   {activeItem.role}
                 </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
+                <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-muted-foreground">
                   {activeItem.company} | {activeItem.period}
                 </p>
-                <p className="mt-3 max-w-3xl text-sm text-muted-foreground sm:text-base">
+                <p className="mt-2 sm:mt-3 max-w-3xl text-xs sm:text-sm text-muted-foreground md:text-base line-clamp-3 sm:line-clamp-none">
                   {activeItem.summary}
                 </p>
-                <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/75 px-3 py-1 text-xs text-muted-foreground">
+                <div className="mt-3 sm:mt-4 inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/75 px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs text-muted-foreground">
                   {activeItem.employmentType}
                 </div>
               </div>
 
               <div className="grid gap-0 md:grid-cols-[1.1fr_0.9fr]">
-                <div className="min-h-72 bg-muted/45 md:min-h-112">
+                <div className="min-h-48 sm:min-h-72 bg-muted/45 md:min-h-112">
                   <BlurImage
                     src={currentImageSrc}
                     alt={currentImageAlt}
@@ -431,24 +434,24 @@ export default function ExperienceTimeline({
                   />
                 </div>
 
-                <div className="flex flex-col justify-between gap-5 p-5 sm:p-7">
+                <div className="flex flex-col justify-between gap-3 sm:gap-5 p-3 sm:p-5 md:p-7">
                   <div>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs sm:text-sm text-muted-foreground">
                       Image {previewIndex + 1} of {activeImages.length}
                     </p>
                     {currentImageTitle ? (
-                      <h4 className="mt-2 text-lg font-medium text-foreground">
+                      <h4 className="mt-1.5 sm:mt-2 text-base sm:text-lg font-medium text-foreground">
                         {currentImageTitle}
                       </h4>
                     ) : null}
                     {currentImageCaption ? (
-                      <p className="mt-1 text-sm text-muted-foreground">
+                      <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
                         {currentImageCaption}
                       </p>
                     ) : null}
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {activeImages.map((image, index) => {
                       const previewSrc =
                         typeof image === "string" ? image : image.src;
@@ -465,8 +468,8 @@ export default function ExperienceTimeline({
                           onClick={() => setSelectedImage(index)}
                           className={
                             index === previewIndex
-                              ? "h-14 w-14 overflow-hidden rounded-xl border-2 border-foreground/90 bg-background shadow-[0_10px_20px_-16px_rgba(0,0,0,0.45)]"
-                              : "h-14 w-14 overflow-hidden rounded-xl border border-border/70 bg-background/70 opacity-75 transition-all hover:opacity-100 hover:ring-2 hover:ring-ring/40"
+                              ? "h-10 w-10 sm:h-14 sm:w-14 overflow-hidden rounded-lg sm:rounded-xl border-2 border-foreground/90 bg-background shadow-[0_10px_20px_-16px_rgba(0,0,0,0.45)]"
+                              : "h-10 w-10 sm:h-14 sm:w-14 overflow-hidden rounded-lg sm:rounded-xl border border-border/70 bg-background/70 opacity-75 transition-all hover:opacity-100 hover:ring-2 hover:ring-ring/40"
                           }
                         >
                           <BlurImage
