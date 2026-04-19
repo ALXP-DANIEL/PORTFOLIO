@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./theme-transitions.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -133,63 +134,5 @@
 
   html {
     @apply font-mono;
-  }
-}
-
-/* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
-html.theme-switching::view-transition-group(root) {
-  animation-duration: 1000ms;
-  animation-timing-function: ease-in-out;
-}
-
-/* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
-html.theme-switching::view-transition-old(root) {
-  animation-name: theme-fade-out;
-}
-
-/* biome-ignore lint/correctness/noUnknownTypeSelector: CSS View Transition pseudo-element syntax is valid in supporting browsers. */
-html.theme-switching::view-transition-new(root) {
-  animation-name: theme-fade-in;
-}
-
-@keyframes theme-fade-out {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes theme-fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-html.theme-fade,
-html.theme-fade body {
-  animation: theme-fade-soft 340ms ease-in-out;
-}
-
-@keyframes theme-fade-soft {
-  0% {
-    opacity: 1;
-    filter: blur(0px);
-  }
-
-  50% {
-    opacity: 0.55;
-    filter: blur(10px);
-  }
-
-  100% {
-    opacity: 1;
-    filter: blur(0px);
   }
 }
