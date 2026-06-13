@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import Link from "next/link";
 
 import { Icons } from "@/components/icons";
@@ -13,18 +12,9 @@ export default function Footer() {
   const emailHref = `mailto:${siteConfig.links.email}`;
 
   return (
-    <motion.footer
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      className="site-footer pointer-events-none fixed inset-x-0 bottom-4 z-200 px-4"
-    >
+    <footer className="site-footer pointer-events-none fixed inset-x-0 bottom-4 z-200 px-4">
       <div className="pointer-events-auto">
         <GlassSurface
-          as={motion.div}
-          initial={{ opacity: 0, y: 12, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
           className="mx-auto hidden p-1.5 lg:block"
           contentClassName="flex items-center justify-between gap-4"
         >
@@ -72,6 +62,6 @@ export default function Footer() {
           </div>
         </GlassSurface>
       </div>
-    </motion.footer>
+    </footer>
   );
 }
