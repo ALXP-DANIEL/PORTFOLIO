@@ -1,24 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./view-transitions.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: #080808;
-  --color-foreground: #f0ece4;
-  --color-red: #dc2626;
-  --color-red-dim: #991b1b;
-  --color-red-glow: rgba(220, 38, 38, 0.15);
-  --color-surface: #111111;
-  --color-surface-2: #181818;
-  --color-surface-3: #222222;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-hover: rgba(255, 255, 255, 0.16);
-  --color-muted: rgba(240, 236, 228, 0.45);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-mono);
   --font-heading: var(--font-mono);
+  --font-mono: var(--font-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -34,10 +23,12 @@
   --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
   --color-input: var(--input);
+  --color-border: var(--border);
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
@@ -46,6 +37,8 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -53,199 +46,6 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  background-color: #080808;
-  color: #f0ece4;
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  overflow-x: hidden;
-  cursor: none;
-}
-
-@media (pointer: coarse) {
-  body {
-    cursor: auto;
-  }
-}
-
-/* Noise texture overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 200px 200px;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: #080808;
-}
-::-webkit-scrollbar-thumb {
-  background: #dc2626;
-  border-radius: 2px;
-}
-
-/* Selection */
-::selection {
-  background: rgba(220, 38, 38, 0.3);
-  color: #f0ece4;
-}
-
-/* Focus styles */
-:focus-visible {
-  outline: 2px solid #dc2626;
-  outline-offset: 3px;
-}
-
-/* Custom cursor */
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background: #dc2626;
-  border-radius: 50%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 10000;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s ease, opacity 0.2s ease;
-  mix-blend-mode: normal;
-}
-
-.cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(220, 38, 38, 0.6);
-  border-radius: 50%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.2s ease;
-}
-
-.cursor-ring.cursor-hover {
-  width: 60px;
-  height: 60px;
-  border-color: rgba(220, 38, 38, 0.9);
-}
-
-/* Grid background */
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-/* Radial glow */
-.radial-glow {
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(220, 38, 38, 0.08) 0%, transparent 70%);
-}
-
-/* Glass surface */
-.glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-/* Section padding */
-.section-pad {
-  padding-top: 8rem;
-  padding-bottom: 8rem;
-}
-
-@media (max-width: 768px) {
-  .section-pad {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-}
-
-/* Clip path diagonal */
-.clip-diagonal {
-  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
-}
-
-/* Magnetic button */
-.magnetic-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  will-change: transform;
-}
-
-/* Hover tilt card */
-.tilt-card {
-  transform-style: preserve-3d;
-  will-change: transform;
-  transition: transform 0.1s ease;
-}
-
-/* Reveal animation baseline */
-.reveal-hidden {
-  opacity: 0;
-  transform: translateY(40px);
-}
-
-/* Text gradient */
-.text-gradient {
-  background: linear-gradient(135deg, #f0ece4 0%, rgba(240, 236, 228, 0.6) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient-red {
-  background: linear-gradient(135deg, #dc2626 0%, #f87171 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  html {
-    scroll-behavior: auto;
-  }
-  .cursor-dot,
-  .cursor-ring {
-    display: none;
-  }
-  body {
-    cursor: auto;
-  }
 }
 
 :root {
@@ -327,4 +127,9 @@ body::before {
   html {
     @apply font-mono;
   }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  display: none;
 }
