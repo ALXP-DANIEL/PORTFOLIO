@@ -1,34 +1,17 @@
 "use client";
 
-import {
-  BriefcaseIcon,
-  EnvelopeIcon,
-  HouseIcon,
-  UserIcon,
-} from "@phosphor-icons/react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import GlassSurface, { glassActiveStyle } from "@/components/ui/glass-surface";
 import { cn } from "@/lib/utils";
+import type { NavigationProps } from "@/types/route";
 
-const links = [
-  { href: "/", label: "Home", icon: HouseIcon },
-  { href: "/work", label: "Work", icon: BriefcaseIcon },
-  { href: "/about", label: "About", icon: UserIcon },
-  { href: "/contact", label: "Contact", icon: EnvelopeIcon },
-];
-
-const pageTransitionTypes = ["page-slide"];
-
-const activeTransition = {
-  type: "spring" as const,
-  stiffness: 460,
-  damping: 38,
-  mass: 0.8,
-};
-
-export default function NavigationMobile() {
+export default function NavigationMobile({
+  links,
+  pageTransitionTypes,
+  activeTransition,
+}: NavigationProps) {
   const pathname = usePathname();
 
   return (
@@ -50,12 +33,12 @@ export default function NavigationMobile() {
           className="w-[calc(100vw-2.5rem)] max-w-sm p-1.5"
           contentClassName="grid grid-cols-4 gap-0.5"
         >
-          {links.map(({ href, label, icon: Icon }) => {
-            const active = pathname === href;
+          {links.map(({ path, label, icon: Icon }) => {
+            const active = pathname === path;
             return (
               <Link
-                key={href}
-                href={href}
+                key={path}
+                href={path}
                 transitionTypes={pageTransitionTypes}
                 className={cn(
                   "relative flex min-w-0 flex-col items-center gap-0.5 rounded-full px-1 py-1.5 transition-colors duration-300",
