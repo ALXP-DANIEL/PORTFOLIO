@@ -10,13 +10,13 @@ type RootLayoutProps = {
 export default function RootLayoutWrapper({ children }: RootLayoutProps) {
   return (
     <>
-      <Navigation />
       <GridBackground>
+        <Navigation />
         <main className="min-h-dvh py-20 px-4">
           <PageTransition>{children}</PageTransition>
         </main>
+        <Footer />
       </GridBackground>
-      <Footer />
     </>
   );
 }
