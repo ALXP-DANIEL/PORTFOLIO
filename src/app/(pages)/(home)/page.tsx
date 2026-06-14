@@ -5,7 +5,7 @@ import Hero from "./_components/hero";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-32 sm:gap-52">
+    <div className="space-y-32 sm:space-y-40">
       <Hero />
       <WorkPage />
       {/* <AboutPage />

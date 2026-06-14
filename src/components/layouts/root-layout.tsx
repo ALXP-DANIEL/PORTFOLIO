@@ -27,9 +27,7 @@ export default function RootLayoutWrapper({ children }: RootLayoutProps) {
       <Navigation />
       <main className="min-h-dvh py-20 px-5 lg:px-15">
         <ViewTransitionShell>
-          <section className="space-y-12 mx-auto max-w-6xl ">
-            {children}
-          </section>
+          <section className="w-full mx-auto max-w-6xl ">{children}</section>
         </ViewTransitionShell>
       </main>
       <Footer />

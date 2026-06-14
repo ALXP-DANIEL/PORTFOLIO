@@ -17,11 +17,11 @@ export default async function WorkPage() {
   ]);
 
   return (
-    <>
+    <div className="space-y-20">
       <WorkIntro />
       {featured.length > 0 ? <WorkSpotlight projects={featured} /> : null}
       <WorkIndex projects={projects} />
       <WorkRefresh />
-    </>
+    </div>
   );
 }
