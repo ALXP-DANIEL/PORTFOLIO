@@ -5,14 +5,11 @@ import Hero from "./_components/hero";
 
 export default function Home() {
   return (
-    <>
+    <div className="flex flex-col gap-32 sm:gap-52">
       <Hero />
-
       <WorkPage />
-
-      <AboutPage />
-
-      <ContactPage />
-    </>
+      {/* <AboutPage />
+      <ContactPage /> */}
+    </div>
   );
 }

@@ -134,3 +134,21 @@
 ::-webkit-scrollbar {
   display: none;
 }
+
+/* Hero scroll cue — a short bar travelling down its track */
+@keyframes scrollcue {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(320%);
+    opacity: 0;
+  }
+}

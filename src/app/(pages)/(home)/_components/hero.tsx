@@ -5,29 +5,40 @@ import gsap from "gsap";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { Icons } from "@/components/icons";
+import BlurImage from "@/components/ui/blur-image";
+import { siteConfig } from "@/config/site";
+import { socialsConfig } from "@/config/sosial";
 import { useSplashGsap } from "@/hooks/use-splash-gsap";
 
-/* — Edit these to taste — */
-const NAME = "Alif Daniel";
+/* Drop your photo at public/me.jpg (portrait works best). */
+const HERO_IMAGE = "/me.jpg";
+
+/* Hero-specific: the roles that cycle in the scramble line. Edit freely. */
 const ROLES = [
+  "Full-Stack Web Developer",
   "Frontend Engineer",
-  "Creative Developer",
-  "Interface Designer",
-  "Web Tinkerer",
+  "Backend Developer",
+  "Problem Solver",
 ];
-const INTRO =
-  "I design and build fast, tactile web interfaces — from product UI and design systems to the occasional shader-soaked experiment.";
+
+/* Pulled from config — configured socials + the email, no duplication. */
 const SOCIALS = [
-  {
-    label: "GitHub",
-    href: "https://github.com/ALXP-DANIEL",
-    Icon: Icons.Social.GitHub,
-  },
-  {
-    label: "Email",
-    href: "mailto:alifdaniel.personalspace@gmail.com",
-    Icon: Icons.Layout.Footer.ArrowUpRight,
-  },
+  ...socialsConfig
+    .filter((social) => social.link)
+    .map((social) => ({
+      label: social.platform,
+      href: social.link,
+      Icon: Icons.Social[social.icon],
+    })),
+  ...(siteConfig.links.email
+    ? [
+        {
+          label: "Email",
+          href: `mailto:${siteConfig.links.email}`,
+          Icon: Icons.Layout.Navigation.Contact,
+        },
+      ]
+    : []),
 ];
 
 const SCRAMBLE_CHARS = "!<>-_\\/[]{}=+*^?#01ﾊﾐﾋｰｳ";
@@ -78,6 +89,7 @@ export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
   const roleRef = useRef<HTMLSpanElement>(null);
   const magneticRef = useRef<HTMLAnchorElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
   // entrance timeline
   useSplashGsap(
@@ -154,99 +166,161 @@ export default function Hero() {
     { scope: rootRef },
   );
 
+  // portrait pointer tilt
+  useGSAP(
+    () => {
+      const frame = imageRef.current;
+      if (!frame) return;
+      const rx = gsap.quickTo(frame, "rotateX", {
+        duration: 0.6,
+        ease: "power3",
+      });
+      const ry = gsap.quickTo(frame, "rotateY", {
+        duration: 0.6,
+        ease: "power3",
+      });
+      const onMove = (e: PointerEvent) => {
+        const r = frame.getBoundingClientRect();
+        const nx = (e.clientX - (r.left + r.width / 2)) / r.width;
+        const ny = (e.clientY - (r.top + r.height / 2)) / r.height;
+        rx(-ny * 6);
+        ry(nx * 6);
+      };
+      const onLeave = () => {
+        rx(0);
+        ry(0);
+      };
+      frame.addEventListener("pointermove", onMove);
+      frame.addEventListener("pointerleave", onLeave);
+      return () => {
+        frame.removeEventListener("pointermove", onMove);
+        frame.removeEventListener("pointerleave", onLeave);
+      };
+    },
+    { scope: rootRef },
+  );
+
   return (
     <section
       ref={rootRef}
-      className="relative flex min-h-[calc(100dvh-8rem)] w-full flex-col justify-center gap-7 py-16"
+      className="relative grid min-h-[calc(100dvh-8rem)] w-full items-center gap-10 py-16 lg:grid-cols-[1.05fr_0.85fr] lg:gap-16"
+      style={{ perspective: "1200px" }}
     >
-      {/* status + eyebrow */}
-      <div className="flex flex-wrap items-center gap-3">
-        <span
-          data-entrance="hero-rise"
-          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/3 px-3 py-1 font-mono text-[11px] tracking-wide text-foreground/60"
-        >
-          <span className="relative flex size-1.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
-            <span className="relative inline-flex size-1.5 rounded-full bg-emerald-400" />
+      {/* left — text */}
+      <div className="flex flex-col gap-6">
+        {/* name */}
+        <h1 className="text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
+          <span className="block overflow-hidden pb-[0.12em]">
+            <span data-entrance="hero-title" className="block">
+              {siteConfig.author}
+            </span>
           </span>
-          Available for work
-        </span>
-        <span
-          data-entrance="hero-rise"
-          className="font-mono text-[11px] tracking-[0.24em] text-foreground/35 uppercase"
+        </h1>
+
+        {/* scramble role */}
+        <p
+          data-entrance="hero-fade"
+          className="font-mono text-base text-foreground/70 sm:text-xl"
         >
-          Portfolio · {new Date().getFullYear()}
-        </span>
+          <span className="text-foreground/30">{"// "}</span>
+          <span ref={roleRef} aria-live="off">
+            {ROLES[0]}
+          </span>
+          <span className="ml-0.5 inline-block h-[1em] w-[0.5ch] translate-y-[0.12em] animate-pulse bg-foreground/60" />
+        </p>
+
+        {/* intro */}
+        <p
+          data-entrance="hero-fade"
+          className="max-w-xl text-sm leading-7 text-foreground/55 sm:text-base"
+        >
+          {siteConfig.description}
+        </p>
+
+        {/* CTAs */}
+        <div
+          data-entrance="hero-fade"
+          className="flex flex-wrap items-center gap-3"
+        >
+          <Link
+            ref={magneticRef}
+            href="/work"
+            data-reticle
+            className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
+          >
+            View work
+            <Icons.Layout.Footer.ArrowUpRight
+              className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              weight="bold"
+            />
+          </Link>
+          <Link
+            href="/contact"
+            data-reticle
+            className="inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-2.5 font-mono text-sm tracking-wide text-foreground/70 transition-colors hover:bg-white/6 hover:text-foreground"
+          >
+            Get in touch
+          </Link>
+
+          <div className="ml-1 flex items-center gap-1">
+            {SOCIALS.map(({ label, href, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel="noreferrer"
+                data-reticle
+                aria-label={label}
+                className="inline-flex size-10 items-center justify-center rounded-full text-foreground/45 transition-colors hover:bg-white/6 hover:text-foreground"
+              >
+                <Icon className="size-4" weight="bold" />
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* name */}
-      <h1 className="text-6xl font-semibold tracking-tight text-foreground sm:text-8xl">
-        <span className="block overflow-hidden pb-[0.12em]">
-          <span data-entrance="hero-title" className="block">
-            {NAME}
-          </span>
-        </span>
-      </h1>
-
-      {/* scramble role */}
-      <p
-        data-entrance="hero-fade"
-        className="font-mono text-base text-foreground/70 sm:text-xl"
-      >
-        <span className="text-foreground/30">{"// "}</span>
-        <span ref={roleRef} aria-live="off">
-          {ROLES[0]}
-        </span>
-        <span className="ml-0.5 inline-block h-[1em] w-[0.5ch] translate-y-[0.12em] animate-pulse bg-foreground/60" />
-      </p>
-
-      {/* intro */}
-      <p
-        data-entrance="hero-fade"
-        className="max-w-xl text-sm leading-7 text-foreground/55 sm:text-base"
-      >
-        {INTRO}
-      </p>
-
-      {/* CTAs */}
+      {/* right — portrait card (photo + info bar) */}
       <div
         data-entrance="hero-fade"
-        className="flex flex-wrap items-center gap-3"
+        className="mx-auto w-full max-w-64 sm:max-w-68 lg:mx-0 lg:ml-auto"
       >
-        <Link
-          ref={magneticRef}
-          href="/work"
-          data-reticle
-          className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
+        <div
+          ref={imageRef}
+          className="overflow-hidden border border-white/10 bg-black/30 transform-3d"
         >
-          View work
-          <Icons.Layout.Footer.ArrowUpRight
-            className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            weight="bold"
-          />
-        </Link>
-        <Link
-          href="/contact"
-          data-reticle
-          className="inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-2.5 font-mono text-sm tracking-wide text-foreground/70 transition-colors hover:bg-white/6 hover:text-foreground"
-        >
-          Get in touch
-        </Link>
+          {/* passport-ratio photo */}
+          <div className="relative aspect-7/9 w-full overflow-hidden">
+            <div className="absolute inset-0 bg-linear-to-br from-white/8 via-transparent to-black/50" />
+            <div
+              className="absolute inset-0 opacity-[0.1]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)",
+                backgroundSize: "26px 26px",
+              }}
+            />
+            <BlurImage
+              src={HERO_IMAGE}
+              alt={siteConfig.name}
+              fill
+              sizes="(min-width: 1024px) 24rem, 70vw"
+              wrapperClassName="absolute inset-0 h-full w-full"
+              className="h-full w-full object-cover"
+              eager
+            />
+            <div className="pointer-events-none absolute inset-x-4 top-0 h-px bg-linear-to-r from-transparent via-white/25 to-transparent" />
+          </div>
 
-        <div className="ml-1 flex items-center gap-1">
-          {SOCIALS.map(({ label, href, Icon }) => (
-            <a
-              key={label}
-              href={href}
-              target={href.startsWith("http") ? "_blank" : undefined}
-              rel="noreferrer"
-              data-reticle
-              aria-label={label}
-              className="inline-flex size-10 items-center justify-center rounded-full text-foreground/45 transition-colors hover:bg-white/6 hover:text-foreground"
-            >
-              <Icon className="size-4" weight="bold" />
-            </a>
-          ))}
+          {/* info bar under the photo */}
+          <div className="flex flex-col gap-0.5 border-t border-white/10 bg-black/55 px-4 py-3 backdrop-blur">
+            <p className="text-sm font-medium tracking-tight text-foreground/90">
+              {siteConfig.name}
+            </p>
+            <p className="font-mono text-[11px] tracking-wide text-foreground/40">
+              @{siteConfig.author}
+            </p>
+          </div>
         </div>
       </div>
 

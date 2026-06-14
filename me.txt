@@ -1,0 +1,194 @@
+MUHAMMAD ALIF DANIEL
+BIN MOHD HAIRUL HEZZELIN
+
+Full-Stack Web Developer
+
+Email: alifdaniel.workspace@gmail.com
+GitHub: github.com/ALXP-DANIEL
+Portfolio: alifdaniel.dpdns.org
+
+Summary:
+Self-motivated Full-Stack Web Developer with experience building role-based web applications using Angular, React, Node.js, Express, Laravel, Prisma, and MySQL. Passionate about clean code, practical problem-solving, and continuously improving software quality, user experience, and development workflow.
+
+
+WORK EXPERIENCE
+
+FULLSTACK WEB DEV - Lapasar Sdn Bhd [WFH]
+Malaysia
+Jun 2024 – Mar 2026
+Fulltime
+
+- Migrated a legacy CodeIgniter system to React with Vite, improving frontend maintainability and application performance.
+- Reverse-engineered undocumented legacy systems to migrate business-critical features without causing regression.
+- Refactored legacy modules to reduce technical debt, simplify code complexity, and improve system stability.
+- Implemented UI/UX improvements across Marketplace and Dashboard modules, enhancing user experience and reducing friction.
+- Improved feature delivery by modernizing legacy workflows and aligning the frontend with current development standards.
+
+
+FRONTEND WEB DEV - AllMeans Pte. Ltd. [WFH]
+Singapore
+Aug 2023 – Feb 2024
+Intern
+
+- Developed a full Admin Management System using React and Material UI.
+- Translated Figma designs into reusable and scalable UI components.
+- Integrated APIs with backend services to ensure reliable data flow.
+- Improved UI consistency and development efficiency through component reuse.
+
+
+ADDITIONAL EXPERIENCE
+
+Homelab Infrastructure (Self-Hosted Environment)
+
+- Built and managed a self-hosted homelab to run private services, test deployments, and practice production-like infrastructure.
+- Hosted personal services including Immich for family photo backup, Home Assistant for smart home automation, VPN access, DNS filtering, and private media management.
+- Configured Docker-based services, reverse proxy, DNS, networking, and storage to improve privacy, reduce reliance on third-party cloud platforms, and gain hands-on DevOps experience.
+- Used the environment to test web application deployment, troubleshooting, monitoring, backups, and service recovery workflows.
+
+
+PROJECTS
+
+GASAK ESPORT MANAGEMENT: PRIVATE
+Fullstack Web Dev
+Jan 2025 – May 2025
+
+Tech:
+React, TypeScript, Tailwind CSS, Sanity, Vercel, Neon
+
+- Developed a web platform for esports teams to manage player profiles, team structure, and organizational content in one centralized system.
+- Built a content management workflow using Sanity, allowing team information to be updated more easily without changing code.
+- Designed the platform with scalable structure to support future features such as player stats, team announcements, and event updates.
+- Optimized the frontend for desktop and mobile users, improving accessibility for players, team members, and visitors.
+- Deployed the platform to Vercel, making the project easier to maintain, preview, and update.
+
+
+WASTEGRAB: wastegrab.alifdaniel.dpdns.org
+Fullstack Web Dev
+May 2026 – Jun 2026
+
+Tech:
+Angular 21, TypeScript, Tailwind CSS, Zard UI, Node.js, Express.js, Prisma 7, MySQL/MariaDB, Roboflow API, Supabase Storage, MapLibre GL, OSRM Routing API, Google Maps Places API, Docker, GitHub Actions, Railway, GHCR, Graphify
+
+- Built a full-stack recycling pickup and rewards platform for customers, collectors, and admins using Angular 21, Express.js, Prisma, and MySQL/MariaDB.
+- Implemented customer pickup requests with image upload, saved addresses, pickup history, and lifecycle tracking to simplify recycling pickup submission.
+- Integrated Roboflow AI analysis to suggest waste category, estimated weight, and reward points, helping customers submit more accurate pickup requests.
+- Developed collector workflows for assigned pickups, route previews, status updates, and actual weight verification to support field collection operations.
+- Created admin modules for users, collectors, pickups, waste categories, vouchers, notifications, and reward activity to centralize platform management.
+- Prepared testing and deployment workflow using Playwright, Vitest, API testing, ESLint, Docker, GitHub Actions, GHCR, and Railway.
+
+
+QR PIXEL: qr-pixel.alifdaniel.dpdns.org
+Fullstack Web Dev
+Jun 2026 – Jun 2026
+
+Tech:
+Next.js 16, React 19, TypeScript, Tailwind CSS 4, Base UI, Motion, qr-code-styling, React Hook Form, Zod, GraphQL, Vitest, Playwright, Biome, Vercel
+
+- Developed a modern single-page QR code generator that allows users to create, customize, preview, and export QR codes through an interactive glass-style QR studio.
+- Built support for multiple QR content types including URL, text, email, phone, and Wi-Fi, with validation and payload generation handled through shared application logic.
+- Implemented live QR preview with customizable foreground color, QR background color, card color, dot style, corner style, padding, logo upload, error correction, and backdrop patterns.
+- Created PNG and SVG export functionality with framed output, custom QR styling, backdrop rendering, and multiple export layouts including square, portrait, and desktop formats.
+- Developed a GraphQL endpoint for QR payload preview and generation, reusing the same validation and payload builder logic used by the frontend.
+- Improved project maintainability using Vitest, Playwright, Biome, and type checking to support reliable testing, formatting, and frontend behavior.
+
+
+METEO: meteo.alifdaniel.dpdns.org
+Fullstack Web Dev
+Oct 2024 – Nov 2024
+
+Tech:
+React, TypeScript, Tailwind CSS, REST API, Vercel
+
+- Developed a responsive weather application that helps users quickly search cities and view current weather conditions and forecasts in one interface.
+- Integrated third-party weather APIs to provide city-based weather data with clear loading, success, and error states.
+- Built reusable frontend components to improve UI consistency, code maintainability, and future feature development.
+- Deployed the application to Vercel, making the project publicly accessible as a live frontend portfolio project.
+
+
+SKILL & TECH STACK
+
+Frontend:
+Angular, React, Next.js, TypeScript, JavaScript, Tailwind CSS, Zard UI, ShadCN UI, Material UI, HTMX
+
+Full-Stack / Backend:
+Laravel, PHP, Node.js, Express.js, NestJS, Prisma, REST APIs, Cookie-based Authentication
+
+Database:
+MySQL, MariaDB, PostgreSQL, Neon
+
+AI / Media / Storage:
+Roboflow API, Multer, Sharp, Supabase Storage
+
+Maps / Routing:
+MapLibre GL, OSRM Routing API, Google Maps Places API
+
+DevOps / Deployment:
+Docker, Docker Compose, Railway, Vercel, GitHub Actions, GHCR
+
+Tools:
+Postman, Figma, Sanity CMS, Graphify, LM Studio, TablePlus, VS Code
+
+Version Control:
+Git, GitHub, GitLab, Azure DevOps
+
+OS:
+Windows, macOS, Linux, WSL
+
+Testing / QA:
+Playwright, Vitest, API Testing, ESLint, Feature QA Tracker, Bug Tracker
+
+
+EDUCATION
+
+Harvard University (CS50x: Introduction to Computer Science)
+Online
+2024 – 2026
+
+- Completed Harvard’s CS50x course covering foundational topics in computer science, including algorithms, data structures, memory, abstraction, web development, and programming in C, Python, SQL, HTML, CSS, and JavaScript.
+- Gained hands-on experience through problem sets and final projects focusing on computational thinking and software engineering fundamentals.
+
+
+Industrial Training Institute, Kuala Langat
+Malaysia
+2022 – 2024
+
+Diploma in Web Development
+GPA: 3.71/4.00
+
+- WorldSkills Malaysia Belia (WSMB) — 2022 & 2023
+- Malaysia Tech Lympics (TOP 10) - 2023
+
+
+SMK Banting (SPM)
+Malaysia
+2016 – 2022
+
+- Computer science - B
+- Science - A
+
+
+SPEECH
+
+Malay:
+Fluent
+
+English:
+Moderate
+
+
+REFERENCES
+
+Teo Shyan Jie
+Chief Operating Officer – AllMeans Pte. Ltd.
+Phone: +65 9732 1823
+Email: sjteo@allmeans.online
+
+Muhammad Hasif Bin Zainal Abidin
+Tech Manager – Corporate Developer Department, Lapasar
+Phone: +60 19 341 1800
+Email: hasifresearch@gmail.com
+
+Tg. Muzlina Hanim bt. Tg. Semara
+Head of TPP Web Development, ILP Kuala Langat
+Phone: +60 13 939 5771
+Email: muzlinahanim@jtm.gov.my

@@ -8,7 +8,7 @@ export const socialsConfig = [
   },
   {
     platform: "GitHub",
-    link: "",
+    link: "https://github.com/ALXP-DANIEL",
     icon: "GitHub",
   },
   {

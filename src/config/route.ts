@@ -12,14 +12,14 @@ export const routeConfig = [
     label: "Work",
     icon: Icons.Layout.Navigation.Work,
   },
-  {
-    path: "/about",
-    label: "About",
-    icon: Icons.Layout.Navigation.About,
-  },
-  {
-    path: "/contact",
-    label: "Contact",
-    icon: Icons.Layout.Navigation.Contact,
-  },
+  // {
+  //   path: "/about",
+  //   label: "About",
+  //   icon: Icons.Layout.Navigation.About,
+  // },
+  // {
+  //   path: "/contact",
+  //   label: "Contact",
+  //   icon: Icons.Layout.Navigation.Contact,
+  // },
 ] as const satisfies readonly RouteTypes[];
