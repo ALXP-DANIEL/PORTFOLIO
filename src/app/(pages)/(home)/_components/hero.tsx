@@ -2,16 +2,14 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { Icons } from "@/components/icons";
 import BlurImage from "@/components/ui/blur-image";
 import { siteConfig } from "@/config/site";
-import { socialsConfig } from "@/config/sosial";
 import { useSplashGsap } from "@/hooks/use-splash-gsap";
 
-/* Drop your photo at public/me.jpg (portrait works best). */
-const HERO_IMAGE = "/me.jpg";
+const HERO_IMAGE = "/hero.png";
+const RESUME_URL = "/RESUME.pdf";
 
 /* Hero-specific: the roles that cycle in the scramble line. Edit freely. */
 const ROLES = [
@@ -19,26 +17,6 @@ const ROLES = [
   "Frontend Engineer",
   "Backend Developer",
   "Problem Solver",
-];
-
-/* Pulled from config — configured socials + the email, no duplication. */
-const SOCIALS = [
-  ...socialsConfig
-    .filter((social) => social.link)
-    .map((social) => ({
-      label: social.platform,
-      href: social.link,
-      Icon: Icons.Social[social.icon],
-    })),
-  ...(siteConfig.links.email
-    ? [
-        {
-          label: "Email",
-          href: `mailto:${siteConfig.links.email}`,
-          Icon: Icons.Layout.Navigation.Contact,
-        },
-      ]
-    : []),
 ];
 
 const SCRAMBLE_CHARS = "!<>-_\\/[]{}=+*^?#01ﾊﾐﾋｰｳ";
@@ -87,9 +65,9 @@ function scramble(el: HTMLElement, next: string): () => void {
 
 export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
   const roleRef = useRef<HTMLSpanElement>(null);
   const magneticRef = useRef<HTMLAnchorElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
 
   // entrance timeline
   useSplashGsap(
@@ -118,6 +96,56 @@ export default function Hero() {
           },
           "-=0.5",
         );
+    },
+    { scope: rootRef },
+  );
+
+  // background tilt, matching the project cover thumbnail feel
+  useGSAP(
+    () => {
+      const root = rootRef.current;
+      const background = backgroundRef.current;
+      if (!root || !background) return;
+      const image = background.querySelector<HTMLElement>(
+        "[data-hero-bg-image]",
+      );
+      const rx = gsap.quickTo(background, "rotationX", {
+        duration: 0.7,
+        ease: "power3",
+      });
+      const ry = gsap.quickTo(background, "rotationY", {
+        duration: 0.7,
+        ease: "power3",
+      });
+      const ix = image
+        ? gsap.quickTo(image, "xPercent", { duration: 0.9, ease: "power3" })
+        : null;
+      const iy = image
+        ? gsap.quickTo(image, "yPercent", { duration: 0.9, ease: "power3" })
+        : null;
+
+      const onMove = (event: PointerEvent) => {
+        const rect = root.getBoundingClientRect();
+        const nx = (event.clientX - rect.left) / rect.width - 0.5;
+        const ny = (event.clientY - rect.top) / rect.height - 0.5;
+        rx(-ny * 3.5);
+        ry(nx * 3.5);
+        ix?.(nx * -2.5);
+        iy?.(ny * -2.5);
+      };
+      const onLeave = () => {
+        rx(0);
+        ry(0);
+        ix?.(0);
+        iy?.(0);
+      };
+
+      root.addEventListener("pointermove", onMove);
+      root.addEventListener("pointerleave", onLeave);
+      return () => {
+        root.removeEventListener("pointermove", onMove);
+        root.removeEventListener("pointerleave", onLeave);
+      };
     },
     { scope: rootRef },
   );
@@ -166,48 +194,46 @@ export default function Hero() {
     { scope: rootRef },
   );
 
-  // portrait pointer tilt
-  useGSAP(
-    () => {
-      const frame = imageRef.current;
-      if (!frame) return;
-      const rx = gsap.quickTo(frame, "rotateX", {
-        duration: 0.6,
-        ease: "power3",
-      });
-      const ry = gsap.quickTo(frame, "rotateY", {
-        duration: 0.6,
-        ease: "power3",
-      });
-      const onMove = (e: PointerEvent) => {
-        const r = frame.getBoundingClientRect();
-        const nx = (e.clientX - (r.left + r.width / 2)) / r.width;
-        const ny = (e.clientY - (r.top + r.height / 2)) / r.height;
-        rx(-ny * 6);
-        ry(nx * 6);
-      };
-      const onLeave = () => {
-        rx(0);
-        ry(0);
-      };
-      frame.addEventListener("pointermove", onMove);
-      frame.addEventListener("pointerleave", onLeave);
-      return () => {
-        frame.removeEventListener("pointermove", onMove);
-        frame.removeEventListener("pointerleave", onLeave);
-      };
-    },
-    { scope: rootRef },
-  );
-
   return (
     <section
       ref={rootRef}
-      className="relative grid min-h-[calc(100dvh-8rem)] w-full items-center gap-10 py-16 lg:grid-cols-[1.05fr_0.85fr] lg:gap-16"
-      style={{ perspective: "1200px" }}
+      className="relative flex min-h-[calc(100dvh-8rem)] w-full flex-col justify-center py-16"
+      style={{ perspective: "1400px" }}
     >
-      {/* left — text */}
-      <div className="flex flex-col gap-6">
+      {/* full-bleed background photo (subject sits on the right) */}
+      <div
+        ref={backgroundRef}
+        className="pointer-events-none absolute -inset-y-16 left-1/2 -z-10 w-screen -translate-x-1/2 overflow-hidden will-change-transform transform-3d"
+        style={{
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, black 16%, black 82%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, black 16%, black 82%, transparent 100%)",
+        }}
+      >
+        <div
+          data-hero-bg-image
+          className="absolute -inset-8 will-change-transform"
+        >
+          <BlurImage
+            src={HERO_IMAGE}
+            alt={siteConfig.name}
+            fill
+            sizes="100vw"
+            wrapperClassName="absolute inset-0 h-full w-full"
+            className="h-full w-full object-cover object-right"
+            eager
+          />
+        </div>
+        {/* dark on the left → transparent on the right (keeps text readable, reveals the photo) */}
+        <div className="absolute inset-0 bg-linear-to-r from-black from-10% via-black/80 to-transparent" />
+        {/* extra edge darkening so the mask blends into the grid cleanly */}
+        <div className="absolute inset-x-0 top-0 h-36 bg-linear-to-b from-background/70 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-44 bg-linear-to-t from-background/90 to-transparent" />
+      </div>
+
+      {/* content — left */}
+      <div className="relative flex max-w-xl flex-col gap-6">
         {/* name */}
         <h1 className="text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
           <span className="block overflow-hidden pb-[0.12em]">
@@ -237,104 +263,26 @@ export default function Hero() {
           {siteConfig.description}
         </p>
 
-        {/* CTAs */}
+        {/* CTA */}
         <div
           data-entrance="hero-fade"
           className="flex flex-wrap items-center gap-3"
         >
-          <Link
+          <a
             ref={magneticRef}
-            href="/work"
+            href={RESUME_URL}
+            target="_blank"
+            rel="noreferrer"
             data-reticle
             className="group inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
           >
-            View work
+            Resume
             <Icons.Layout.Footer.ArrowUpRight
               className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               weight="bold"
             />
-          </Link>
-          <Link
-            href="/contact"
-            data-reticle
-            className="inline-flex items-center gap-2 rounded-full border border-white/12 px-5 py-2.5 font-mono text-sm tracking-wide text-foreground/70 transition-colors hover:bg-white/6 hover:text-foreground"
-          >
-            Get in touch
-          </Link>
-
-          <div className="ml-1 flex items-center gap-1">
-            {SOCIALS.map(({ label, href, Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target={href.startsWith("http") ? "_blank" : undefined}
-                rel="noreferrer"
-                data-reticle
-                aria-label={label}
-                className="inline-flex size-10 items-center justify-center rounded-full text-foreground/45 transition-colors hover:bg-white/6 hover:text-foreground"
-              >
-                <Icon className="size-4" weight="bold" />
-              </a>
-            ))}
-          </div>
+          </a>
         </div>
-      </div>
-
-      {/* right — portrait card (photo + info bar) */}
-      <div
-        data-entrance="hero-fade"
-        className="mx-auto w-full max-w-64 sm:max-w-68 lg:mx-0 lg:ml-auto"
-      >
-        <div
-          ref={imageRef}
-          className="overflow-hidden border border-white/10 bg-black/30 transform-3d"
-        >
-          {/* passport-ratio photo */}
-          <div className="relative aspect-7/9 w-full overflow-hidden">
-            <div className="absolute inset-0 bg-linear-to-br from-white/8 via-transparent to-black/50" />
-            <div
-              className="absolute inset-0 opacity-[0.1]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)",
-                backgroundSize: "26px 26px",
-              }}
-            />
-            <BlurImage
-              src={HERO_IMAGE}
-              alt={siteConfig.name}
-              fill
-              sizes="(min-width: 1024px) 24rem, 70vw"
-              wrapperClassName="absolute inset-0 h-full w-full"
-              className="h-full w-full object-cover"
-              eager
-            />
-            <div className="pointer-events-none absolute inset-x-4 top-0 h-px bg-linear-to-r from-transparent via-white/25 to-transparent" />
-          </div>
-
-          {/* info bar under the photo */}
-          <div className="flex flex-col gap-0.5 border-t border-white/10 bg-black/55 px-4 py-3 backdrop-blur">
-            <p className="text-sm font-medium tracking-tight text-foreground/90">
-              {siteConfig.name}
-            </p>
-            <p className="font-mono text-[11px] tracking-wide text-foreground/40">
-              @{siteConfig.author}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* scroll cue */}
-      <div
-        data-entrance="hero-fade"
-        className="absolute bottom-6 left-0 hidden items-center gap-3 sm:flex"
-      >
-        <span className="font-mono text-[10px] tracking-[0.24em] text-foreground/30 uppercase">
-          Scroll
-        </span>
-        <span className="relative block h-8 w-px overflow-hidden bg-white/10">
-          <span className="absolute inset-x-0 top-0 h-3 animate-[scrollcue_1.8s_ease-in-out_infinite] bg-foreground/50" />
-        </span>
       </div>
     </section>
   );
