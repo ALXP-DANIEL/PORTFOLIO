@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import type { Project } from "@/types/project";
 import WorkGallery from "./work-gallery";
 import WorkReadme from "./work-readme";
+import { NavigationActionSlot } from "@/components/layouts/navigation-action";
 
 type WorkDetailViewProps = {
   project: Project;
@@ -123,16 +124,17 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
   return (
     <article ref={rootRef} className="flex flex-col gap-16 sm:gap-24">
       {/* header */}
-      <header className="flex flex-col gap-6">
-        <Link
-          href="/work"
-          data-entrance="detail-head"
-          data-reticle
-          className="inline-flex w-fit items-center gap-2 font-mono text-xs tracking-wide text-foreground/45 transition-colors hover:text-foreground"
-        >
-          <span aria-hidden="true">←</span> Back to work
-        </Link>
+      {/* navigation action provided as JSON spec */}
+      <NavigationActionSlot
+        spec={{
+          kind: "link",
+          href: "/work",
+          label: "← Back",
+          icon: Icons.Generic.Back,
+        }}
+      />
 
+      <header className="flex flex-col gap-6">
         <div className="flex flex-wrap items-center gap-3">
           <span
             data-entrance="detail-head"

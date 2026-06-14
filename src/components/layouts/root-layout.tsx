@@ -6,6 +6,7 @@ import Footer from "./footer";
 import GridBackground from "./grid-background";
 import Navigation from "./navigation";
 import ViewTransitionShell from "./view-transition-shell";
+import { NavigationActionProvider } from "./navigation-action";
 import { useSplashReady } from "./splash-gate";
 
 type RootLayoutProps = {
@@ -26,12 +27,14 @@ export default function RootLayoutWrapper({ children }: RootLayoutProps) {
 
   return (
     <GridBackground>
-      <Navigation />
-      <main className="min-h-dvh py-25 px-5 lg:px-15">
-        <ViewTransitionShell>
-          <section className="w-full mx-auto max-w-6xl ">{children}</section>
-        </ViewTransitionShell>
-      </main>
+      <NavigationActionProvider>
+        <Navigation />
+        <main className="min-h-dvh py-25 px-5 lg:px-15">
+          <ViewTransitionShell>
+            <section className="w-full mx-auto max-w-6xl ">{children}</section>
+          </ViewTransitionShell>
+        </main>
+      </NavigationActionProvider>
       <Footer />
     </GridBackground>
   );

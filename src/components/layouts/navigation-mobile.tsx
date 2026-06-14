@@ -4,7 +4,12 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef } from "react";
+import BlurImage from "@/components/ui/blur-image";
 import GlassSurface, { glassActiveStyle } from "@/components/ui/glass-surface";
+import {
+  NavigationActionOutlet,
+  useNavigationAction,
+} from "./navigation-action";
 import { usePageScrollState } from "@/hooks/use-page-scroll-state";
 import { cn } from "@/lib/utils";
 import type { NavigationProps } from "@/types/route";
@@ -17,6 +22,7 @@ export default function NavigationMobile({
   const navRef = useRef<HTMLDivElement>(null);
   const brandRef = useRef<HTMLDivElement>(null);
   const { atBottom, atTop } = usePageScrollState();
+  const { action } = useNavigationAction();
 
   return (
     <>
@@ -31,13 +37,41 @@ export default function NavigationMobile({
             "px-4 py-2",
             atTop ? "rounded-t-none rounded-b-[2rem]" : "rounded-full",
           )}
-          contentClassName="flex items-center select-none"
+          contentClassName="flex items-center"
         >
-          <span className="text-xs font-mono tracking-[0.2em] text-foreground/60">
-            ALIF
-          </span>
+          <BlurImage
+            src="/logo.svg"
+            alt="Logo"
+            className="h-4 w-auto"
+            wrapperClassName="block"
+          />
         </GlassSurface>
       </motion.div>
+
+      {action ? (
+        <motion.div
+          animate={{ top: atTop ? 0 : 20, right: 20 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          className="fixed z-250 block lg:hidden"
+        >
+          <GlassSurface
+            className={cn(
+              "p-1.5",
+              atTop ? "rounded-t-none rounded-b-[2rem]" : "rounded-full",
+            )}
+            contentClassName="flex items-center"
+          >
+            <NavigationActionOutlet
+              classNames={{
+                content: "gap-1.5",
+                icon: "size-14 bg-red-500",
+                label: "leading-none",
+              }}
+              className="relative flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-mono tracking-wide transition-colors duration-300"
+            />
+          </GlassSurface>
+        </motion.div>
+      ) : null}
 
       <motion.div
         ref={navRef}
@@ -60,6 +94,7 @@ export default function NavigationMobile({
         >
           {links.map(({ path, label, icon: Icon }) => {
             const active = pathname === path;
+
             return (
               <Link
                 key={path}
@@ -79,11 +114,13 @@ export default function NavigationMobile({
                     transition={activeTransition}
                   />
                 )}
+
                 <Icon
                   size={18}
                   weight={active ? "fill" : "regular"}
                   className="relative"
                 />
+
                 <span className="relative text-[10px] font-mono tracking-wide">
                   {label}
                 </span>

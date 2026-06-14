@@ -1,4 +1,5 @@
 import {
+  ArrowLeftIcon,
   ArrowUpRightIcon,
   BriefcaseIcon,
   CaretUpIcon,
@@ -41,5 +42,9 @@ export const Icons = {
 
   Social: {
     ...SocialIcons,
+  },
+
+  Generic: {
+    Back: ArrowLeftIcon,
   },
 } as const;
