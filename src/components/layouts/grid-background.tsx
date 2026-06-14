@@ -16,7 +16,9 @@ const BOX_LERP = 0.22; // how fast the brackets snap onto the target
 const RETICLE_RGB = "240,236,228";
 const PULSE_LIFETIME = 90; // frames (~1.5 s at 60 fps)
 const PULSE_ALPHA = 0.07; // peak brightness added on top of base
-const PULSE_RATE = 0.012; // probability per frame of spawning a new pulse
+const PULSE_RATE = 0.052; // probability per frame of spawning a new pulse
+const HOVER_TICK_COOLDOWN = 70;
+const CLICK_TICK_COOLDOWN = 55;
 
 export default function GridBackground({
   children,
@@ -53,8 +55,81 @@ export default function GridBackground({
 
     // target-lock reticle
     let lockEl: Element | null = null;
+    let lastLockEl: Element | null = null;
     let lock = 0; // 0 = crosshair, 1 = brackets caging a target
     const rb = { l: -999, t: -999, r: -999, b: -999 }; // smoothed bracket box
+    let audioContext: AudioContext | null = null;
+    let lastTickAt = 0;
+    let lastClickAt = 0;
+
+    function getAudioContext() {
+      audioContext ??= new AudioContext();
+      return audioContext;
+    }
+
+    function playTactileTick() {
+      const now = performance.now();
+      if (now - lastTickAt < HOVER_TICK_COOLDOWN) return;
+      lastTickAt = now;
+
+      try {
+        const audio = getAudioContext();
+        if (audio.state === "suspended") {
+          void audio.resume();
+        }
+
+        const osc = audio.createOscillator();
+        const gain = audio.createGain();
+        const start = audio.currentTime;
+
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(760, start);
+        osc.frequency.exponentialRampToValueAtTime(440, start + 0.035);
+
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.035, start + 0.006);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.045);
+
+        osc.connect(gain);
+        gain.connect(audio.destination);
+        osc.start(start);
+        osc.stop(start + 0.05);
+      } catch {
+        // Browsers may block audio until interaction; ignore and keep visuals.
+      }
+    }
+
+    function playTactileClick() {
+      const now = performance.now();
+      if (now - lastClickAt < CLICK_TICK_COOLDOWN) return;
+      lastClickAt = now;
+
+      try {
+        const audio = getAudioContext();
+        if (audio.state === "suspended") {
+          void audio.resume();
+        }
+
+        const osc = audio.createOscillator();
+        const gain = audio.createGain();
+        const start = audio.currentTime;
+
+        osc.type = "square";
+        osc.frequency.setValueAtTime(260, start);
+        osc.frequency.exponentialRampToValueAtTime(150, start + 0.045);
+
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.045, start + 0.004);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.055);
+
+        osc.connect(gain);
+        gain.connect(audio.destination);
+        osc.start(start);
+        osc.stop(start + 0.065);
+      } catch {
+        // Browsers may block audio until interaction; ignore and keep visuals.
+      }
+    }
 
     function resize() {
       const dpr = window.devicePixelRatio || 1;
@@ -78,6 +153,17 @@ export default function GridBackground({
       ty = e.clientY;
       const el = e.target as Element | null;
       lockEl = el?.closest(RETICLE_SELECTOR) ?? null;
+      if (lockEl && lockEl !== lastLockEl) {
+        playTactileTick();
+      }
+      lastLockEl = lockEl;
+    }
+
+    function onPointerDown(e: PointerEvent) {
+      const el = e.target as Element | null;
+      if (el?.closest(RETICLE_SELECTOR)) {
+        playTactileClick();
+      }
     }
 
     function displace(px: number, py: number): [number, number] {
@@ -204,11 +290,7 @@ export default function GridBackground({
 
       // corner brackets fade in and cage the target
       if (lock > 0.01) {
-        const arm = Math.min(
-          RETICLE_ARM,
-          (rb.r - rb.l) / 2,
-          (rb.b - rb.t) / 2,
-        );
+        const arm = Math.min(RETICLE_ARM, (rb.r - rb.l) / 2, (rb.b - rb.t) / 2);
         overlayContext.strokeStyle = `rgba(${RETICLE_RGB},${(0.9 * lock).toFixed(3)})`;
         overlayContext.lineWidth = 1.5;
         overlayContext.beginPath();
@@ -237,12 +319,15 @@ export default function GridBackground({
     resize();
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", onMove);
+    window.addEventListener("pointerdown", onPointerDown);
     draw();
 
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("pointerdown", onPointerDown);
+      void audioContext?.close();
     };
   }, []);
 

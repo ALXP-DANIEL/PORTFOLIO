@@ -1,11 +1,17 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRef, useState } from "react";
 import GlassSurface, { glassActiveStyle } from "@/components/ui/glass-surface";
 import { cn } from "@/lib/utils";
 import type { NavigationProps } from "@/types/route";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function NavigationDesktop({
   links,
@@ -13,12 +19,40 @@ export default function NavigationDesktop({
   activeTransition,
 }: NavigationProps) {
   const pathname = usePathname();
+  const navRef = useRef<HTMLDivElement>(null);
+  const [atTop, setAtTop] = useState(true);
+
+  useGSAP(
+    () => {
+      const trigger = ScrollTrigger.create({
+        start: "top top-=24",
+        onEnter: () => setAtTop(false),
+        onLeaveBack: () => setAtTop(true),
+      });
+
+      return () => trigger.kill();
+    },
+    { scope: navRef },
+  );
 
   return (
-    <div className="site-nav-desktop fixed top-5 left-5 z-200 hidden lg:block">
+    <motion.div
+      ref={navRef}
+      animate={{
+        top: atTop ? 0 : 20,
+        bottom: "auto",
+        left: 20,
+        right: "auto",
+      }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      className="site-nav-desktop fixed z-200 hidden lg:block"
+    >
       <GlassSurface
         as="nav"
-        className="p-1.5"
+        className={cn(
+          "p-1.5",
+          atTop ? "rounded-t-none rounded-b-[2rem]" : "rounded-full",
+        )}
         contentClassName="flex items-center gap-0.5"
       >
         <span className="px-3 text-xs font-mono tracking-[0.2em] text-foreground/50 select-none">
@@ -59,6 +93,6 @@ export default function NavigationDesktop({
           );
         })}
       </GlassSurface>
-    </div>
+    </motion.div>
   );
 }

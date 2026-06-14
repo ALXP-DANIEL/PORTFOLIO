@@ -1,9 +1,10 @@
-import PageSection from "@/components/page-section";
-import { portfolioPages } from "@/lib/pages";
+import AboutPage from "@/app/about/page";
+import ContactPage from "@/app/contact/page";
+import WorkPage from "@/app/work/page";
 
 export default function Home() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col">
+    <>
       <section className="mx-auto flex min-h-[calc(100dvh-10rem)] w-full max-w-4xl flex-col justify-center gap-5 py-16">
         <p className="font-mono text-xs tracking-[0.24em] text-foreground/40 uppercase">
           Portfolio
@@ -17,9 +18,11 @@ export default function Home() {
         </p>
       </section>
 
-      {portfolioPages.map((page) => (
-        <PageSection key={page.href} page={page} showLink />
-      ))}
-    </div>
+      <WorkPage />
+
+      <AboutPage />
+
+      <ContactPage />
+    </>
   );
 }

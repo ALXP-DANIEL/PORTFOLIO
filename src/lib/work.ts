@@ -32,31 +32,38 @@ function parseJson(text: string | null): unknown {
 /* -------------------------------------------------------------------------- */
 
 async function loadRepoProject(repo: GitHubRepo): Promise<Project | null> {
-  // A root project.json is the opt-in signal; repos without one are ignored.
-  const parsed = projectManifestSchema.safeParse(
-    parseJson(await fetchRepoFile(repo, "project.json")),
-  );
-  if (!parsed.success) return null;
+  // Resilient per-repo: a transient failure on one repo (rate limit, 5xx,
+  // network) must not reject the whole batch and blank the work page.
+  try {
+    // A root project.json is the opt-in signal; repos without one are ignored.
+    const parsed = projectManifestSchema.safeParse(
+      parseJson(await fetchRepoFile(repo, "project.json")),
+    );
+    if (!parsed.success) return null;
 
-  const readme = await fetchRepoReadme(repo);
+    const readme = await fetchRepoReadme(repo);
 
-  return {
-    ...manifestToProject(parsed.data, {
-      resolveAsset: (src) => resolveRepoAsset(repo, src),
-      fallbackSlug: repo.name,
-      // For now, keep displayed project data limited to project.json.
-      // fallbackYear: new Date(repo.pushed_at).getFullYear().toString(),
-      // fallbackOpen: repo.homepage ?? undefined,
-      // fallbackGithub: repo.html_url,
-      // stats: {
-      //   stars: repo.stargazers_count,
-      //   pushedAt: repo.pushed_at,
-      //   homepage: repo.homepage,
-      //   url: repo.html_url,
-      // },
-    }),
-    readme: readme ?? undefined,
-  };
+    return {
+      ...manifestToProject(parsed.data, {
+        resolveAsset: (src) => resolveRepoAsset(repo, src),
+        fallbackSlug: repo.name,
+        // For now, keep displayed project data limited to project.json.
+        // fallbackYear: new Date(repo.pushed_at).getFullYear().toString(),
+        // fallbackOpen: repo.homepage ?? undefined,
+        // fallbackGithub: repo.html_url,
+        // stats: {
+        //   stars: repo.stargazers_count,
+        //   pushedAt: repo.pushed_at,
+        //   homepage: repo.homepage,
+        //   url: repo.html_url,
+        // },
+      }),
+      readme: readme ?? undefined,
+    };
+  } catch (error) {
+    console.error(`[work] failed to load ${repo.full_name}:`, error);
+    return null;
+  }
 }
 
 async function loadFromGitHub(): Promise<Project[]> {
@@ -64,7 +71,7 @@ async function loadFromGitHub(): Promise<Project[]> {
   const loaded = await Promise.all(repos.map((repo) => loadRepoProject(repo)));
   return loaded
     .filter((project): project is Project => project !== null)
-    .sort((a, b) => Number(b.year) - Number(a.year));
+    .sort((a, b) => (Number(b.year) || 0) - (Number(a.year) || 0));
 }
 
 /** First occurrence of each slug wins (GitHub before manual). */

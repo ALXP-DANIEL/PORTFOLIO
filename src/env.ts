@@ -8,7 +8,6 @@ export const env = createEnv({
       .default("development"),
     IS_MAINTENANCE: z.enum(["true", "false"]).default("false"),
     GITHUB_TOKEN: z.string().optional(),
-    GITHUB_WEBHOOK_SECRET: z.string().optional(),
   },
   client: {
     NEXT_PUBLIC_SITE_URL: z.url(),
@@ -17,7 +16,6 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     IS_MAINTENANCE: process.env.IS_MAINTENANCE,
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
-    GITHUB_WEBHOOK_SECRET: process.env.GITHUB_WEBHOOK_SECRET,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   },
   emptyStringAsUndefined: true,

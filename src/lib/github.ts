@@ -38,9 +38,9 @@ async function request(
   const res = await fetch(`${GITHUB_API_BASE}${path}`, {
     headers: headers(accept),
     next: {
-      // Cache indefinitely — freshness comes solely from the push webhook,
-      // which busts the `github-sync` tag via /api/revalidate.
-      revalidate: false,
+      // Refresh from GitHub at most weekly (ISR). A push webhook or the manual
+      // refresh can bust the `github-sync` tag for an instant update.
+      revalidate: 60 * 60 * 24 * 7,
       tags: [GITHUB_SYNC_TAG, ...tags],
     },
   });
@@ -73,16 +73,27 @@ export async function fetchGitHubText(
 // The token is the only thing required — it identifies whose repos to scan.
 export const isGitHubConfigured = () => Boolean(env.GITHUB_TOKEN);
 
+// Safety ceiling so a misconfig can't loop forever (100 repos/page).
+const MAX_REPO_PAGES = 20;
+
 /**
- * List candidate repos to scan for a root `project.json`: the token owner's
- * own, non-fork, non-archived repos.
+ * List candidate repos to scan for a root `project.json`: every one of the
+ * token owner's own, non-fork, non-archived repos (paginated — no 100 cap).
  */
 export async function listShowcaseRepos(): Promise<GitHubRepo[]> {
-  const repos = await fetchGitHubJson<GitHubRepo[]>(
-    `/user/repos?per_page=100&sort=updated&affiliation=owner`,
-    ["repos:me"],
-  );
-  return (repos ?? []).filter((repo) => !repo.fork && !repo.archived);
+  const all: GitHubRepo[] = [];
+
+  for (let page = 1; page <= MAX_REPO_PAGES; page++) {
+    const repos = await fetchGitHubJson<GitHubRepo[]>(
+      `/user/repos?per_page=100&page=${page}&sort=updated&affiliation=owner`,
+      [`repos:me:${page}`],
+    );
+    if (!repos || repos.length === 0) break;
+    all.push(...repos);
+    if (repos.length < 100) break; // last page
+  }
+
+  return all.filter((repo) => !repo.fork && !repo.archived);
 }
 
 /** Fetch a text file (e.g. metadata/info.json) from a repo, or null if absent. */

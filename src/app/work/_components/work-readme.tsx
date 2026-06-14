@@ -79,7 +79,7 @@ const components: Components = {
     ) : null,
 };
 
-export default function ProjectReadme({ source }: { source: string }) {
+export default function WorkReadme({ source }: { source: string }) {
   return (
     <Markdown remarkPlugins={[remarkGfm]} components={components}>
       {source}

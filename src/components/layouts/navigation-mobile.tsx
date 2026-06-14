@@ -1,11 +1,17 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRef, useState } from "react";
 import GlassSurface, { glassActiveStyle } from "@/components/ui/glass-surface";
 import { cn } from "@/lib/utils";
 import type { NavigationProps } from "@/types/route";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function NavigationMobile({
   links,
@@ -13,24 +19,74 @@ export default function NavigationMobile({
   activeTransition,
 }: NavigationProps) {
   const pathname = usePathname();
+  const navRef = useRef<HTMLDivElement>(null);
+  const brandRef = useRef<HTMLDivElement>(null);
+  const [atBottom, setAtBottom] = useState(false);
+  const [atTop, setAtTop] = useState(true);
+
+  useGSAP(
+    () => {
+      const trigger = ScrollTrigger.create({
+        trigger: document.body,
+        start: "bottom bottom+=80",
+        end: "bottom bottom",
+        onEnter: () => setAtBottom(true),
+        onLeaveBack: () => setAtBottom(false),
+      });
+
+      return () => trigger.kill();
+    },
+    { scope: navRef },
+  );
+
+  useGSAP(
+    () => {
+      const trigger = ScrollTrigger.create({
+        start: "top top-=24",
+        onEnter: () => setAtTop(false),
+        onLeaveBack: () => setAtTop(true),
+      });
+
+      return () => trigger.kill();
+    },
+    { scope: brandRef },
+  );
 
   return (
     <>
-      <div className="site-nav-mobile-brand fixed top-5 left-5 z-200 block lg:hidden">
+      <motion.div
+        ref={brandRef}
+        animate={{ top: atTop ? 0 : 20, left: 20 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="site-nav-mobile-brand fixed z-200 block lg:hidden"
+      >
         <GlassSurface
-          className="px-4 py-2"
+          className={cn(
+            "px-4 py-2",
+            atTop ? "rounded-t-none rounded-b-[2rem]" : "rounded-full",
+          )}
           contentClassName="flex items-center select-none"
         >
           <span className="text-xs font-mono tracking-[0.2em] text-foreground/60">
             ALIF
           </span>
         </GlassSurface>
-      </div>
+      </motion.div>
 
-      <div className="site-nav-mobile fixed bottom-5 left-1/2 z-200 block -translate-x-1/2 lg:hidden">
+      <motion.div
+        ref={navRef}
+        animate={{ bottom: atBottom ? 0 : 20 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="site-nav-mobile fixed left-1/2 z-200 block -translate-x-1/2 lg:hidden"
+      >
         <GlassSurface
           as="nav"
-          className="w-[calc(100vw-2.5rem)] max-w-sm p-1.5"
+          className={cn(
+            "p-1.5",
+            atBottom
+              ? "w-[calc(100vw-2.5rem)] max-w-sm rounded-t-[2rem] rounded-b-none"
+              : "w-[calc(100vw-2.5rem)] max-w-sm rounded-full",
+          )}
           contentClassName="grid grid-cols-4 gap-0.5"
         >
           {links.map(({ path, label, icon: Icon }) => {
@@ -67,7 +123,7 @@ export default function NavigationMobile({
             );
           })}
         </GlassSurface>
-      </div>
+      </motion.div>
     </>
   );
 }

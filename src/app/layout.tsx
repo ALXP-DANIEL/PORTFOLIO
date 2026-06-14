@@ -45,7 +45,7 @@ export default function RootLayout({
         geistSans.variable,
         geistMono.variable,
         "font-mono",
-        jetbrainsMono.variable
+        jetbrainsMono.variable,
       )}
     >
       <body className="min-h-full flex flex-col">

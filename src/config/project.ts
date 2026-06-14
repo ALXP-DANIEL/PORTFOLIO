@@ -43,4 +43,186 @@ export const projectsConfig: ProjectManifest[] = [
       github: "https://github.com/ALXP-DANIEL",
     },
   },
+  {
+    slug: "atlas-lab",
+    title: "Atlas Lab",
+    type: "Analytics Dashboard",
+    category: "Data Product",
+    summary:
+      "A test analytics workspace for scanning KPIs, campaign health, and operational activity across teams.",
+    overview:
+      "Atlas Lab is seeded test content for exercising dense dashboard cards, preview galleries, and detail-page copy. It is intentionally local-only and can be removed when real projects are ready.",
+    year: "2026",
+    spotlight: true,
+    thumbnail: "https://picsum.photos/seed/atlas-lab-cover/1400/900",
+    spotlightImage: "https://picsum.photos/seed/atlas-lab-hero/1800/1100",
+    techStack: ["Next.js", "TypeScript", "Charts", "PostgreSQL"],
+    highlights: [
+      "Metric cards for revenue, activity, and retention.",
+      "Filterable reporting views with saved segments.",
+      "Responsive dashboard layout for repeated daily use.",
+    ],
+    previewImages: [
+      {
+        src: "https://picsum.photos/seed/atlas-lab-preview-1/1400/900",
+        caption: "Primary analytics overview.",
+      },
+      {
+        src: "https://picsum.photos/seed/atlas-lab-preview-2/1400/900",
+        caption: "Segment drilldown and trend chart.",
+      },
+      {
+        src: "https://picsum.photos/seed/atlas-lab-preview-3/1400/900",
+        caption: "Team activity report.",
+      },
+    ],
+    actions: {
+      open: "/work/atlas-lab",
+      github: "https://github.com/ALXP-DANIEL",
+    },
+  },
+  {
+    slug: "nimbus-notes",
+    title: "Nimbus Notes",
+    type: "Knowledge Tool",
+    category: "Productivity",
+    summary:
+      "A test note-taking product with linked references, quick capture, and project-context organization.",
+    overview:
+      "Nimbus Notes exists as local seed content to validate project cards, gallery thumbnails, and long-form detail pages with a productivity-focused project.",
+    year: "2025",
+    spotlight: false,
+    thumbnail: "https://picsum.photos/seed/nimbus-notes-cover/1400/900",
+    spotlightImage: "https://picsum.photos/seed/nimbus-notes-hero/1800/1100",
+    techStack: ["React", "IndexedDB", "Tailwind CSS", "Search"],
+    highlights: [
+      "Fast capture flow for notes and tasks.",
+      "Backlink-style project context.",
+      "Offline-first local workspace behavior.",
+    ],
+    previewImages: [
+      {
+        src: "https://picsum.photos/seed/nimbus-notes-preview-1/1400/900",
+        caption: "Workspace home and pinned notes.",
+      },
+      {
+        src: "https://picsum.photos/seed/nimbus-notes-preview-2/1400/900",
+        caption: "Linked editor context.",
+      },
+    ],
+    actions: {
+      open: "/work/nimbus-notes",
+      github: "https://github.com/ALXP-DANIEL",
+    },
+  },
+  {
+    slug: "pulse-commerce",
+    title: "Pulse Commerce",
+    type: "Storefront",
+    category: "Commerce",
+    summary:
+      "A test storefront focused on quick product scanning, cart flow, and editorial product presentation.",
+    overview:
+      "Pulse Commerce is seeded to test image-heavy project cards and a commerce-style case study with multiple preview moments.",
+    year: "2025",
+    spotlight: true,
+    thumbnail: "https://picsum.photos/seed/pulse-commerce-cover/1400/900",
+    spotlightImage: "https://picsum.photos/seed/pulse-commerce-hero/1800/1100",
+    techStack: ["Next.js", "Stripe", "CMS", "Tailwind CSS"],
+    highlights: [
+      "Product grid optimized for scanning.",
+      "Checkout-friendly action hierarchy.",
+      "Editorial content slots for launches.",
+    ],
+    previewImages: [
+      {
+        src: "https://picsum.photos/seed/pulse-commerce-preview-1/1400/900",
+        caption: "Product listing and filters.",
+      },
+      {
+        src: "https://picsum.photos/seed/pulse-commerce-preview-2/1400/900",
+        caption: "Product detail page.",
+      },
+      {
+        src: "https://picsum.photos/seed/pulse-commerce-preview-3/1400/900",
+        caption: "Checkout review flow.",
+      },
+    ],
+    actions: {
+      open: "/work/pulse-commerce",
+      github: "https://github.com/ALXP-DANIEL",
+    },
+  },
+  {
+    slug: "signal-crm",
+    title: "Signal CRM",
+    type: "Operations App",
+    category: "SaaS",
+    summary:
+      "A test CRM workspace for pipelines, contact history, task follow-up, and account-level context.",
+    overview:
+      "Signal CRM helps validate operational UI density in the work grid and detail page without relying on a live repository.",
+    year: "2024",
+    spotlight: false,
+    thumbnail: "https://picsum.photos/seed/signal-crm-cover/1400/900",
+    spotlightImage: "https://picsum.photos/seed/signal-crm-hero/1800/1100",
+    techStack: ["React", "TanStack Query", "Prisma", "PostgreSQL"],
+    highlights: [
+      "Pipeline stages with account context.",
+      "Task queues for follow-up workflows.",
+      "Compact table and detail-panel interaction.",
+    ],
+    previewImages: [
+      {
+        src: "https://picsum.photos/seed/signal-crm-preview-1/1400/900",
+        caption: "Pipeline overview.",
+      },
+      {
+        src: "https://picsum.photos/seed/signal-crm-preview-2/1400/900",
+        caption: "Account detail panel.",
+      },
+    ],
+    actions: {
+      open: "/work/signal-crm",
+      github: "https://github.com/ALXP-DANIEL",
+    },
+  },
+  {
+    slug: "forge-studio",
+    title: "Forge Studio",
+    type: "Creative Tool",
+    category: "Design Systems",
+    summary:
+      "A test design-system workspace for tokens, components, previews, and export-ready documentation.",
+    overview:
+      "Forge Studio is a local seed project used to stress-test visual cards, spotlight ordering, and detail sections for design-tool style work.",
+    year: "2024",
+    spotlight: true,
+    thumbnail: "https://picsum.photos/seed/forge-studio-cover/1400/900",
+    spotlightImage: "https://picsum.photos/seed/forge-studio-hero/1800/1100",
+    techStack: ["Figma", "React", "Tokens", "Storybook"],
+    highlights: [
+      "Token preview and component documentation.",
+      "Reusable component states for product teams.",
+      "Export-focused design system workflow.",
+    ],
+    previewImages: [
+      {
+        src: "https://picsum.photos/seed/forge-studio-preview-1/1400/900",
+        caption: "Token and component overview.",
+      },
+      {
+        src: "https://picsum.photos/seed/forge-studio-preview-2/1400/900",
+        caption: "Component state documentation.",
+      },
+      {
+        src: "https://picsum.photos/seed/forge-studio-preview-3/1400/900",
+        caption: "Export preview workspace.",
+      },
+    ],
+    actions: {
+      open: "/work/forge-studio",
+      github: "https://github.com/ALXP-DANIEL",
+    },
+  },
 ];

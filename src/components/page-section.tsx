@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { PortfolioPage } from "@/lib/pages";
+import { cn } from "@/lib/utils";
 
 type PageSectionProps = {
   page: PortfolioPage;
@@ -25,7 +26,7 @@ export default function PageSection({
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3">
-        <div className="rounded-lg border border-white/10 bg-white/3 p-4">
+        <div className={cn("border border-white/10 bg-white/3 p-4")}>
           <p className="font-mono text-[11px] tracking-wide text-foreground/35">
             01
           </p>
@@ -33,7 +34,7 @@ export default function PageSection({
             Placeholder detail for this page section.
           </p>
         </div>
-        <div className="rounded-lg border border-white/10 bg-white/3 p-4">
+        <div className={cn("border border-white/10 bg-white/3 p-4")}>
           <p className="font-mono text-[11px] tracking-wide text-foreground/35">
             02
           </p>
@@ -41,7 +42,7 @@ export default function PageSection({
             Placeholder supporting information for later content.
           </p>
         </div>
-        <div className="rounded-lg border border-white/10 bg-white/3 p-4">
+        <div className={cn("border border-white/10 bg-white/3 p-4")}>
           <p className="font-mono text-[11px] tracking-wide text-foreground/35">
             03
           </p>

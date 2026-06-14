@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getFeaturedProjects, getProjects } from "@/lib/work";
-import WorkGrid from "./_components/work-grid";
+import WorkIndex from "./_components/work-index";
 import WorkIntro from "./_components/work-intro";
+import WorkRefresh from "./_components/work-refresh";
 import WorkSpotlight from "./_components/work-spotlight";
 
 export const metadata: Metadata = {
@@ -17,9 +18,10 @@ export default async function WorkPage() {
 
   return (
     <>
-      <WorkIntro count={projects.length} />
+      <WorkIntro />
       {featured.length > 0 ? <WorkSpotlight projects={featured} /> : null}
-      <WorkGrid projects={projects} />
+      <WorkIndex projects={projects} />
+      <WorkRefresh />
     </>
   );
 }
