@@ -11,6 +11,7 @@ type GlassSurfaceProps<T extends ElementType = "div"> = {
   as?: T;
   className?: string;
   contentClassName?: string;
+  contentStyle?: CSSProperties;
   style?: CSSProperties;
 } & Omit<
   ComponentPropsWithoutRef<T>,
@@ -43,6 +44,7 @@ export default function GlassSurface<T extends ElementType = "div">({
   className,
   contentClassName,
   style,
+  contentStyle,
   ...props
 }: GlassSurfaceProps<T>) {
   const Component = as ?? "div";
@@ -54,7 +56,9 @@ export default function GlassSurface<T extends ElementType = "div">({
       {...props}
     >
       <div className="pointer-events-none absolute inset-x-3 top-0 h-px bg-linear-to-r from-transparent via-white/20 to-transparent" />
-      <div className={cn("relative", contentClassName)}>{children}</div>
+      <div className={cn("relative", contentClassName)} style={contentStyle}>
+        {children}
+      </div>
     </Component>
   );
 }

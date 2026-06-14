@@ -53,7 +53,10 @@ export default function NavigationMobile({
               ? "w-[calc(100vw-2.5rem)] max-w-sm rounded-t-[2rem] rounded-b-none"
               : "w-[calc(100vw-2.5rem)] max-w-sm rounded-full",
           )}
-          contentClassName="grid grid-cols-4 gap-0.5"
+          contentClassName="grid gap-0.5"
+          contentStyle={{
+            gridTemplateColumns: `repeat(${links.length}, minmax(0, 1fr))`,
+          }}
         >
           {links.map(({ path, label, icon: Icon }) => {
             const active = pathname === path;
