@@ -6,6 +6,7 @@ import SplashGate from "@/components/layouts/splash-gate";
 import { env } from "@/env";
 import { cn } from "@/lib/utils";
 import Maintenance from "./maintenance";
+import { DebugInfo } from "@/components/debug-info";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export const metadata: Metadata = {
 };
 
 const isMaintenance = env.IS_MAINTENANCE === "true";
+const isDevelopment = env.NODE_ENV === "development";
 
 export default function RootLayout({
   children,
@@ -56,6 +58,7 @@ export default function RootLayout({
             <RootLayoutWrapper>{children}</RootLayoutWrapper>
           </SplashGate>
         )}
+        <DebugInfo enabled={isDevelopment} />
       </body>
     </html>
   );

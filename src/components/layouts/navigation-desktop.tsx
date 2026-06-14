@@ -13,7 +13,6 @@ import {
 import { usePageScrollState } from "@/hooks/use-page-scroll-state";
 import { cn } from "@/lib/utils";
 import type { NavigationProps } from "@/types/route";
-import { size } from "zod";
 
 export default function NavigationDesktop({
   links,
