@@ -17,7 +17,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
       exit={{ "page-slide": "page-slide", default: "none" }}
       default="none"
     >
-      <div className="min-h-[calc(100dvh-10rem)]">{children}</div>
+      {children}
     </ViewTransition>
   );
 }
