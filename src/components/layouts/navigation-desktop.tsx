@@ -1,39 +1,21 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import GlassSurface, { glassActiveStyle } from "@/components/ui/glass-surface";
+import { usePageScrollState } from "@/hooks/use-page-scroll-state";
 import { cn } from "@/lib/utils";
 import type { NavigationProps } from "@/types/route";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function NavigationDesktop({
   links,
-  pageTransitionTypes,
   activeTransition,
 }: NavigationProps) {
   const pathname = usePathname();
   const navRef = useRef<HTMLDivElement>(null);
-  const [atTop, setAtTop] = useState(true);
-
-  useGSAP(
-    () => {
-      const trigger = ScrollTrigger.create({
-        start: "top top-=24",
-        onEnter: () => setAtTop(false),
-        onLeaveBack: () => setAtTop(true),
-      });
-
-      return () => trigger.kill();
-    },
-    { scope: navRef },
-  );
+  const { atTop } = usePageScrollState();
 
   return (
     <motion.div
@@ -45,7 +27,7 @@ export default function NavigationDesktop({
         right: "auto",
       }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="site-nav-desktop fixed z-200 hidden lg:block"
+      className="site-nav-desktop fixed z-250 hidden lg:block"
     >
       <GlassSurface
         as="nav"
@@ -67,7 +49,6 @@ export default function NavigationDesktop({
             <Link
               key={path}
               href={path}
-              transitionTypes={pageTransitionTypes}
               className={cn(
                 "relative flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wide transition-colors duration-300",
                 active

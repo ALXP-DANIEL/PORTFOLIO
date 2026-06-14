@@ -1,7 +1,7 @@
 import Footer from "./footer";
 import GridBackground from "./grid-background";
 import Navigation from "./navigation";
-import PageTransition from "./page-transition";
+import ViewTransitionShell from "./view-transition-shell";
 
 type RootLayoutProps = {
   children: React.ReactNode;
@@ -12,11 +12,11 @@ export default function RootLayoutWrapper({ children }: RootLayoutProps) {
     <GridBackground>
       <Navigation />
       <main className="min-h-dvh py-20 px-5 lg:px-15">
-        <PageTransition>
+        <ViewTransitionShell>
           <section className="space-y-12 mx-auto max-w-6xl ">
             {children}
           </section>
-        </PageTransition>
+        </ViewTransitionShell>
       </main>
       <Footer />
     </GridBackground>

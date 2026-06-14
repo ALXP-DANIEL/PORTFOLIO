@@ -6,7 +6,7 @@ export type RouteTypes = {
   icon: ElementType;
 };
 
-export type NavigationTransitionTypes = {
+export type NavigationTransition = {
   type: "spring";
   stiffness: number;
   damping: number;
@@ -15,6 +15,5 @@ export type NavigationTransitionTypes = {
 
 export type NavigationProps = {
   links: readonly RouteTypes[];
-  pageTransitionTypes: string[];
-  activeTransition: NavigationTransitionTypes;
+  activeTransition: NavigationTransition;
 };

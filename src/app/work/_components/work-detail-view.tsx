@@ -2,17 +2,15 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { useRef } from "react";
 import { Icons } from "@/components/icons";
 import BlurImage from "@/components/ui/blur-image";
+import { useSplashGsap, useSplashScrollReveal } from "@/hooks/use-splash-gsap";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/project";
 import WorkGallery from "./work-gallery";
 import WorkReadme from "./work-readme";
-
-gsap.registerPlugin(ScrollTrigger);
 
 type WorkDetailViewProps = {
   project: Project;
@@ -46,22 +44,22 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
   ];
 
   // header entrance timeline
-  useGSAP(
-    () => {
+  useSplashGsap(
+    (gsap) => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.fromTo(
-        "[data-head]",
+        "[data-entrance='detail-head']",
         { autoAlpha: 0, y: 14 },
         { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.08 },
       )
         .fromTo(
-          "[data-title]",
+          "[data-entrance='detail-title']",
           { yPercent: 115 },
-          { yPercent: 0, duration: 0.9 },
+          { autoAlpha: 1, yPercent: 0, duration: 0.9 },
           "-=0.35",
         )
         .fromTo(
-          "[data-hero]",
+          "[data-entrance='detail-hero']",
           { autoAlpha: 0, scale: 1.04, y: 24 },
           { autoAlpha: 1, scale: 1, y: 0, duration: 0.8 },
           "-=0.55",
@@ -70,32 +68,10 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
     { scope: rootRef },
   );
 
-  // scroll-reveal the sections below the fold
-  useGSAP(
-    () => {
-      const blocks = gsap.utils.toArray<HTMLElement>("[data-reveal]");
-      ScrollTrigger.batch(blocks, {
-        start: "top 88%",
-        once: true,
-        onEnter: (batch) =>
-          gsap.fromTo(
-            batch,
-            { autoAlpha: 0, y: 28 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              duration: 0.6,
-              ease: "power3.out",
-              stagger: 0.1,
-            },
-          ),
-      });
-      return () => {
-        for (const t of ScrollTrigger.getAll()) t.kill();
-      };
-    },
-    { scope: rootRef },
-  );
+  useSplashScrollReveal({
+    scope: rootRef,
+    selector: "[data-entrance='detail-reveal']",
+  });
 
   // hero pointer parallax
   useGSAP(
@@ -103,11 +79,11 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       const hero = heroRef.current;
       if (!hero) return;
       const img = hero.querySelector<HTMLElement>("[data-hero-img]");
-      const rx = gsap.quickTo(hero, "rotateX", {
+      const rx = gsap.quickTo(hero, "rotationX", {
         duration: 0.7,
         ease: "power3",
       });
-      const ry = gsap.quickTo(hero, "rotateY", {
+      const ry = gsap.quickTo(hero, "rotationY", {
         duration: 0.7,
         ease: "power3",
       });
@@ -150,7 +126,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       <header className="flex flex-col gap-6">
         <Link
           href="/work"
-          data-head
+          data-entrance="detail-head"
           data-reticle
           className="inline-flex w-fit items-center gap-2 font-mono text-xs tracking-wide text-foreground/45 transition-colors hover:text-foreground"
         >
@@ -159,14 +135,14 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
 
         <div className="flex flex-wrap items-center gap-3">
           <span
-            data-head
+            data-entrance="detail-head"
             className="font-mono text-[11px] tracking-[0.2em] text-foreground/45 uppercase"
           >
             {project.category} · {project.year}
           </span>
           {project.featured ? (
             <span
-              data-head
+              data-entrance="detail-head"
               className="rounded-full border border-amber-300/40 bg-amber-500/10 px-2.5 py-0.5 font-mono text-[10px] tracking-[0.16em] text-amber-300/90 uppercase"
             >
               Spotlight
@@ -176,20 +152,23 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
 
         <h1 className="text-5xl font-semibold tracking-tight text-foreground sm:text-7xl">
           <span className="block overflow-hidden pb-[0.1em]">
-            <span data-title className="block">
+            <span data-entrance="detail-title" className="block">
               {project.title}
             </span>
           </span>
         </h1>
 
         <p
-          data-head
+          data-entrance="detail-head"
           className="max-w-2xl text-base leading-7 text-foreground/65 sm:text-lg"
         >
           {project.summary}
         </p>
 
-        <div data-head className="flex flex-wrap items-center gap-2.5">
+        <div
+          data-entrance="detail-head"
+          className="flex flex-wrap items-center gap-2.5"
+        >
           {project.actions.open ? (
             isLocalHref(project.actions.open) ? (
               <Link
@@ -237,7 +216,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       {/* full-width parallax hero */}
       {heroImage ? (
         <div
-          data-hero
+          data-entrance="detail-hero"
           ref={heroRef}
           className={cn(
             "relative aspect-video w-full overflow-hidden border border-white/10 bg-white/5 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.9)] transform-3d",
@@ -264,7 +243,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       {/* overview + facts */}
       {project.overview ? (
         <section
-          data-reveal
+          data-entrance="detail-reveal"
           className="grid gap-8 border-t border-white/10 pt-10 lg:grid-cols-[1.4fr_1fr] lg:gap-16"
         >
           <div className="flex flex-col gap-4">
@@ -295,7 +274,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       {/* highlights */}
       {flags.showHighlights && project.highlights.length > 0 ? (
         <section
-          data-reveal
+          data-entrance="detail-reveal"
           className="flex flex-col gap-6 border-t border-white/10 pt-10"
         >
           <SectionLabel>Highlights</SectionLabel>
@@ -320,7 +299,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       {/* stack */}
       {flags.showStack && project.tech.length > 0 ? (
         <section
-          data-reveal
+          data-entrance="detail-reveal"
           className="flex flex-col gap-6 border-t border-white/10 pt-10"
         >
           <SectionLabel>Stack</SectionLabel>
@@ -340,7 +319,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       {/* gallery */}
       {flags.showGallery && project.gallery.length > 0 ? (
         <section
-          data-reveal
+          data-entrance="detail-reveal"
           className="flex flex-col gap-6 border-t border-white/10 pt-10"
         >
           <div className="flex items-baseline justify-between gap-3">
@@ -356,7 +335,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       {/* readme */}
       {flags.showReadme && project.readme ? (
         <section
-          data-reveal
+          data-entrance="detail-reveal"
           className="flex flex-col gap-5 border-t border-white/10 pt-10"
         >
           <SectionLabel>Readme</SectionLabel>

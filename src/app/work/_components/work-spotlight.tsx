@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Icons } from "@/components/icons";
 import BlurImage from "@/components/ui/blur-image";
+import { useSplashGsap } from "@/hooks/use-splash-gsap";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/project";
 import WorkCover from "./work-cover";
@@ -65,23 +66,26 @@ export default function WorkSpotlight({
   }, [paused]);
 
   // panel entrance (GSAP — immune to the splash's Framer context)
-  useGSAP(
-    () => {
-      if (rootRef.current) {
-        gsap.from(rootRef.current, {
-          autoAlpha: 0,
-          y: 28,
+  useSplashGsap(
+    (gsap) => {
+      if (!rootRef.current) return;
+      gsap.fromTo(
+        rootRef.current,
+        { autoAlpha: 0, y: 28 },
+        {
+          autoAlpha: 1,
+          y: 0,
           duration: 0.7,
           ease: "power3.out",
-        });
-      }
+        },
+      );
     },
     { scope: rootRef },
   );
 
   // per-slide reveal of cover + text
-  useGSAP(
-    () => {
+  useSplashGsap(
+    (gsap) => {
       const content = contentRef.current;
       const cover = coverRef.current;
       if (!content || !cover) return;
@@ -97,7 +101,7 @@ export default function WorkSpotlight({
         },
       );
       gsap.fromTo(
-        content.querySelectorAll("[data-stagger]"),
+        content.querySelectorAll("[data-entrance='spotlight-stagger']"),
         { autoAlpha: 0, y: 18, filter: "blur(8px)" },
         {
           autoAlpha: 1,
@@ -120,11 +124,11 @@ export default function WorkSpotlight({
       if (!root || !cover) return;
       const glow = cover.querySelector<HTMLElement>("[data-cover-glow]");
       const index = cover.querySelector<HTMLElement>("[data-cover-index]");
-      const rx = gsap.quickTo(cover, "rotateX", {
+      const rx = gsap.quickTo(cover, "rotationX", {
         duration: 0.6,
         ease: "power3",
       });
-      const ry = gsap.quickTo(cover, "rotateY", {
+      const ry = gsap.quickTo(cover, "rotationY", {
         duration: 0.6,
         ease: "power3",
       });
@@ -175,6 +179,7 @@ export default function WorkSpotlight({
   return (
     <section
       ref={rootRef}
+      data-entrance="spotlight-panel"
       className={cn(
         "relative overflow-hidden border border-white/10 bg-background/70 p-6 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.9)] backdrop-blur-2xl sm:p-9",
       )}
@@ -236,13 +241,13 @@ export default function WorkSpotlight({
       <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.85fr)] lg:items-center">
         <div ref={contentRef} className="order-2 lg:order-1">
           <p
-            data-stagger
+            data-entrance="spotlight-stagger"
             className="font-mono text-[11px] tracking-[0.2em] text-foreground/45 uppercase"
           >
             {project.category} · {project.year}
           </p>
           <h2
-            data-stagger
+            data-entrance="spotlight-stagger"
             className="mt-3 text-4xl font-semibold tracking-tight text-foreground sm:text-6xl"
           >
             <Link
@@ -254,13 +259,16 @@ export default function WorkSpotlight({
             </Link>
           </h2>
           <p
-            data-stagger
+            data-entrance="spotlight-stagger"
             className="mt-4 h-21 max-w-xl overflow-y-auto pr-1 text-sm leading-7 text-foreground/60 sm:text-base"
           >
             {project.summary}
           </p>
 
-          <div data-stagger className="mt-6 flex flex-wrap gap-2">
+          <div
+            data-entrance="spotlight-stagger"
+            className="mt-6 flex flex-wrap gap-2"
+          >
             {project.tech.slice(0, 6).map((item) => (
               <span
                 key={item}
@@ -272,7 +280,7 @@ export default function WorkSpotlight({
           </div>
 
           <div
-            data-stagger
+            data-entrance="spotlight-stagger"
             className="mt-7 flex flex-wrap items-center gap-2.5"
           >
             <Link
@@ -323,7 +331,11 @@ export default function WorkSpotlight({
         </div>
 
         <div className="order-1 lg:order-2">
-          <div ref={coverRef} className="aspect-video w-full transform-3d">
+          <div
+            ref={coverRef}
+            data-entrance="spotlight-cover"
+            className="aspect-video w-full transform-3d"
+          >
             <WorkCover
               index={active}
               label={project.type}

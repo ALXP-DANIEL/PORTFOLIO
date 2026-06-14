@@ -4,8 +4,6 @@ import { routeConfig } from "@/config/route";
 import NavigationDesktop from "./navigation-desktop";
 import NavigationMobile from "./navigation-mobile";
 
-const pageTransitionTypes = ["page-slide"];
-
 const activeTransition = {
   type: "spring" as const,
   stiffness: 460,
@@ -18,12 +16,10 @@ export default function Navigation() {
     <>
       <NavigationDesktop
         links={routeConfig}
-        pageTransitionTypes={pageTransitionTypes}
         activeTransition={activeTransition}
       />
       <NavigationMobile
         links={routeConfig}
-        pageTransitionTypes={pageTransitionTypes}
         activeTransition={activeTransition}
       />
     </>

@@ -1,46 +1,27 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 import { Icons } from "@/components/icons";
 import GlassSurface from "@/components/ui/glass-surface";
 import { siteConfig } from "@/config/site";
 import { socialsConfig } from "@/config/sosial";
-
-gsap.registerPlugin(ScrollTrigger);
+import { usePageScrollState } from "@/hooks/use-page-scroll-state";
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
-  const [atBottom, setAtBottom] = useState(false);
+  const { atBottom } = usePageScrollState();
   const year = new Date().getFullYear();
   const emailHref = `mailto:${siteConfig.links.email}`;
-
-  useGSAP(
-    () => {
-      const trigger = ScrollTrigger.create({
-        trigger: document.body,
-        start: "bottom bottom+=80",
-        end: "bottom bottom",
-        onEnter: () => setAtBottom(true),
-        onLeaveBack: () => setAtBottom(false),
-      });
-
-      return () => trigger.kill();
-    },
-    { scope: footerRef },
-  );
 
   return (
     <motion.footer
       ref={footerRef}
       animate={{ bottom: atBottom ? 0 : 16 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="site-footer pointer-events-none fixed inset-x-0 z-200 px-4"
+      className="site-footer pointer-events-none fixed inset-x-0 z-250 px-4"
     >
       <div className="pointer-events-auto">
         <GlassSurface

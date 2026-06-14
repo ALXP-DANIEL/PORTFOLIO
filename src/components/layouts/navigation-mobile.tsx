@@ -1,56 +1,22 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import GlassSurface, { glassActiveStyle } from "@/components/ui/glass-surface";
+import { usePageScrollState } from "@/hooks/use-page-scroll-state";
 import { cn } from "@/lib/utils";
 import type { NavigationProps } from "@/types/route";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function NavigationMobile({
   links,
-  pageTransitionTypes,
   activeTransition,
 }: NavigationProps) {
   const pathname = usePathname();
   const navRef = useRef<HTMLDivElement>(null);
   const brandRef = useRef<HTMLDivElement>(null);
-  const [atBottom, setAtBottom] = useState(false);
-  const [atTop, setAtTop] = useState(true);
-
-  useGSAP(
-    () => {
-      const trigger = ScrollTrigger.create({
-        trigger: document.body,
-        start: "bottom bottom+=80",
-        end: "bottom bottom",
-        onEnter: () => setAtBottom(true),
-        onLeaveBack: () => setAtBottom(false),
-      });
-
-      return () => trigger.kill();
-    },
-    { scope: navRef },
-  );
-
-  useGSAP(
-    () => {
-      const trigger = ScrollTrigger.create({
-        start: "top top-=24",
-        onEnter: () => setAtTop(false),
-        onLeaveBack: () => setAtTop(true),
-      });
-
-      return () => trigger.kill();
-    },
-    { scope: brandRef },
-  );
+  const { atBottom, atTop } = usePageScrollState();
 
   return (
     <>
@@ -58,7 +24,7 @@ export default function NavigationMobile({
         ref={brandRef}
         animate={{ top: atTop ? 0 : 20, left: 20 }}
         transition={{ duration: 0.35, ease: "easeOut" }}
-        className="site-nav-mobile-brand fixed z-200 block lg:hidden"
+        className="site-nav-mobile-brand fixed z-250 block lg:hidden"
       >
         <GlassSurface
           className={cn(
@@ -77,7 +43,7 @@ export default function NavigationMobile({
         ref={navRef}
         animate={{ bottom: atBottom ? 0 : 20 }}
         transition={{ duration: 0.35, ease: "easeOut" }}
-        className="site-nav-mobile fixed left-1/2 z-200 block -translate-x-1/2 lg:hidden"
+        className="site-nav-mobile fixed left-1/2 z-250 block -translate-x-1/2 lg:hidden"
       >
         <GlassSurface
           as="nav"
@@ -95,7 +61,6 @@ export default function NavigationMobile({
               <Link
                 key={path}
                 href={path}
-                transitionTypes={pageTransitionTypes}
                 className={cn(
                   "relative flex min-w-0 flex-col items-center gap-0.5 rounded-full px-1 py-1.5 transition-colors duration-300",
                   active

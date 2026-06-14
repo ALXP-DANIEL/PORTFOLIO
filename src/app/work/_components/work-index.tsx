@@ -2,15 +2,13 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { Icons } from "@/components/icons";
 import BlurImage from "@/components/ui/blur-image";
+import { useSplashScrollReveal } from "@/hooks/use-splash-gsap";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/project";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function WorkIndex({
   projects,
@@ -25,32 +23,19 @@ export default function WorkIndex({
   const activeCover =
     activeProject?.cover ?? activeProject?.gallery[0]?.src ?? null;
 
-  // scroll-reveal rows (desktop + mobile share [data-row])
-  useGSAP(
-    () => {
-      const rows = gsap.utils.toArray<HTMLElement>("[data-row]");
-      ScrollTrigger.batch(rows, {
-        start: "top 92%",
-        once: true,
-        onEnter: (batch) =>
-          gsap.fromTo(
-            batch,
-            { autoAlpha: 0, y: 26 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              duration: 0.6,
-              ease: "power3.out",
-              stagger: 0.06,
-            },
-          ),
-      });
-      return () => {
-        for (const t of ScrollTrigger.getAll()) t.kill();
-      };
+  useSplashScrollReveal({
+    from: { autoAlpha: 0, y: 26 },
+    scope: rootRef,
+    selector: "[data-entrance='work-row']",
+    start: "top 92%",
+    to: {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.6,
+      ease: "power3.out",
+      stagger: 0.06,
     },
-    { scope: rootRef },
-  );
+  });
 
   // floating preview follows the cursor (desktop only)
   useGSAP(
@@ -162,7 +147,7 @@ export default function WorkIndex({
               return (
                 <li
                   key={project.slug}
-                  data-row
+                  data-entrance="work-row"
                   className="border-t border-white/10"
                 >
                   <Link
@@ -205,7 +190,7 @@ export default function WorkIndex({
               const cover = project.cover ?? project.gallery[0]?.src;
               const num = String(index + 1).padStart(2, "0");
               return (
-                <li key={project.slug} data-row>
+                <li key={project.slug} data-entrance="work-row">
                   <Link
                     href={`/work/${project.slug}`}
                     data-reticle

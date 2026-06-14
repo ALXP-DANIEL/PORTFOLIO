@@ -5,6 +5,7 @@ import gsap from "gsap";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { Icons } from "@/components/icons";
+import { useSplashGsap } from "@/hooks/use-splash-gsap";
 
 /* — Edit these to taste — */
 const NAME = "Alif Daniel";
@@ -17,7 +18,11 @@ const ROLES = [
 const INTRO =
   "I design and build fast, tactile web interfaces — from product UI and design systems to the occasional shader-soaked experiment.";
 const SOCIALS = [
-  { label: "GitHub", href: "https://github.com/ALXP-DANIEL", Icon: Icons.Social.GitHub },
+  {
+    label: "GitHub",
+    href: "https://github.com/ALXP-DANIEL",
+    Icon: Icons.Social.GitHub,
+  },
   {
     label: "Email",
     href: "mailto:alifdaniel.personalspace@gmail.com",
@@ -75,22 +80,22 @@ export default function Hero() {
   const magneticRef = useRef<HTMLAnchorElement>(null);
 
   // entrance timeline
-  useGSAP(
-    () => {
+  useSplashGsap(
+    (gsap) => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.fromTo(
-        "[data-rise]",
+        "[data-entrance='hero-rise']",
         { autoAlpha: 0, y: 14 },
         { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.08 },
       )
         .fromTo(
-          "[data-title]",
+          "[data-entrance='hero-title']",
           { yPercent: 120 },
-          { yPercent: 0, duration: 0.95 },
+          { autoAlpha: 1, yPercent: 0, duration: 0.95 },
           "-=0.15",
         )
         .fromTo(
-          "[data-fade]",
+          "[data-entrance='hero-fade']",
           { autoAlpha: 0, y: 16, filter: "blur(6px)" },
           {
             autoAlpha: 1,
@@ -157,7 +162,7 @@ export default function Hero() {
       {/* status + eyebrow */}
       <div className="flex flex-wrap items-center gap-3">
         <span
-          data-rise
+          data-entrance="hero-rise"
           className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/3 px-3 py-1 font-mono text-[11px] tracking-wide text-foreground/60"
         >
           <span className="relative flex size-1.5">
@@ -167,7 +172,7 @@ export default function Hero() {
           Available for work
         </span>
         <span
-          data-rise
+          data-entrance="hero-rise"
           className="font-mono text-[11px] tracking-[0.24em] text-foreground/35 uppercase"
         >
           Portfolio · {new Date().getFullYear()}
@@ -177,7 +182,7 @@ export default function Hero() {
       {/* name */}
       <h1 className="text-6xl font-semibold tracking-tight text-foreground sm:text-8xl">
         <span className="block overflow-hidden pb-[0.12em]">
-          <span data-title className="block">
+          <span data-entrance="hero-title" className="block">
             {NAME}
           </span>
         </span>
@@ -185,7 +190,7 @@ export default function Hero() {
 
       {/* scramble role */}
       <p
-        data-fade
+        data-entrance="hero-fade"
         className="font-mono text-base text-foreground/70 sm:text-xl"
       >
         <span className="text-foreground/30">{"// "}</span>
@@ -197,14 +202,17 @@ export default function Hero() {
 
       {/* intro */}
       <p
-        data-fade
+        data-entrance="hero-fade"
         className="max-w-xl text-sm leading-7 text-foreground/55 sm:text-base"
       >
         {INTRO}
       </p>
 
       {/* CTAs */}
-      <div data-fade className="flex flex-wrap items-center gap-3">
+      <div
+        data-entrance="hero-fade"
+        className="flex flex-wrap items-center gap-3"
+      >
         <Link
           ref={magneticRef}
           href="/work"
@@ -244,7 +252,7 @@ export default function Hero() {
 
       {/* scroll cue */}
       <div
-        data-fade
+        data-entrance="hero-fade"
         className="absolute bottom-6 left-0 hidden items-center gap-3 sm:flex"
       >
         <span className="font-mono text-[10px] tracking-[0.24em] text-foreground/30 uppercase">
