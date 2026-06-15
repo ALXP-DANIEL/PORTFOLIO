@@ -3,7 +3,7 @@ import type { SosialsTypes } from "@/types/sosial";
 export const socialsConfig = [
   {
     platform: "X",
-    link: "",
+    link: "https://x.com/thealifhaker1",
     icon: "X",
   },
   {
@@ -13,17 +13,17 @@ export const socialsConfig = [
   },
   {
     platform: "Discord",
-    link: "",
+    link: "https://discord.gg/your-server",
     icon: "Discord",
   },
   {
     platform: "LinkedIn",
-    link: "",
+    link: "https://www.linkedin.com/in/thealifhaker1/",
     icon: "LinkedIn",
   },
   {
     platform: "Instagram",
-    link: "",
+    link: "https://www.instagram.com/thealifhaker1/",
     icon: "Instagram",
   },
 ] as const satisfies readonly SosialsTypes[];

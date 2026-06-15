@@ -1,12 +1,14 @@
-import type { Metadata } from "next";
 import PageIntro from "@/components/page-intro";
+import { createPageMetadata } from "@/lib/metadata";
 import AboutBody from "./_components/about-body";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
+  path: "/about",
   title: "About",
   description:
     "Full-stack web developer — experience, skills, and the path so far.",
-};
+  type: "About",
+});
 
 export default function AboutPage() {
   return (

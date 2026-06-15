@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
 import PageIntro from "@/components/page-intro";
+import { createPageMetadata } from "@/lib/metadata";
 import ContactBody from "./_components/contact-body";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
+  path: "/contact",
   title: "Contact",
   description: "Get in touch — open to roles, projects, and collaborations.",
-};
+  type: "Contact",
+});
 
 export default function ContactPage() {
   return (

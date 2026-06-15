@@ -267,12 +267,12 @@ export default function WorkSpotlight({
 
           <div
             data-entrance="spotlight-stagger"
-            className="mt-6 flex flex-wrap gap-2"
+            className="mt-6 flex max-h-18 min-h-18 flex-wrap content-start gap-2 overflow-y-auto pr-1"
           >
-            {project.tech.slice(0, 6).map((item) => (
+            {project.tech.map((item) => (
               <span
                 key={item}
-                className="rounded-full border border-white/10 bg-background/50 px-3 py-1 font-mono text-[11px] tracking-wide text-foreground/60 backdrop-blur"
+                className="h-7 shrink-0 rounded-full border border-white/10 bg-background/50 px-3 py-1 font-mono text-[11px] tracking-wide text-foreground/60 backdrop-blur"
               >
                 {item}
               </span>

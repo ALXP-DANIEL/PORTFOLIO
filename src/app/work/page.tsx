@@ -1,14 +1,16 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/metadata";
 import { getFeaturedProjects, getProjects } from "@/lib/work";
 import WorkIndex from "./_components/work-index";
 import WorkIntro from "./_components/work-intro";
 import WorkRefresh from "./_components/work-refresh";
 import WorkSpotlight from "./_components/work-spotlight";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
+  path: "/work",
   title: "Work",
   description: "Selected work — products, tools, and experiments.",
-};
+  type: "Work",
+});
 
 export default async function WorkPage() {
   const [projects, featured] = await Promise.all([

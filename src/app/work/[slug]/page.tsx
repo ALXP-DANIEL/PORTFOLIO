@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import WorkDetailView from "@/app/work/_components/work-detail-view";
+import { createPageMetadata } from "@/lib/metadata";
 import { getProject, getProjects, getProjectWithIndex } from "@/lib/work";
 
 type WorkDetailPageProps = {
@@ -19,13 +20,19 @@ export async function generateMetadata({
   const project = await getProject(slug);
 
   if (!project) {
-    return { title: "Project Not Found" };
+    return createPageMetadata({
+      path: "/work",
+      title: "Project Not Found",
+      type: "Work",
+    });
   }
 
-  return {
-    title: `${project.title} · Work`,
+  return createPageMetadata({
+    path: `/work/${project.slug}`,
+    title: project.title,
     description: project.summary,
-  };
+    type: project.category || project.type || "Work",
+  });
 }
 
 export default async function ProjectDetailPage({
