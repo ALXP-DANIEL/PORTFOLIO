@@ -78,7 +78,11 @@ const MAX_REPO_PAGES = 20;
 
 /**
  * List candidate repos to scan for a root `project.json`: every one of the
- * token owner's own, non-fork, non-archived repos (paginated — no 100 cap).
+ * token owner's non-archived repos (paginated — no 100 cap).
+ *
+ * Forks are included on purpose: a `project.json` is the opt-in signal, so a
+ * forked repo only shows if you added (or inherited) that file — which lets you
+ * fork your own work from another account and have it picked up.
  */
 export async function listShowcaseRepos(): Promise<GitHubRepo[]> {
   const all: GitHubRepo[] = [];
@@ -93,7 +97,7 @@ export async function listShowcaseRepos(): Promise<GitHubRepo[]> {
     if (repos.length < 100) break; // last page
   }
 
-  return all.filter((repo) => !repo.fork && !repo.archived);
+  return all.filter((repo) => !repo.archived);
 }
 
 /** Fetch a text file (e.g. metadata/info.json) from a repo, or null if absent. */
