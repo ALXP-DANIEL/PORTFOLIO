@@ -1,15 +1,16 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 import Link from "next/link";
 import { useRef } from "react";
 import { Icons } from "@/components/icons";
 import { NavigationActionSlot } from "@/components/layouts/navigation-action";
 import BlurImage from "@/components/ui/blur-image";
-import { useSplashGsap, useSplashScrollReveal } from "@/hooks/use-splash-gsap";
+import SectionLabel from "@/components/ui/section-label";
+import Tag from "@/components/ui/tag";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/project";
+import { useDetailMotion } from "../_hooks/use-detail-motion";
+import WorkFacts from "./work-facts";
 import WorkGallery from "./work-gallery";
 import WorkReadme from "./work-readme";
 
@@ -22,14 +23,6 @@ type WorkDetailViewProps = {
 const isLocalHref = (href: string) =>
   href.startsWith("/") || href.startsWith("#") || href.startsWith("?");
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="font-mono text-[11px] tracking-[0.22em] text-foreground/40 uppercase">
-      {children}
-    </p>
-  );
-}
-
 export default function WorkDetailView({ project }: WorkDetailViewProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -37,89 +30,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
   const { flags } = project;
   const heroImage = project.cover ?? project.gallery[0]?.src;
 
-  const facts = [
-    { label: "Role", value: project.type },
-    { label: "Year", value: project.year },
-    { label: "Stack", value: `${project.tech.length} tools` },
-    { label: "Gallery", value: `${project.gallery.length} shots` },
-  ];
-
-  // header entrance timeline
-  useSplashGsap(
-    (gsap) => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.fromTo(
-        "[data-entrance='detail-head']",
-        { autoAlpha: 0, y: 14 },
-        { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.08 },
-      )
-        .fromTo(
-          "[data-entrance='detail-title']",
-          { yPercent: 115 },
-          { autoAlpha: 1, yPercent: 0, duration: 0.9 },
-          "-=0.35",
-        )
-        .fromTo(
-          "[data-entrance='detail-hero']",
-          { autoAlpha: 0, scale: 1.04, y: 24 },
-          { autoAlpha: 1, scale: 1, y: 0, duration: 0.8 },
-          "-=0.55",
-        );
-    },
-    { scope: rootRef },
-  );
-
-  useSplashScrollReveal({
-    scope: rootRef,
-    selector: "[data-entrance='detail-reveal']",
-  });
-
-  // hero pointer parallax
-  useGSAP(
-    () => {
-      const hero = heroRef.current;
-      if (!hero) return;
-      const img = hero.querySelector<HTMLElement>("[data-hero-img]");
-      const rx = gsap.quickTo(hero, "rotationX", {
-        duration: 0.7,
-        ease: "power3",
-      });
-      const ry = gsap.quickTo(hero, "rotationY", {
-        duration: 0.7,
-        ease: "power3",
-      });
-      const ix = img
-        ? gsap.quickTo(img, "xPercent", { duration: 0.9, ease: "power3" })
-        : null;
-      const iy = img
-        ? gsap.quickTo(img, "yPercent", { duration: 0.9, ease: "power3" })
-        : null;
-
-      const onMove = (event: PointerEvent) => {
-        const rect = hero.getBoundingClientRect();
-        const nx = (event.clientX - rect.left) / rect.width - 0.5;
-        const ny = (event.clientY - rect.top) / rect.height - 0.5;
-        rx(-ny * 5);
-        ry(nx * 5);
-        ix?.(nx * -3);
-        iy?.(ny * -3);
-      };
-      const onLeave = () => {
-        rx(0);
-        ry(0);
-        ix?.(0);
-        iy?.(0);
-      };
-
-      hero.addEventListener("pointermove", onMove);
-      hero.addEventListener("pointerleave", onLeave);
-      return () => {
-        hero.removeEventListener("pointermove", onMove);
-        hero.removeEventListener("pointerleave", onLeave);
-      };
-    },
-    { scope: rootRef },
-  );
+  useDetailMotion({ rootRef, heroRef });
 
   return (
     <article ref={rootRef} className="flex flex-col gap-16 sm:gap-24">
@@ -254,22 +165,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
               {project.overview}
             </p>
           </div>
-          <dl
-            className={cn(
-              "relative grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/5",
-            )}
-          >
-            {facts.map((fact) => (
-              <div key={fact.label} className="bg-background/60 p-4">
-                <dt className="font-mono text-[10px] tracking-[0.18em] text-foreground/40 uppercase">
-                  {fact.label}
-                </dt>
-                <dd className="mt-2 text-base font-medium tracking-tight text-foreground">
-                  {fact.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <WorkFacts project={project} />
         </section>
       ) : null}
 
@@ -307,12 +203,9 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
           <SectionLabel>Stack</SectionLabel>
           <div className="flex flex-wrap gap-2">
             {project.tech.map((item) => (
-              <span
-                key={item}
-                className="rounded-full border border-white/10 bg-white/3 px-3.5 py-1.5 font-mono text-xs tracking-wide text-foreground/60"
-              >
+              <Tag key={item} className="px-3.5 py-1.5 text-xs">
                 {item}
-              </span>
+              </Tag>
             ))}
           </div>
         </section>

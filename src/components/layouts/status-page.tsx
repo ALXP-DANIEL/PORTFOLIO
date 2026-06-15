@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import SectionLabel from "../ui/section-label";
 import { Button } from "../ui/shadcn/button";
 
 type StatusPageAction = {
@@ -40,9 +41,9 @@ export default function StatusPage({
     <div className="flex min-h-full flex-1 items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
       <div className="grid w-full gap-8 lg:items-center">
         <div className="flex flex-col items-center text-center">
-          <p className="font-mono text-[11px] tracking-[0.24em] text-muted-foreground uppercase">
+          <SectionLabel className="tracking-[0.24em] text-muted-foreground">
             {eyebrow}
-          </p>
+          </SectionLabel>
           <p className="mt-4 text-[4.5rem] leading-none font-semibold tracking-[-0.08em] text-primary sm:text-[5.5rem]">
             {code}
           </p>

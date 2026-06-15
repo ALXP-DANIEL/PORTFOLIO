@@ -5,6 +5,7 @@ type WorkCoverProps = {
   index: number;
   label?: string;
   cover?: string;
+  eager?: boolean;
   className?: string;
 };
 
@@ -17,6 +18,7 @@ export default function WorkCover({
   index,
   label,
   cover,
+  eager = false,
   className,
 }: WorkCoverProps) {
   const num = String(index + 1).padStart(2, "0");
@@ -47,6 +49,7 @@ export default function WorkCover({
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             wrapperClassName="absolute inset-0 h-full w-full"
             className="h-full w-full object-cover"
+            eager={eager}
           />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_92%_92%,rgba(0,0,0,0.78),rgba(0,0,0,0.34)_30%,transparent_58%)]" />
         </>

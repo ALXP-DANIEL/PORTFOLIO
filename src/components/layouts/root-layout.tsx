@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import Footer from "./footer";
-import GridBackground from "./grid-background";
+import GridBackground from "./grid-background/grid-background";
 import Navigation from "./navigation";
 import { NavigationActionProvider } from "./navigation-action";
 import { useSplashReady } from "./splash-gate";

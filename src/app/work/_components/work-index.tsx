@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { Icons } from "@/components/icons";
 import BlurImage from "@/components/ui/blur-image";
+import SectionLabel from "@/components/ui/section-label";
 import { useSplashScrollReveal } from "@/hooks/use-splash-gsap";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/project";
@@ -81,9 +82,9 @@ export default function WorkIndex({
   return (
     <section ref={rootRef}>
       <div className="mb-7 flex items-baseline justify-between gap-3">
-        <p className="font-mono text-[11px] tracking-[0.24em] text-foreground/45 uppercase">
+        <SectionLabel className="tracking-[0.24em] text-foreground/45">
           All Work
-        </p>
+        </SectionLabel>
         <p className="font-mono text-[11px] tracking-wide text-foreground/30">
           {String(projects.length).padStart(2, "0")} projects
         </p>

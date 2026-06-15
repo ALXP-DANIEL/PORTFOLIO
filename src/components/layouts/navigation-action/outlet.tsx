@@ -1,147 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import {
-  type ComponentType,
-  type CSSProperties,
-  createContext,
-  type MouseEvent,
-  type ReactNode,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import type { CSSProperties, MouseEvent } from "react";
 import { cn } from "@/lib/utils";
-
-type NavigationIconWeight =
-  | "thin"
-  | "light"
-  | "regular"
-  | "bold"
-  | "fill"
-  | "duotone";
-
-type NavigationActionIconComponent = ComponentType<{
-  size?: number;
-  weight?: NavigationIconWeight;
-  className?: string;
-  style?: CSSProperties;
-}>;
-
-export type NavigationActionClassNames = {
-  root?: string;
-  content?: string;
-  label?: string;
-  icon?: string;
-  iconWrapper?: string;
-};
-
-export type NavigationActionIconSpec = {
-  name: string;
-  position?: "left" | "right";
-  size?: number;
-  weight?: NavigationIconWeight;
-  className?: string;
-  style?: CSSProperties;
-  wrapperClassName?: string;
-  wrapperStyle?: CSSProperties;
-};
-
-type NavigationActionBase = {
-  label?: string;
-  disabled?: boolean;
-  ariaLabel?: string;
-
-  className?: string;
-  style?: CSSProperties;
-  classNames?: NavigationActionClassNames;
-
-  icon?: NavigationActionIconSpec;
-};
-
-export type NavigationAnchorAction = NavigationActionBase & {
-  kind: "a";
-  href: string;
-  target?: "_blank" | "_self" | "_parent" | "_top";
-  rel?: string;
-};
-
-export type NavigationLinkAction = NavigationActionBase & {
-  kind: "link";
-  href: string;
-};
-
-export type NavigationButtonAction = NavigationActionBase & {
-  kind: "button";
-  actionId: string;
-  type?: "button" | "submit" | "reset";
-};
-
-export type NavigationActionSpec =
-  | NavigationAnchorAction
-  | NavigationLinkAction
-  | NavigationButtonAction;
-
-type NavigationActionContextValue = {
-  action: NavigationActionSpec | null;
-  setAction: (action: NavigationActionSpec | null) => void;
-};
-
-const NavigationActionContext =
-  createContext<NavigationActionContextValue | null>(null);
-
-export function NavigationActionProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
-  const [action, setAction] = useState<NavigationActionSpec | null>(null);
-
-  const value = useMemo(
-    () => ({
-      action,
-      setAction,
-    }),
-    [action],
-  );
-
-  return (
-    <NavigationActionContext.Provider value={value}>
-      {children}
-    </NavigationActionContext.Provider>
-  );
-}
-
-export function useNavigationAction() {
-  const context = useContext(NavigationActionContext);
-
-  if (!context) {
-    throw new Error(
-      "useNavigationAction must be used within NavigationActionProvider",
-    );
-  }
-
-  return context;
-}
-
-export function NavigationActionSlot({
-  spec,
-}: {
-  spec: NavigationActionSpec | null;
-}) {
-  const { setAction } = useNavigationAction();
-
-  useEffect(() => {
-    setAction(spec);
-
-    return () => {
-      setAction(null);
-    };
-  }, [spec, setAction]);
-
-  return null;
-}
+import { useNavigationAction } from "./context";
+import type {
+  NavigationActionClassNames,
+  NavigationActionIconComponent,
+  NavigationActionSpec,
+  NavigationButtonAction,
+} from "./types";
 
 function NavigationActionContent({
   action,
@@ -205,6 +73,7 @@ function NavigationActionContent({
   );
 }
 
+/** Renders the currently-registered navigation action as a/link/button. */
 export function NavigationActionOutlet({
   className,
   style,

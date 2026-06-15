@@ -2,11 +2,13 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Icons } from "@/components/icons";
 import BlurImage from "@/components/ui/blur-image";
 import { siteConfig } from "@/config/site";
+import { useMagnetic } from "@/hooks/use-magnetic";
 import { useSplashGsap } from "@/hooks/use-splash-gsap";
+import { useScrambleText } from "../_hooks/use-scramble-text";
 
 const HERO_IMAGE = "/hero-desktop.png";
 const HERO_MOBILE_IMAGE = "/hero-mobile.png";
@@ -19,58 +21,6 @@ const ROLES = [
   "Problem Solver",
 ];
 
-const SCRAMBLE_CHARS = "!<>-_\\/[]{}=+*^?#01ﾊﾐﾋｰｳ";
-
-function scramble(el: HTMLElement, next: string): () => void {
-  const old = el.dataset.text ?? el.textContent ?? "";
-  el.dataset.text = next;
-
-  const length = Math.max(old.length, next.length);
-
-  const queue = Array.from({ length }, (_, i) => ({
-    from: old[i] ?? "",
-    to: next[i] ?? "",
-    start: Math.floor(Math.random() * 22),
-    end: Math.floor(Math.random() * 22) + 12,
-    char: "",
-  }));
-
-  let frame = 0;
-  let raf = 0;
-
-  const tick = () => {
-    let out = "";
-    let done = 0;
-
-    for (const q of queue) {
-      if (frame >= q.start + q.end) {
-        done++;
-        out += q.to;
-      } else if (frame >= q.start) {
-        if (!q.char || Math.random() < 0.3) {
-          q.char =
-            SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-        }
-
-        out += `<span class="text-foreground/25">${q.char}</span>`;
-      } else {
-        out += q.from;
-      }
-    }
-
-    el.innerHTML = out;
-
-    if (done < queue.length) {
-      frame++;
-      raf = requestAnimationFrame(tick);
-    }
-  };
-
-  tick();
-
-  return () => cancelAnimationFrame(raf);
-}
-
 export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
   const desktopBackgroundRef = useRef<HTMLDivElement>(null);
@@ -80,21 +30,31 @@ export default function Hero() {
 
   useSplashGsap(
     (gsap) => {
+      const rise = gsap.utils.toArray("[data-entrance='hero-rise']");
+      const title = gsap.utils.toArray("[data-entrance='hero-title']");
+      const fade = gsap.utils.toArray("[data-entrance='hero-fade']");
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-      tl.fromTo(
-        "[data-entrance='hero-rise']",
-        { autoAlpha: 0, y: 14 },
-        { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.08 },
-      )
-        .fromTo(
-          "[data-entrance='hero-title']",
+      if (rise.length > 0) {
+        tl.fromTo(
+          rise,
+          { autoAlpha: 0, y: 14 },
+          { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.08 },
+        );
+      }
+
+      if (title.length > 0) {
+        tl.fromTo(
+          title,
           { yPercent: 120 },
           { autoAlpha: 1, yPercent: 0, duration: 0.95 },
-          "-=0.15",
-        )
-        .fromTo(
-          "[data-entrance='hero-fade']",
+          rise.length > 0 ? "-=0.15" : 0,
+        );
+      }
+
+      if (fade.length > 0) {
+        tl.fromTo(
+          fade,
           { autoAlpha: 0, y: 16, filter: "blur(6px)" },
           {
             autoAlpha: 1,
@@ -103,8 +63,9 @@ export default function Hero() {
             duration: 0.6,
             stagger: 0.08,
           },
-          "-=0.5",
+          title.length > 0 ? "-=0.5" : 0,
         );
+      }
     },
     { scope: rootRef },
   );
@@ -185,64 +146,8 @@ export default function Hero() {
     { scope: rootRef },
   );
 
-  useEffect(() => {
-    const el = roleRef.current;
-    if (!el) return;
-
-    el.dataset.text = ROLES[0];
-
-    let i = 0;
-    let cancel: (() => void) | undefined;
-
-    const id = window.setInterval(() => {
-      i = (i + 1) % ROLES.length;
-      cancel?.();
-      cancel = scramble(el, ROLES[i]);
-    }, 2900);
-
-    return () => {
-      window.clearInterval(id);
-      cancel?.();
-    };
-  }, []);
-
-  useGSAP(
-    () => {
-      const btn = magneticRef.current;
-      if (!btn) return;
-
-      const xTo = gsap.quickTo(btn, "x", {
-        duration: 0.4,
-        ease: "power3",
-      });
-
-      const yTo = gsap.quickTo(btn, "y", {
-        duration: 0.4,
-        ease: "power3",
-      });
-
-      const onMove = (e: PointerEvent) => {
-        const r = btn.getBoundingClientRect();
-
-        xTo((e.clientX - (r.left + r.width / 2)) * 0.3);
-        yTo((e.clientY - (r.top + r.height / 2)) * 0.5);
-      };
-
-      const onLeave = () => {
-        xTo(0);
-        yTo(0);
-      };
-
-      btn.addEventListener("pointermove", onMove);
-      btn.addEventListener("pointerleave", onLeave);
-
-      return () => {
-        btn.removeEventListener("pointermove", onMove);
-        btn.removeEventListener("pointerleave", onLeave);
-      };
-    },
-    { scope: rootRef },
-  );
+  useScrambleText(roleRef, ROLES);
+  useMagnetic(magneticRef);
 
   return (
     <section
@@ -306,7 +211,7 @@ export default function Hero() {
             src={HERO_MOBILE_IMAGE}
             alt={siteConfig.name}
             fill
-            sizes="100vw"
+            sizes="(min-width: 768px) 0px, 100vw"
             wrapperClassName="absolute inset-0 h-full w-full"
             className="h-full w-full object-cover object-top"
             eager

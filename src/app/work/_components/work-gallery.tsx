@@ -3,9 +3,11 @@
 import { CaretLeftIcon, CaretRightIcon, XIcon } from "@phosphor-icons/react";
 import { useCallback, useEffect, useState } from "react";
 import BlurImage from "@/components/ui/blur-image";
+import IconButton from "@/components/ui/icon-button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogTitle,
 } from "@/components/ui/shadcn/dialog";
 import type { ProjectImage } from "@/types/project";
@@ -79,6 +81,11 @@ export default function WorkGallery({
           <DialogTitle className="sr-only">
             {active?.caption ?? active?.alt ?? "Project image"}
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            {active
+              ? `Preview ${String((index ?? 0) + 1).padStart(2, "0")} of ${String(count).padStart(2, "0")}. Use the previous and next buttons to browse project images.`
+              : "Project image preview dialog."}
+          </DialogDescription>
 
           {active ? (
             <>
@@ -93,39 +100,36 @@ export default function WorkGallery({
                 className="max-h-[82vh] max-w-[92vw] object-contain"
               />
 
-              <button
-                type="button"
+              <IconButton
                 data-reticle
                 aria-label="Close"
                 onClick={close}
-                className="absolute top-4 right-4 inline-flex size-10 items-center justify-center rounded-full border border-white/15 bg-black/40 text-foreground/75 backdrop-blur transition-colors hover:bg-white/10 hover:text-foreground"
+                className="absolute top-4 right-4 size-10 bg-black/40 text-foreground/75"
               >
                 <XIcon className="size-4" weight="bold" />
-              </button>
+              </IconButton>
 
               {count > 1 ? (
                 <>
-                  <button
-                    type="button"
+                  <IconButton
                     data-reticle
                     aria-label="Previous image"
                     onClick={() => step(-1)}
-                    className="absolute top-1/2 left-2 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/40 text-foreground/75 backdrop-blur transition-colors hover:bg-white/10 hover:text-foreground sm:left-5 sm:size-12"
+                    className="absolute top-1/2 left-2 size-10 -translate-y-1/2 bg-black/40 text-foreground/75 sm:left-5 sm:size-12"
                   >
                     <CaretLeftIcon className="size-4 sm:size-5" weight="bold" />
-                  </button>
-                  <button
-                    type="button"
+                  </IconButton>
+                  <IconButton
                     data-reticle
                     aria-label="Next image"
                     onClick={() => step(1)}
-                    className="absolute top-1/2 right-2 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/40 text-foreground/75 backdrop-blur transition-colors hover:bg-white/10 hover:text-foreground sm:right-5 sm:size-12"
+                    className="absolute top-1/2 right-2 size-10 -translate-y-1/2 bg-black/40 text-foreground/75 sm:right-5 sm:size-12"
                   >
                     <CaretRightIcon
                       className="size-4 sm:size-5"
                       weight="bold"
                     />
-                  </button>
+                  </IconButton>
                 </>
               ) : null}
 
