@@ -5,13 +5,13 @@ import gsap from "gsap";
 import Link from "next/link";
 import { useRef } from "react";
 import { Icons } from "@/components/icons";
+import { NavigationActionSlot } from "@/components/layouts/navigation-action";
 import BlurImage from "@/components/ui/blur-image";
 import { useSplashGsap, useSplashScrollReveal } from "@/hooks/use-splash-gsap";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/project";
 import WorkGallery from "./work-gallery";
 import WorkReadme from "./work-readme";
-import { NavigationActionSlot } from "@/components/layouts/navigation-action";
 
 type WorkDetailViewProps = {
   project: Project;

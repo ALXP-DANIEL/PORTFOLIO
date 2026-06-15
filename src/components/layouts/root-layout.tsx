@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import Footer from "./footer";
 import GridBackground from "./grid-background";
 import Navigation from "./navigation";
-import ViewTransitionShell from "./view-transition-shell";
 import { NavigationActionProvider } from "./navigation-action";
 import { useSplashReady } from "./splash-gate";
+import ViewTransitionShell from "./view-transition-shell";
 
 type RootLayoutProps = {
   children: React.ReactNode;

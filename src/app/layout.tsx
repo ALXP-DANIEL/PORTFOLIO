@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import "@styles/globals.css";
+import { DebugInfo } from "@/components/debug-info";
 import RootLayoutWrapper from "@/components/layouts/root-layout";
 import SplashGate from "@/components/layouts/splash-gate";
 import { env } from "@/env";
 import { cn } from "@/lib/utils";
 import Maintenance from "./maintenance";
-import { DebugInfo } from "@/components/debug-info";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],

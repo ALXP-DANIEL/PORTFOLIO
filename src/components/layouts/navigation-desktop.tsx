@@ -6,13 +6,13 @@ import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import BlurImage from "@/components/ui/blur-image";
 import GlassSurface, { glassActiveStyle } from "@/components/ui/glass-surface";
+import { usePageScrollState } from "@/hooks/use-page-scroll-state";
+import { cn } from "@/lib/utils";
+import type { NavigationProps } from "@/types/route";
 import {
   NavigationActionOutlet,
   useNavigationAction,
 } from "./navigation-action";
-import { usePageScrollState } from "@/hooks/use-page-scroll-state";
-import { cn } from "@/lib/utils";
-import type { NavigationProps } from "@/types/route";
 
 export default function NavigationDesktop({
   links,

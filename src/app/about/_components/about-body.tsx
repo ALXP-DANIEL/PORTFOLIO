@@ -6,7 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { ReactNode } from "react";
 import { useRef } from "react";
 import {
-  aboutConfig,
   educationConfig,
   experienceConfig,
   languagesConfig,
