@@ -153,7 +153,7 @@ export default function Hero() {
   return (
     <section
       ref={rootRef}
-      className="relative flex min-h-[calc(100dvh-8rem)] w-full flex-col justify-end overflow-hidden py-12 md:justify-center md:overflow-visible md:py-16"
+      className="relative flex min-h-[calc(100svh-8rem)] w-full flex-col justify-end overflow-hidden py-12 md:justify-center md:overflow-visible md:py-16"
       style={{ perspective: "1400px" }}
     >
       {/* Desktop background */}
