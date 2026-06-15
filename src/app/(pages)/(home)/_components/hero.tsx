@@ -77,6 +77,7 @@ export default function Hero() {
       const mobileBackground = mobileBackgroundRef.current;
 
       if (!root) return;
+      if (!window.matchMedia("(pointer: fine)").matches) return;
 
       const backgrounds = [desktopBackground, mobileBackground].filter(
         Boolean,
@@ -174,10 +175,9 @@ export default function Hero() {
             src={HERO_IMAGE}
             alt={siteConfig.name}
             fill
-            sizes="100vw"
+            sizes="(min-width: 768px) 100vw, 0px"
             wrapperClassName="absolute inset-0 h-full w-full"
             className="h-full w-full object-cover object-right"
-            eager
           />
         </div>
 

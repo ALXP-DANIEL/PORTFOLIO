@@ -7,9 +7,9 @@ type SplashGateProps = {
   children: React.ReactNode;
 };
 
-const SPLASH_DURATION_MS = 1200;
-const APP_REVEAL_DELAY = 0.18;
-const APP_REVEAL_MS = 600;
+const SPLASH_DURATION_MS = 450;
+const APP_REVEAL_DELAY = 0.04;
+const APP_REVEAL_MS = 220;
 const SplashReadyContext = createContext(false);
 
 export function useSplashReady() {
@@ -70,7 +70,7 @@ export default function SplashGate({ children }: SplashGateProps) {
                 initial={{ width: 0 }}
                 animate={{ width: 96 }}
                 transition={{
-                  duration: 0.9,
+                  duration: 0.34,
                   ease: "easeInOut",
                 }}
                 className="h-px bg-foreground/35"
