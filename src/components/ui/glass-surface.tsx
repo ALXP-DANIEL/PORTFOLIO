@@ -25,7 +25,7 @@ const glassStyle = {
   border: "1px solid var(--glass-border)",
   boxShadow: "var(--glass-shadow)",
   transition:
-    "background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease",
+    "background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, border-radius 0.3s ease-out",
 } satisfies CSSProperties;
 
 export const glassActiveStyle = {

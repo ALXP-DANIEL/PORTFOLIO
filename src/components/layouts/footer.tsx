@@ -28,7 +28,9 @@ export default function Footer() {
         <GlassSurface
           className={cn(
             "mx-auto hidden p-1.5 transition-[border-radius] duration-300 ease-out lg:block",
-            atBottom ? "rounded-t-[2rem] rounded-b-none" : "rounded-full",
+            atBottom
+              ? "rounded-t-[2rem] rounded-b-none"
+              : "rounded-t-[2rem] rounded-b-[2rem]",
           )}
           contentClassName="flex items-center justify-between gap-4"
         >
