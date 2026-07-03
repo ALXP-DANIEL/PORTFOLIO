@@ -9,6 +9,7 @@ import GlassSurface from "@/components/ui/glass-surface";
 import { siteConfig } from "@/config/site";
 import { socialsConfig } from "@/config/sosial";
 import { usePageScrollState } from "@/hooks/use-page-scroll-state";
+import { cn } from "@/lib/utils";
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
@@ -25,11 +26,10 @@ export default function Footer() {
     >
       <div className="pointer-events-auto">
         <GlassSurface
-          className={
-            atBottom
-              ? "mx-auto hidden rounded-t-[2rem] rounded-b-none p-1.5 lg:block"
-              : "mx-auto hidden rounded-full p-1.5 lg:block"
-          }
+          className={cn(
+            "mx-auto hidden p-1.5 transition-[border-radius] duration-300 ease-out lg:block",
+            atBottom ? "rounded-t-[2rem] rounded-b-none" : "rounded-full",
+          )}
           contentClassName="flex items-center justify-between gap-4"
         >
           <div className="flex items-center gap-4 text-xs text-muted-foreground">

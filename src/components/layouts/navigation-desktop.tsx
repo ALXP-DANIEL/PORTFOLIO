@@ -40,7 +40,7 @@ export default function NavigationDesktop({
         <GlassSurface
           as="nav"
           className={cn(
-            "p-1.5",
+            "p-1.5 transition-[border-radius] duration-300 ease-out",
             atTop ? "rounded-t-none rounded-b-[2rem]" : "rounded-full",
           )}
           contentClassName="flex items-center gap-0.5"
@@ -105,7 +105,7 @@ export default function NavigationDesktop({
         {action ? (
           <GlassSurface
             className={cn(
-              "p-1.5",
+              "p-1.5 transition-[border-radius] duration-300 ease-out",
               atTop ? "rounded-t-none rounded-b-[2rem]" : "rounded-full",
             )}
             contentClassName="flex items-center"

@@ -35,7 +35,7 @@ export default function NavigationMobile({
       >
         <GlassSurface
           className={cn(
-            "px-4 py-2",
+            "px-4 py-2 transition-[border-radius] duration-300 ease-out",
             atTop ? "rounded-t-none rounded-b-[2rem]" : "rounded-full",
           )}
           contentClassName="flex items-center"
@@ -57,7 +57,7 @@ export default function NavigationMobile({
         {action ? (
           <GlassSurface
             className={cn(
-              "p-1.5",
+              "p-1.5 transition-[border-radius] duration-300 ease-out",
               atTop ? "rounded-t-none rounded-b-[2rem]" : "rounded-full",
             )}
             contentClassName="flex items-center"
@@ -85,7 +85,7 @@ export default function NavigationMobile({
         <GlassSurface
           as="nav"
           className={cn(
-            "p-1.5",
+            "p-1.5 transition-[border-radius] duration-300 ease-out",
             atBottom
               ? "w-[calc(100vw-2.5rem)] max-w-sm rounded-t-[2rem] rounded-b-none"
               : "w-[calc(100vw-2.5rem)] max-w-sm rounded-full",
