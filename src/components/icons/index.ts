@@ -10,6 +10,8 @@ import {
   type Icon,
   InstagramLogoIcon,
   LinkedinLogoIcon,
+  MoonIcon,
+  SunIcon,
   UserIcon,
   XLogoIcon,
 } from "@phosphor-icons/react";
@@ -37,6 +39,11 @@ export const Icons = {
       Social: SocialIcons,
       ArrowUpRight: ArrowUpRightIcon,
       CaretUp: CaretUpIcon,
+    },
+
+    Theme: {
+      Sun: SunIcon,
+      Dark: MoonIcon,
     },
   },
 

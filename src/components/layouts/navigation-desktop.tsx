@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import BlurImage from "@/components/ui/blur-image";
 import GlassSurface, { glassActiveStyle } from "@/components/ui/glass-surface";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { usePageScrollState } from "@/hooks/use-page-scroll-state";
 import { cn } from "@/lib/utils";
 import type { NavigationProps } from "@/types/route";
@@ -91,17 +92,17 @@ export default function NavigationDesktop({
         </GlassSurface>
       </motion.div>
 
-      {action ? (
-        <motion.div
-          animate={{
-            top: atTop ? 0 : 20,
-            bottom: "auto",
-            right: 20,
-            left: "auto",
-          }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-          className="fixed z-250 hidden lg:block"
-        >
+      <motion.div
+        animate={{
+          top: atTop ? 0 : 20,
+          bottom: "auto",
+          right: 20,
+          left: "auto",
+        }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="fixed z-250 hidden items-center gap-2 lg:flex"
+      >
+        {action ? (
           <GlassSurface
             className={cn(
               "p-1.5",
@@ -118,8 +119,10 @@ export default function NavigationDesktop({
               className="relative flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-mono tracking-wide transition-colors duration-300"
             />
           </GlassSurface>
-        </motion.div>
-      ) : null}
+        ) : null}
+
+        <ThemeToggle />
+      </motion.div>
     </>
   );
 }

@@ -4,6 +4,7 @@ import "@styles/globals.css";
 import { DebugInfo } from "@/components/debug-info";
 import RootLayoutWrapper from "@/components/layouts/root-layout";
 import SplashGate from "@/components/layouts/splash-gate";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { siteConfig } from "@/config/site";
 import { env } from "@/env";
 import { cn } from "@/lib/utils";
@@ -72,7 +73,6 @@ export default function RootLayout({
       className={cn(
         "h-full",
         "antialiased",
-        "dark",
         geistSans.variable,
         geistMono.variable,
         "font-mono",
@@ -80,14 +80,16 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        {isMaintenance ? (
-          <Maintenance />
-        ) : (
-          <SplashGate>
-            <RootLayoutWrapper>{children}</RootLayoutWrapper>
-          </SplashGate>
-        )}
-        <DebugInfo enabled={isDevelopment} />
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          {isMaintenance ? (
+            <Maintenance />
+          ) : (
+            <SplashGate>
+              <RootLayoutWrapper>{children}</RootLayoutWrapper>
+            </SplashGate>
+          )}
+          <DebugInfo enabled={isDevelopment} />
+        </ThemeProvider>
       </body>
     </html>
   );

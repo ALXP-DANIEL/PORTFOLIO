@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import BlurImage from "@/components/ui/blur-image";
 import GlassSurface, { glassActiveStyle } from "@/components/ui/glass-surface";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { usePageScrollState } from "@/hooks/use-page-scroll-state";
 import { cn } from "@/lib/utils";
 import type { NavigationProps } from "@/types/route";
@@ -48,12 +49,12 @@ export default function NavigationMobile({
         </GlassSurface>
       </motion.div>
 
-      {action ? (
-        <motion.div
-          animate={{ top: atTop ? 0 : 20, right: 20 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-          className="fixed z-250 block lg:hidden"
-        >
+      <motion.div
+        animate={{ top: atTop ? 0 : 20, right: 20 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="fixed z-250 flex items-center gap-2 lg:hidden"
+      >
+        {action ? (
           <GlassSurface
             className={cn(
               "p-1.5",
@@ -70,8 +71,10 @@ export default function NavigationMobile({
               className="relative flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-mono tracking-wide transition-colors duration-300"
             />
           </GlassSurface>
-        </motion.div>
-      ) : null}
+        ) : null}
+
+        <ThemeToggle />
+      </motion.div>
 
       <motion.div
         ref={navRef}

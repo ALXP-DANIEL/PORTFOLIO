@@ -19,23 +19,17 @@ type GlassSurfaceProps<T extends ElementType = "div"> = {
 >;
 
 const glassStyle = {
-  background: "rgba(10, 10, 10, 0.68)",
+  background: "var(--glass-bg)",
   backdropFilter: "blur(40px) saturate(200%) brightness(1.08)",
   WebkitBackdropFilter: "blur(40px) saturate(200%) brightness(1.08)",
-  border: "1px solid rgba(255, 255, 255, 0.1)",
-  boxShadow: [
-    "inset 0 1.5px 0 rgba(255, 255, 255, 0.1)",
-    "inset 0 -1px 0 rgba(0, 0, 0, 0.25)",
-    "0 24px 64px rgba(0, 0, 0, 0.55)",
-    "0 4px 16px rgba(0, 0, 0, 0.35)",
-    "0 0 0 0.5px rgba(255, 255, 255, 0.05)",
-  ].join(", "),
+  border: "1px solid var(--glass-border)",
+  boxShadow: "var(--glass-shadow)",
+  transition:
+    "background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease",
 } satisfies CSSProperties;
 
 export const glassActiveStyle = {
-  background: "rgba(255, 255, 255, 0.08)",
-  boxShadow:
-    "inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 1px 4px rgba(0, 0, 0, 0.3)",
+  background: "var(--glass-active)",
 } satisfies CSSProperties;
 
 export default function GlassSurface<T extends ElementType = "div">({
