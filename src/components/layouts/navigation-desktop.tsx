@@ -121,7 +121,7 @@ export default function NavigationDesktop({
           </GlassSurface>
         ) : null}
 
-        <ThemeToggle />
+        <ThemeToggle atTop={atTop} />
       </motion.div>
     </>
   );

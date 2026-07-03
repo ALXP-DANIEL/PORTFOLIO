@@ -4,8 +4,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Icons } from "@/components/icons";
+import { cn } from "@/lib/utils";
 
-export function ThemeToggle() {
+type ThemeToggleProps = {
+  atTop?: boolean;
+};
+
+export function ThemeToggle({ atTop = true }: ThemeToggleProps) {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -20,7 +25,10 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
-      className="glass relative grid size-10 place-items-center overflow-hidden rounded-full text-foreground"
+      className={cn(
+        "glass relative grid size-10 place-items-center overflow-hidden text-foreground transition-[border-radius] duration-300",
+        atTop ? "rounded-t-none rounded-b-[1.25rem]" : "rounded-full",
+      )}
     >
       <AnimatePresence initial={false}>
         <motion.span

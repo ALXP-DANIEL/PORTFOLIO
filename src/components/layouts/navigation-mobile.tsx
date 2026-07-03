@@ -73,7 +73,7 @@ export default function NavigationMobile({
           </GlassSurface>
         ) : null}
 
-        <ThemeToggle />
+        <ThemeToggle atTop={atTop} />
       </motion.div>
 
       <motion.div
