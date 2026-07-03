@@ -26,7 +26,7 @@ export default function WorkCover({
   return (
     <div
       className={cn(
-        "relative h-full w-full overflow-hidden border border-white/10",
+        "relative h-full w-full overflow-hidden border border-border",
         className,
       )}
     >

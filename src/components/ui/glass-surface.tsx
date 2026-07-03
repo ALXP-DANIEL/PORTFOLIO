@@ -49,7 +49,7 @@ export default function GlassSurface<T extends ElementType = "div">({
       style={{ ...glassStyle, ...style }}
       {...props}
     >
-      <div className="pointer-events-none absolute inset-x-3 top-0 h-px bg-linear-to-r from-transparent via-white/20 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-3 top-0 h-px bg-linear-to-r from-transparent via-foreground/20 to-transparent" />
       <div className={cn("relative", contentClassName)} style={contentStyle}>
         {children}
       </div>

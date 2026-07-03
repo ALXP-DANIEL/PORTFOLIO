@@ -117,7 +117,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
               target="_blank"
               rel="noreferrer"
               data-reticle
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 font-mono text-xs tracking-wide text-foreground/65 transition-colors hover:bg-white/8 hover:text-foreground"
+              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 font-mono text-xs tracking-wide text-foreground/65 transition-colors hover:bg-foreground/8 hover:text-foreground"
             >
               <Icons.Social.GitHub className="size-3.5" weight="bold" />
               GitHub
@@ -132,7 +132,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
           data-entrance="detail-hero"
           ref={heroRef}
           className={cn(
-            "relative aspect-video w-full overflow-hidden border border-white/10 bg-white/5 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.9)] transform-3d",
+            "relative aspect-video w-full overflow-hidden border border-border bg-foreground/5 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.9)] transform-3d",
           )}
           style={{
             perspective: "1400px",
@@ -157,7 +157,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       {project.overview ? (
         <section
           data-entrance="detail-reveal"
-          className="grid gap-8 border-t border-white/10 pt-10 lg:grid-cols-[1.4fr_1fr] lg:gap-16"
+          className="grid gap-8 border-t border-border pt-10 lg:grid-cols-[1.4fr_1fr] lg:gap-16"
         >
           <div className="flex flex-col gap-4">
             <SectionLabel>Overview</SectionLabel>
@@ -173,14 +173,14 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       {flags.showHighlights && project.highlights.length > 0 ? (
         <section
           data-entrance="detail-reveal"
-          className="flex flex-col gap-6 border-t border-white/10 pt-10"
+          className="flex flex-col gap-6 border-t border-border pt-10"
         >
           <SectionLabel>Highlights</SectionLabel>
           <ul className="flex flex-col">
             {project.highlights.map((highlight, i) => (
               <li
                 key={highlight}
-                className="flex items-baseline gap-5 border-b border-white/8 py-5 last:border-b-0"
+                className="flex items-baseline gap-5 border-b border-foreground/8 py-5 last:border-b-0"
               >
                 <span className="font-mono text-xs text-foreground/30 tabular-nums">
                   {String(i + 1).padStart(2, "0")}
@@ -198,7 +198,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       {flags.showStack && project.tech.length > 0 ? (
         <section
           data-entrance="detail-reveal"
-          className="flex flex-col gap-6 border-t border-white/10 pt-10"
+          className="flex flex-col gap-6 border-t border-border pt-10"
         >
           <SectionLabel>Stack</SectionLabel>
           <div className="flex flex-wrap gap-2">
@@ -215,7 +215,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       {flags.showGallery && project.gallery.length > 0 ? (
         <section
           data-entrance="detail-reveal"
-          className="flex flex-col gap-6 border-t border-white/10 pt-10"
+          className="flex flex-col gap-6 border-t border-border pt-10"
         >
           <div className="flex items-baseline justify-between gap-3">
             <SectionLabel>Gallery</SectionLabel>
@@ -231,12 +231,12 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
       {flags.showReadme && project.readme ? (
         <section
           data-entrance="detail-reveal"
-          className="flex flex-col gap-5 border-t border-white/10 pt-10"
+          className="flex flex-col gap-5 border-t border-border pt-10"
         >
           <SectionLabel>Readme</SectionLabel>
           <div
             className={cn(
-              "relative border border-white/10 bg-background/60 p-6 backdrop-blur-xl sm:p-9",
+              "relative border border-border bg-background/60 p-6 backdrop-blur-xl sm:p-9",
             )}
           >
             <WorkReadme source={project.readme} />

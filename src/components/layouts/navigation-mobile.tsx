@@ -45,7 +45,7 @@ export default function NavigationMobile({
           <BlurImage
             src="/logo.svg"
             alt="Logo"
-            className="h-4 w-auto"
+            className="h-4 w-auto invert dark:invert-0"
             wrapperClassName="block"
           />
         </GlassSurface>

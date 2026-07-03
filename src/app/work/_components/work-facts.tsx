@@ -13,7 +13,7 @@ export default function WorkFacts({ project }: { project: Project }) {
   return (
     <dl
       className={cn(
-        "relative grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/5",
+        "relative grid grid-cols-2 gap-px overflow-hidden border border-border bg-foreground/5",
       )}
     >
       {facts.map((fact) => (

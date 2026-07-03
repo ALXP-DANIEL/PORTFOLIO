@@ -91,7 +91,7 @@ export default function WorkIndex({
       </div>
 
       {projects.length === 0 ? (
-        <div className="flex flex-col items-center gap-3 border-t border-white/10 py-24 text-center">
+        <div className="flex flex-col items-center gap-3 border-t border-border py-24 text-center">
           <p className="font-mono text-[11px] tracking-[0.24em] text-foreground/35 uppercase">
             Nothing here yet
           </p>
@@ -149,7 +149,7 @@ export default function WorkIndex({
                 <li
                   key={project.slug}
                   data-entrance="work-row"
-                  className="border-t border-white/10"
+                  className="border-t border-border"
                 >
                   <Link
                     href={`/work/${project.slug}`}
@@ -172,7 +172,7 @@ export default function WorkIndex({
                     <span className="w-14 shrink-0 text-right font-mono text-xs text-foreground/40 tabular-nums">
                       {project.year}
                     </span>
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-white/10 text-foreground/40 transition-all duration-300 group-hover:border-white/30 group-hover:text-foreground">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-foreground/15 text-foreground/40 transition-all duration-300 group-hover:border-foreground/40 group-hover:text-foreground">
                       <Icons.Layout.Footer.ArrowUpRight
                         className="size-4 transition-transform duration-300 group-hover:rotate-45"
                         weight="bold"
@@ -182,7 +182,7 @@ export default function WorkIndex({
                 </li>
               );
             })}
-            <li className="border-t border-white/10" />
+            <li className="border-t border-border" />
           </ul>
 
           {/* mobile / tablet: compact list */}
@@ -197,12 +197,12 @@ export default function WorkIndex({
                     data-reticle
                     aria-label={`Open ${project.title}`}
                     className={cn(
-                      "group relative flex items-center gap-3.5 overflow-hidden border border-white/10 bg-background/70 p-2.5 transition-colors hover:border-white/20 hover:bg-background/85",
+                      "group relative flex items-center gap-3.5 overflow-hidden border border-border bg-background/70 p-2.5 transition-colors hover:border-foreground/25 hover:bg-background/85",
                     )}
                   >
                     <div
                       className={cn(
-                        "relative aspect-video w-28 shrink-0 overflow-hidden bg-white/5",
+                        "relative aspect-video w-28 shrink-0 overflow-hidden bg-foreground/5",
                       )}
                     >
                       {cover ? (
@@ -215,7 +215,7 @@ export default function WorkIndex({
                           className="h-full w-full object-cover"
                         />
                       ) : null}
-                      <span className="pointer-events-none absolute right-1.5 bottom-0 font-mono text-2xl leading-none font-semibold text-white/15 select-none">
+                      <span className="pointer-events-none absolute right-1.5 bottom-0 font-mono text-2xl leading-none font-semibold text-foreground/15 select-none">
                         {num}
                       </span>
                     </div>

@@ -52,7 +52,7 @@ export default function WorkGallery({
             type="button"
             data-reticle
             onClick={() => setIndex(i)}
-            className="group relative aspect-4/3 overflow-hidden border border-white/10 bg-white/3"
+            className="group relative aspect-4/3 overflow-hidden border border-border bg-foreground/3"
           >
             <BlurImage
               src={image.src}

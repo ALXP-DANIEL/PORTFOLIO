@@ -53,7 +53,7 @@ export default function WorkRefresh() {
   return (
     <div
       aria-live="polite"
-      className="fixed bottom-5 left-5 z-300 rounded-full border border-white/10 bg-background/85 px-3.5 py-1.5 font-mono text-[11px] tracking-wide text-foreground/75 shadow-lg backdrop-blur"
+      className="fixed bottom-5 left-5 z-300 rounded-full border border-border bg-background/85 px-3.5 py-1.5 font-mono text-[11px] tracking-wide text-foreground/75 shadow-lg backdrop-blur"
     >
       {label}
     </div>

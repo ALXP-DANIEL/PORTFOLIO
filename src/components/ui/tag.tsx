@@ -9,7 +9,7 @@ export default function Tag({
   return (
     <span
       className={cn(
-        "inline-flex rounded-full border border-white/10 bg-white/3 px-3 py-1 font-mono text-[11px] tracking-wide text-foreground/60",
+        "inline-flex rounded-full border border-border bg-foreground/3 px-3 py-1 font-mono text-[11px] tracking-wide text-foreground/60",
         className,
       )}
       {...props}

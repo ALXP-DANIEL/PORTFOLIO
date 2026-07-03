@@ -50,11 +50,11 @@ export default function NavigationDesktop({
           <BlurImage
             src="/logo.svg"
             alt="Logo"
-            className="h-4 w-auto px-3"
+            className="h-4 w-auto px-3 invert dark:invert-0"
             wrapperClassName="block"
           />
 
-          <div className="mx-1 h-4 w-px bg-white/10" />
+          <div className="mx-1 h-4 w-px bg-border" />
 
           <div className="flex items-center gap-0.5">
             {links.map(({ path, label, icon: Icon }) => {

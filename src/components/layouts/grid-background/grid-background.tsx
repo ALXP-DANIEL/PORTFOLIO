@@ -1,12 +1,13 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import { useEffect, useRef } from "react";
 import { createGridAudio } from "./_components/grid-background.audio";
 import {
-  BACKGROUND,
   CELL,
   GRID_STEP_DESKTOP,
   GRID_STEP_MOBILE,
+  GRID_THEME,
   LERP,
   MAX_DPR_DESKTOP,
   MAX_DPR_MOBILE,
@@ -25,6 +26,11 @@ export default function GridBackground({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
+
+  const { resolvedTheme } = useTheme();
+  const colorsRef = useRef(GRID_THEME.dark);
+  colorsRef.current =
+    resolvedTheme === "light" ? GRID_THEME.light : GRID_THEME.dark;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -53,6 +59,7 @@ export default function GridBackground({
       isMobile: false,
       hasFinePointer: true,
       gridStep: GRID_STEP_DESKTOP,
+      colors: colorsRef.current,
       mx: -999,
       my: -999,
       tx: -999,
@@ -141,7 +148,9 @@ export default function GridBackground({
       scene.mx += (scene.tx - scene.mx) * LERP;
       scene.my += (scene.ty - scene.my) * LERP;
 
-      activeCtx.fillStyle = BACKGROUND;
+      scene.colors = colorsRef.current;
+
+      activeCtx.fillStyle = scene.colors.background;
       activeCtx.fillRect(0, 0, scene.w, scene.h);
 
       drawGrid(scene);

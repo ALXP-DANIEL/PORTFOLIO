@@ -55,7 +55,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={platform}
-                  className="group inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-white/8 hover:text-foreground"
+                  className="group inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-foreground/10 hover:text-foreground"
                 >
                   <Icon
                     className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"

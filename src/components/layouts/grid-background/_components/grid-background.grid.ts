@@ -1,11 +1,11 @@
-import { CELL, GRID_STROKE } from "./grid-background.constants";
+import { CELL } from "./grid-background.constants";
 import { displace, type GridScene } from "./grid-background.scene";
 
 /** Draws the warped base grid (vertical then horizontal lines). */
 export function drawGrid(scene: GridScene) {
   const { ctx } = scene;
 
-  ctx.strokeStyle = GRID_STROKE;
+  ctx.strokeStyle = scene.colors.gridStroke;
   ctx.lineWidth = 1;
   ctx.beginPath();
 

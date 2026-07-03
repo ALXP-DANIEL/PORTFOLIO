@@ -52,7 +52,7 @@ export default function WorkSpotlight({
       ref={rootRef}
       data-entrance="spotlight-panel"
       className={cn(
-        "relative overflow-hidden border border-white/10 bg-background/70 p-6 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.9)] backdrop-blur-2xl sm:p-9",
+        "relative overflow-hidden border border-border bg-background/70 p-6 shadow-[0_40px_90px_-50px_rgba(0,0,0,0.9)] backdrop-blur-2xl sm:p-9",
       )}
       style={{
         perspective: "1200px",
@@ -86,7 +86,7 @@ export default function WorkSpotlight({
             data-reticle
             aria-label="Previous project"
             onClick={() => go(-1)}
-            className="border-white/10 bg-background/45 text-foreground/65 hover:bg-white/8"
+            className="border-border bg-background/45 text-foreground/65 hover:bg-foreground/8"
           >
             <Icons.Layout.Footer.CaretUp
               className="size-3.5 -rotate-90"
@@ -97,7 +97,7 @@ export default function WorkSpotlight({
             data-reticle
             aria-label="Next project"
             onClick={() => go(1)}
-            className="border-white/10 bg-background/45 text-foreground/65 hover:bg-white/8"
+            className="border-border bg-background/45 text-foreground/65 hover:bg-foreground/8"
           >
             <Icons.Layout.Footer.CaretUp
               className="size-3.5 rotate-90"
@@ -168,7 +168,7 @@ export default function WorkSpotlight({
                 <Link
                   href={project.actions.open}
                   data-reticle
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-background/45 px-4 py-2 font-mono text-xs tracking-wide text-foreground/70 backdrop-blur transition-colors hover:bg-white/8 hover:text-foreground"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-background/45 px-4 py-2 font-mono text-xs tracking-wide text-foreground/70 backdrop-blur transition-colors hover:bg-foreground/8 hover:text-foreground"
                 >
                   Open
                 </Link>
@@ -178,7 +178,7 @@ export default function WorkSpotlight({
                   target="_blank"
                   rel="noreferrer"
                   data-reticle
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-background/45 px-4 py-2 font-mono text-xs tracking-wide text-foreground/70 backdrop-blur transition-colors hover:bg-white/8 hover:text-foreground"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-background/45 px-4 py-2 font-mono text-xs tracking-wide text-foreground/70 backdrop-blur transition-colors hover:bg-foreground/8 hover:text-foreground"
                 >
                   Open
                 </a>
@@ -190,7 +190,7 @@ export default function WorkSpotlight({
                 target="_blank"
                 rel="noreferrer"
                 data-reticle
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-background/45 px-4 py-2 font-mono text-xs tracking-wide text-foreground/70 backdrop-blur transition-colors hover:bg-white/8 hover:text-foreground"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-background/45 px-4 py-2 font-mono text-xs tracking-wide text-foreground/70 backdrop-blur transition-colors hover:bg-foreground/8 hover:text-foreground"
               >
                 <Icons.Social.GitHub className="size-3.5" weight="bold" />
                 GitHub
@@ -224,7 +224,7 @@ export default function WorkSpotlight({
             data-reticle
             aria-label={`Go to ${item.title}`}
             onClick={() => setActive(index)}
-            className="group relative h-1 flex-1 overflow-hidden rounded-full bg-white/12"
+            className="group relative h-1 flex-1 overflow-hidden rounded-full bg-foreground/12"
           >
             <span
               className={cn(

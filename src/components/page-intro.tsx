@@ -64,7 +64,7 @@ export default function PageIntro({
 
       <span
         data-entrance="page-intro-rule"
-        className="mt-1 block h-px origin-left bg-linear-to-r from-white/25 via-white/10 to-transparent"
+        className="mt-1 block h-px origin-left bg-linear-to-r from-foreground/25 via-foreground/10 to-transparent"
       />
     </div>
   );

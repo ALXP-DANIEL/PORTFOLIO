@@ -150,9 +150,9 @@ function drawSnakeTrail(scene: GridScene, snake: GridSnake) {
     const segmentAge = (i - startIndex) / Math.max(endIndex - startIndex, 1);
     const alpha = 0.08 + segmentAge * 0.9;
 
-    ctx.strokeStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
+    ctx.strokeStyle = `rgba(${scene.colors.ink},${alpha.toFixed(3)})`;
     ctx.lineWidth = snakeLineWidth;
-    ctx.shadowColor = `rgba(255,255,255,${(alpha * 0.45).toFixed(3)})`;
+    ctx.shadowColor = `rgba(${scene.colors.ink},${(alpha * 0.45).toFixed(3)})`;
     ctx.shadowBlur = snakeGlowBlur;
 
     ctx.beginPath();
@@ -172,8 +172,8 @@ function drawSnakeTrail(scene: GridScene, snake: GridSnake) {
   const headX = headA.x + (headB.x - headA.x) * headT;
   const headY = headA.y + (headB.y - headA.y) * headT;
 
-  ctx.fillStyle = "rgba(255,255,255,1)";
-  ctx.shadowColor = "rgba(255,255,255,0.85)";
+  ctx.fillStyle = `rgba(${scene.colors.ink},1)`;
+  ctx.shadowColor = `rgba(${scene.colors.ink},0.85)`;
   ctx.shadowBlur = snakeGlowBlur + 2;
 
   ctx.beginPath();

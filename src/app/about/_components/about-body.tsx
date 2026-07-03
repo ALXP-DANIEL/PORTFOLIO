@@ -18,7 +18,7 @@ function Section({ label, children }: { label: string; children: ReactNode }) {
   return (
     <section
       data-reveal
-      className="flex flex-col gap-6 border-t border-white/10 first:border-t-0 first:pt-0 pt-10"
+      className="flex flex-col gap-6 border-t border-border first:border-t-0 first:pt-0 pt-10"
     >
       <p className="font-mono text-[11px] tracking-[0.22em] text-foreground/40 uppercase">
         {label}
@@ -39,7 +39,7 @@ function TimelineRow({
   children: ReactNode;
 }) {
   return (
-    <li className="grid gap-x-8 gap-y-3 border-t border-white/8 py-8 first:border-t-0 first:pt-0 sm:grid-cols-[190px_1fr]">
+    <li className="grid gap-x-8 gap-y-3 border-t border-foreground/8 py-8 first:border-t-0 first:pt-0 sm:grid-cols-[190px_1fr]">
       <div className="flex flex-col gap-1">
         <p className="font-mono text-[11px] tracking-wide text-foreground/45 tabular-nums">
           {period}
@@ -133,7 +133,7 @@ export default function AboutBody() {
                 {group.items.map((item) => (
                   <span
                     key={item}
-                    className="rounded-full border border-white/10 bg-white/3 px-2.5 py-1 font-mono text-[11px] tracking-wide text-foreground/60"
+                    className="rounded-full border border-border bg-foreground/3 px-2.5 py-1 font-mono text-[11px] tracking-wide text-foreground/60"
                   >
                     {item}
                   </span>
@@ -163,7 +163,7 @@ export default function AboutBody() {
                   </p>
                 ) : null}
                 {ed.gpa ? (
-                  <span className="rounded-full border border-white/10 bg-white/3 px-2.5 py-0.5 font-mono text-[11px] text-foreground/55">
+                  <span className="rounded-full border border-border bg-foreground/3 px-2.5 py-0.5 font-mono text-[11px] text-foreground/55">
                     {ed.gpa}
                   </span>
                 ) : null}
@@ -187,7 +187,7 @@ export default function AboutBody() {
                   {lang.level}
                 </span>
               </div>
-              <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/10">
+              <div className="mt-2 h-1 overflow-hidden rounded-full bg-foreground/10">
                 <div
                   className="h-full rounded-full bg-foreground/60"
                   style={{ width: `${lang.proficiency}%` }}

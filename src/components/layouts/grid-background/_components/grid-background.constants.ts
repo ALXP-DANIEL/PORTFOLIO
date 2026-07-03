@@ -1,8 +1,28 @@
 // Tuning constants and shared types for the interactive grid background.
 
-export const BACKGROUND = "rgb(10, 10, 10)";
-export const GRID_STROKE = "rgba(255,255,255,0.045)";
-export const PULSE_FILL = "255,255,255";
+export type GridThemeColors = {
+  background: string;
+  gridStroke: string;
+  /** rgb triplet for pulses and snakes */
+  ink: string;
+  /** rgb triplet for the cursor reticle */
+  reticle: string;
+};
+
+export const GRID_THEME: Record<"dark" | "light", GridThemeColors> = {
+  dark: {
+    background: "rgb(10, 10, 10)",
+    gridStroke: "rgba(255,255,255,0.045)",
+    ink: "255,255,255",
+    reticle: "240,236,228",
+  },
+  light: {
+    background: "rgb(250, 250, 250)",
+    gridStroke: "rgba(0,0,0,0.055)",
+    ink: "25,25,25",
+    reticle: "35,35,40",
+  },
+};
 
 export const CELL = 35;
 export const WARP_RADIUS = 220;
@@ -21,7 +41,6 @@ export const RETICLE_ARM = 14;
 export const RETICLE_SELECTOR = "a, button, [role='button'], [data-reticle]";
 export const LOCK_LERP = 0.18;
 export const BOX_LERP = 0.22;
-export const RETICLE_RGB = "240,236,228";
 
 export const PULSE_LIFETIME_DESKTOP = 90;
 export const PULSE_LIFETIME_MOBILE = 55;

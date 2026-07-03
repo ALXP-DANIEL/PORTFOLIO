@@ -4,7 +4,6 @@ import {
   LOCK_LERP,
   RETICLE_ARM,
   RETICLE_PAD,
-  RETICLE_RGB,
 } from "./grid-background.constants";
 import type { GridScene } from "./grid-background.scene";
 
@@ -55,7 +54,7 @@ export function drawReticle(scene: GridScene) {
   const chAlpha = 1 - scene.lock;
 
   if (chAlpha > 0.01) {
-    overlayCtx.strokeStyle = `rgba(${RETICLE_RGB},${(0.85 * chAlpha).toFixed(3)})`;
+    overlayCtx.strokeStyle = `rgba(${scene.colors.reticle},${(0.85 * chAlpha).toFixed(3)})`;
     overlayCtx.lineWidth = 1.5;
     overlayCtx.beginPath();
     overlayCtx.moveTo(scene.mx - CURSOR_ARM, scene.my);
@@ -68,7 +67,7 @@ export function drawReticle(scene: GridScene) {
   if (scene.lock > 0.01) {
     const arm = Math.min(RETICLE_ARM, (rb.r - rb.l) / 2, (rb.b - rb.t) / 2);
 
-    overlayCtx.strokeStyle = `rgba(${RETICLE_RGB},${(0.9 * scene.lock).toFixed(3)})`;
+    overlayCtx.strokeStyle = `rgba(${scene.colors.reticle},${(0.9 * scene.lock).toFixed(3)})`;
     overlayCtx.lineWidth = 1.5;
     overlayCtx.beginPath();
 

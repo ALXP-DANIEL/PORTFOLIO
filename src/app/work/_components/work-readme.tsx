@@ -53,27 +53,27 @@ const components: Components = {
     <li className="marker:text-foreground/30">{children}</li>
   ),
   code: ({ children }) => (
-    <code className="rounded bg-white/8 px-1.5 py-0.5 font-mono text-[0.85em] text-foreground/85">
+    <code className="rounded bg-foreground/8 px-1.5 py-0.5 font-mono text-[0.85em] text-foreground/85">
       {children}
     </code>
   ),
   pre: ({ children }) => (
-    <pre className="mt-4 overflow-x-auto rounded-xl border border-white/10 bg-black/40 p-4 font-mono text-[13px] leading-6 text-foreground/80">
+    <pre className="mt-4 overflow-x-auto rounded-xl border border-border bg-foreground/5 p-4 font-mono text-[13px] leading-6 text-foreground/80">
       {children}
     </pre>
   ),
   blockquote: ({ children }) => (
-    <blockquote className="mt-4 border-l-2 border-white/15 pl-4 text-sm text-foreground/55 italic">
+    <blockquote className="mt-4 border-l-2 border-foreground/15 pl-4 text-sm text-foreground/55 italic">
       {children}
     </blockquote>
   ),
-  hr: () => <hr className="my-8 border-white/10" />,
+  hr: () => <hr className="my-8 border-border" />,
   img: ({ src, alt }) =>
     typeof src === "string" ? (
       <BlurImage
         src={src}
         alt={alt ?? ""}
-        wrapperClassName="mt-5 w-full rounded-xl border border-white/10"
+        wrapperClassName="mt-5 w-full rounded-xl border border-border"
         className="w-full"
       />
     ) : null,

@@ -181,7 +181,7 @@ export default function Hero() {
           />
         </div>
 
-        <div className="absolute inset-0 bg-linear-to-r from-black from-10% via-black/80 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-background from-10% via-background/80 to-transparent" />
         <div className="absolute inset-x-0 top-0 h-36 bg-linear-to-b from-background/70 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-44 bg-linear-to-t from-background/90 to-transparent" />
       </div>

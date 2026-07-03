@@ -74,7 +74,7 @@ export default function ContactBody() {
       {/* email — the main CTA */}
       <div
         data-reveal
-        className="flex flex-col gap-4 border-t border-white/10 pt-10"
+        className="flex flex-col gap-4 border-t border-border pt-10"
       >
         <p className="font-mono text-[11px] tracking-[0.18em] text-foreground/35 uppercase">
           Email
@@ -91,7 +91,7 @@ export default function ContactBody() {
             type="button"
             data-reticle
             onClick={copyEmail}
-            className="inline-flex items-center gap-2 rounded-full border border-white/12 px-3.5 py-1.5 font-mono text-[11px] tracking-wide text-foreground/60 transition-colors hover:bg-white/6 hover:text-foreground"
+            className="inline-flex items-center gap-2 rounded-full border border-foreground/12 px-3.5 py-1.5 font-mono text-[11px] tracking-wide text-foreground/60 transition-colors hover:bg-foreground/5 hover:text-foreground"
           >
             {copied ? "Copied ✓" : "Copy"}
           </button>
@@ -101,7 +101,7 @@ export default function ContactBody() {
       {/* facts */}
       <dl
         data-reveal
-        className="grid gap-px overflow-hidden border border-white/10 bg-white/5 sm:grid-cols-3"
+        className="grid gap-px overflow-hidden border border-border bg-foreground/5 sm:grid-cols-3"
       >
         {FACTS.map((fact) => (
           <div key={fact.label} className="bg-background/60 p-5">
@@ -124,7 +124,7 @@ export default function ContactBody() {
       {/* channels */}
       <div
         data-reveal
-        className="flex flex-col gap-5 border-t border-white/10 pt-10"
+        className="flex flex-col gap-5 border-t border-border pt-10"
       >
         <p className="font-mono text-[11px] tracking-[0.18em] text-foreground/35 uppercase">
           Elsewhere
@@ -139,7 +139,7 @@ export default function ContactBody() {
                 target="_blank"
                 rel="noreferrer"
                 data-reticle
-                className="group inline-flex items-center gap-2.5 rounded-full border border-white/10 px-4 py-2 font-mono text-sm tracking-wide text-foreground/65 transition-colors hover:bg-white/6 hover:text-foreground"
+                className="group inline-flex items-center gap-2.5 rounded-full border border-border px-4 py-2 font-mono text-sm tracking-wide text-foreground/65 transition-colors hover:bg-foreground/5 hover:text-foreground"
               >
                 <Icon className="size-4" weight="bold" />
                 {channel.platform}
@@ -156,7 +156,7 @@ export default function ContactBody() {
               target="_blank"
               rel="noreferrer"
               data-reticle
-              className="group inline-flex items-center gap-2.5 rounded-full border border-white/10 px-4 py-2 font-mono text-sm tracking-wide text-foreground/65 transition-colors hover:bg-white/6 hover:text-foreground"
+              className="group inline-flex items-center gap-2.5 rounded-full border border-border px-4 py-2 font-mono text-sm tracking-wide text-foreground/65 transition-colors hover:bg-foreground/5 hover:text-foreground"
             >
               <Icons.Layout.Navigation.Home className="size-4" weight="bold" />
               Portfolio

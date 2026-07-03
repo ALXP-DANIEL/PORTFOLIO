@@ -2,7 +2,6 @@ import {
   CELL,
   PULSE_ALPHA_DESKTOP,
   PULSE_ALPHA_MOBILE,
-  PULSE_FILL,
   PULSE_LIFETIME_DESKTOP,
   PULSE_LIFETIME_MOBILE,
   PULSE_RATE_DESKTOP,
@@ -30,7 +29,7 @@ export function updateAndDrawPulses(scene: GridScene) {
   for (const p of scene.pulses) {
     const alpha = pulseAlpha * Math.sin((p.age / pulseLifetime) * Math.PI);
 
-    ctx.fillStyle = `rgba(${PULSE_FILL},${alpha.toFixed(3)})`;
+    ctx.fillStyle = `rgba(${scene.colors.ink},${alpha.toFixed(3)})`;
 
     const x = p.col * CELL;
     const y = p.row * CELL;

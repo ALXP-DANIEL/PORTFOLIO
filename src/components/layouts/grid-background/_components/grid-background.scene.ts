@@ -2,6 +2,7 @@ import {
   CELL,
   type GridPoint,
   type GridSnake,
+  type GridThemeColors,
   type Pulse,
   WARP_RADIUS,
   WARP_STRENGTH,
@@ -23,6 +24,9 @@ export type GridScene = {
   isMobile: boolean;
   hasFinePointer: boolean;
   gridStep: number;
+
+  // resolved per-theme canvas colors, swapped when next-themes changes
+  colors: GridThemeColors;
 
   // smoothed cursor (mx/my) chasing the raw target (tx/ty)
   mx: number;
