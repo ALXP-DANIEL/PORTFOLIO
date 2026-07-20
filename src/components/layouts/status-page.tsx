@@ -5,7 +5,8 @@ import SectionLabel from "../ui/section-label";
 import { Button } from "../ui/shadcn/button";
 
 type StatusPageAction = {
-  href: string;
+  href?: string;
+  onClick?: () => void;
   label: string;
   variant?: "primary" | "secondary" | "ghost";
 };
@@ -56,10 +57,10 @@ export default function StatusPage({
 
           {actions.length > 0 ? (
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              {actions.map(({ href, label, variant = "primary" }) => (
+              {actions.map(({ href, onClick, label, variant = "primary" }) => (
                 <Button
-                  key={`${href}-${label}`}
-                  render={<Link href={href} />}
+                  key={`${href ?? "action"}-${label}`}
+                  {...(href ? { render: <Link href={href} /> } : { onClick })}
                   className={cn(
                     "inline-flex h-10 items-center justify-center rounded-lg border px-4 text-sm font-medium transition-colors",
                     actionClassNames[variant],

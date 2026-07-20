@@ -5,6 +5,7 @@ import { DebugInfo } from "@/components/debug-info";
 import RootLayoutWrapper from "@/components/layouts/root-layout";
 import SplashGate from "@/components/layouts/splash-gate";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ReducedMotionGuard } from "@/components/reduced-motion-guard";
 import { siteConfig } from "@/config/site";
 import { env } from "@/env";
 import { PageScrollStateProvider } from "@/hooks/use-page-scroll-state";
@@ -96,6 +97,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
+        <ReducedMotionGuard />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <PageScrollStateProvider>
             {isMaintenance ? (

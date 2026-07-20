@@ -158,6 +158,21 @@
       cursor: none !important;
     }
   }
+
+  /* Safety net for every CSS transition/animation site-wide — GSAP's own
+     timelines are separately throttled via gsap.globalTimeline.timeScale()
+     (see reduced-motion-guard.tsx), since they aren't CSS and this rule
+     can't reach them. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 /* Scrollbar */
