@@ -60,7 +60,7 @@ export default function SplashGate({ children }: SplashGateProps) {
             key="splash"
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.01, filter: "blur(8px)" }}
+            exit={{ opacity: 0, scale: 1.01 }}
             transition={{ duration: 0.42, ease: "easeInOut" }}
             className="fixed inset-0 z-300 grid place-items-center bg-background text-foreground"
             aria-label="Loading portfolio"

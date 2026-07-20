@@ -26,7 +26,7 @@ export function ThemeToggle({ atTop = true }: ThemeToggleProps) {
       onClick={toggle}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
       className={cn(
-        "glass relative grid size-10 place-items-center overflow-hidden text-foreground transition-[border-radius] duration-300 ease-out",
+        "relative grid size-10 place-items-center overflow-hidden border border-border bg-background text-foreground shadow-lg transition-[border-radius] duration-300 ease-out",
         atTop
           ? "rounded-t-none rounded-b-[1.25rem]"
           : "rounded-t-[1.25rem] rounded-b-[1.25rem]",

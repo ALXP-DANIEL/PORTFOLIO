@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRef } from "react";
 
 import { Icons } from "@/components/icons";
-import GlassSurface from "@/components/ui/glass-surface";
 import { siteConfig } from "@/config/site";
 import { socialsConfig } from "@/config/sosial";
 import { usePageScrollState } from "@/hooks/use-page-scroll-state";
@@ -25,14 +24,13 @@ export default function Footer() {
       className="site-footer pointer-events-none fixed inset-x-0 z-250 px-4"
     >
       <div className="pointer-events-auto">
-        <GlassSurface
+        <div
           className={cn(
-            "mx-auto hidden p-1.5 transition-[border-radius] duration-300 ease-out lg:block",
+            "relative mx-auto hidden items-center justify-between gap-4 overflow-hidden rounded-full border border-border bg-background p-1.5 shadow-lg transition-[border-radius] duration-300 ease-out lg:flex",
             atBottom
               ? "rounded-t-[2rem] rounded-b-none"
               : "rounded-t-[2rem] rounded-b-[2rem]",
           )}
-          contentClassName="flex items-center justify-between gap-4"
         >
           <div className="flex items-center gap-4 text-xs text-muted-foreground">
             <span className="px-3 font-mono tracking-wide">
@@ -76,7 +74,7 @@ export default function Footer() {
               />
             </Link>
           </div>
-        </GlassSurface>
+        </div>
       </div>
     </motion.footer>
   );

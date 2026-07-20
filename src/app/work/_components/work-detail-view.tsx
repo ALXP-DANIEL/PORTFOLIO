@@ -236,7 +236,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
           <SectionLabel>Readme</SectionLabel>
           <div
             className={cn(
-              "relative border border-border bg-background/60 p-6 backdrop-blur-xl sm:p-9",
+              "relative border border-border bg-background p-6 sm:p-9",
             )}
           >
             <WorkReadme source={project.readme} />

@@ -84,7 +84,7 @@ export default function WorkCover({
       </span>
 
       {label ? (
-        <span className="absolute top-4 left-4 rounded-full border border-white/10 bg-black/30 px-2.5 py-1 font-mono text-[10px] tracking-[0.18em] text-foreground/55 uppercase backdrop-blur-sm">
+        <span className="absolute top-4 left-4 rounded-full border border-white/10 bg-black/70 px-2.5 py-1 font-mono text-[10px] tracking-[0.18em] text-foreground/55 uppercase">
           {label}
         </span>
       ) : null}

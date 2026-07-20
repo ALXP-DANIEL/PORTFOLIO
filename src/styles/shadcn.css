@@ -150,6 +150,14 @@
   a {
     -webkit-user-drag: none;
   }
+
+  /* Native cursor is replaced by the canvas reticle in grid-background,
+     but only once it has actually mounted — see grid-background.tsx. */
+  @media (pointer: fine) {
+    html[data-cursor-ready="true"] * {
+      cursor: none !important;
+    }
+  }
 }
 
 /* Scrollbar */

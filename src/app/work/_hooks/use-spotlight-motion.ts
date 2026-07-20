@@ -103,11 +103,10 @@ export function useSpotlightMotion({
       );
       gsap.fromTo(
         content.querySelectorAll("[data-entrance='spotlight-stagger']"),
-        { autoAlpha: 0, y: 18, filter: "blur(8px)" },
+        { autoAlpha: 0, y: 18 },
         {
           autoAlpha: 1,
           y: 0,
-          filter: "blur(0px)",
           duration: 0.55,
           stagger: 0.06,
           ease: "power3.out",

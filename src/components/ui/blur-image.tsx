@@ -80,9 +80,9 @@ export default function BlurImage({
   }, [src, clearRevealTimer, finishReveal]);
 
   const imageClassName = cn(
-    "transition-[filter,opacity,transform] ease-out motion-reduce:transition-none select-none",
+    "transition-[opacity,transform] ease-out motion-reduce:transition-none select-none",
     REVEAL_DURATION_CLASS,
-    isRevealed ? "scale-100 blur-0" : "scale-[1.02] blur-2xl",
+    isRevealed ? "scale-100 opacity-100" : "scale-[1.02] opacity-0",
     className,
   );
 

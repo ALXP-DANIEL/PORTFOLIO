@@ -59,13 +59,13 @@ export default function StatusPage({
               {actions.map(({ href, label, variant = "primary" }) => (
                 <Button
                   key={`${href}-${label}`}
-                  asChild
+                  render={<Link href={href} />}
                   className={cn(
                     "inline-flex h-10 items-center justify-center rounded-lg border px-4 text-sm font-medium transition-colors",
                     actionClassNames[variant],
                   )}
                 >
-                  <Link href={href}>{label}</Link>
+                  {label}
                 </Button>
               ))}
             </div>

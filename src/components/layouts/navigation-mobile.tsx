@@ -2,11 +2,10 @@
 
 import { motion } from "motion/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useRef } from "react";
-import BlurImage from "@/components/ui/blur-image";
-import GlassSurface, { glassActiveStyle } from "@/components/ui/glass-surface";
+import Logo from "@/components/ui/logo";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { useDraggableNav } from "@/hooks/use-draggable-nav";
 import { usePageScrollState } from "@/hooks/use-page-scroll-state";
 import { cn } from "@/lib/utils";
 import type { NavigationProps } from "@/types/route";
@@ -19,11 +18,11 @@ export default function NavigationMobile({
   links,
   activeTransition,
 }: NavigationProps) {
-  const pathname = usePathname();
-  const navRef = useRef<HTMLDivElement>(null);
   const brandRef = useRef<HTMLDivElement>(null);
   const { atBottom, atTop } = usePageScrollState();
   const { action } = useNavigationAction();
+  const { trackRef, visibleIndex, pressed, getLinkHandlers } =
+    useDraggableNav(links);
 
   return (
     <>
@@ -33,22 +32,16 @@ export default function NavigationMobile({
         transition={{ duration: 0.35, ease: "easeOut" }}
         className="site-nav-mobile-brand fixed z-250 block lg:hidden"
       >
-        <GlassSurface
+        <div
           className={cn(
-            "px-4 py-2 transition-[border-radius] duration-300 ease-out",
+            "relative flex items-center overflow-hidden rounded-full border border-border bg-background px-4 py-2 shadow-lg transition-[border-radius] duration-300 ease-out",
             atTop
               ? "rounded-t-none rounded-b-[2rem]"
               : "rounded-t-[2rem] rounded-b-[2rem]",
           )}
-          contentClassName="flex items-center"
         >
-          <BlurImage
-            src="/logo.svg"
-            alt="Logo"
-            className="h-4 w-auto invert dark:invert-0"
-            wrapperClassName="block"
-          />
-        </GlassSurface>
+          <Logo />
+        </div>
       </motion.div>
 
       <motion.div
@@ -57,84 +50,87 @@ export default function NavigationMobile({
         className="fixed z-250 flex items-center gap-2 lg:hidden"
       >
         {action ? (
-          <GlassSurface
+          <div
             className={cn(
-              "p-1.5 transition-[border-radius] duration-300 ease-out",
+              "relative flex items-center overflow-hidden rounded-full border border-border bg-background p-1.5 shadow-lg transition-[border-radius] duration-300 ease-out",
               atTop
                 ? "rounded-t-none rounded-b-[2rem]"
                 : "rounded-t-[2rem] rounded-b-[2rem]",
             )}
-            contentClassName="flex items-center"
           >
             <NavigationActionOutlet
               classNames={{
                 content: "gap-1.5",
-                icon: "size-14 bg-red-500",
+                icon: "size-14",
                 label: "leading-none",
               }}
               className="relative flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-mono tracking-wide transition-colors duration-300"
             />
-          </GlassSurface>
+          </div>
         ) : null}
 
         <ThemeToggle atTop={atTop} />
       </motion.div>
 
       <motion.div
-        ref={navRef}
+        ref={trackRef as React.RefObject<HTMLDivElement>}
         animate={{ bottom: atBottom ? 0 : 20 }}
         transition={{ duration: 0.35, ease: "easeOut" }}
         className="site-nav-mobile fixed left-1/2 z-250 block -translate-x-1/2 lg:hidden"
       >
-        <GlassSurface
-          as="nav"
+        <nav
           className={cn(
-            "w-[calc(100vw-2.5rem)] max-w-sm p-1.5 transition-[border-radius] duration-300 ease-out",
+            "relative w-[calc(100vw-2.5rem)] max-w-sm overflow-hidden rounded-full border border-border bg-background p-1.5 shadow-lg transition-[border-radius] duration-300 ease-out",
             atBottom
               ? "rounded-t-[2rem] rounded-b-none"
               : "rounded-t-[2rem] rounded-b-[2rem]",
           )}
-          contentClassName="grid gap-0.5"
-          contentStyle={{
-            gridTemplateColumns: `repeat(${links.length}, minmax(0, 1fr))`,
-          }}
         >
-          {links.map(({ path, label, icon: Icon }) => {
-            const active = pathname === path;
+          <div
+            className="grid gap-0.5"
+            style={{
+              gridTemplateColumns: `repeat(${links.length}, minmax(0, 1fr))`,
+            }}
+          >
+            {links.map(({ path, label, icon: Icon }, index) => {
+              const isVisible = index === visibleIndex;
 
-            return (
-              <Link
-                key={path}
-                href={path}
-                className={cn(
-                  "relative flex min-w-0 flex-col items-center gap-0.5 rounded-full px-1 py-1.5 transition-colors duration-300",
-                  active
-                    ? "text-foreground"
-                    : "text-foreground/40 hover:text-foreground/70",
-                )}
-              >
-                {active && (
-                  <motion.span
-                    layoutId="mobile-nav-active"
-                    className="absolute inset-0 rounded-full"
-                    style={glassActiveStyle}
-                    transition={activeTransition}
+              return (
+                <Link
+                  key={path}
+                  href={path}
+                  aria-current={isVisible ? "page" : undefined}
+                  {...getLinkHandlers(index)}
+                  className={cn(
+                    "relative flex min-w-0 flex-col items-center gap-0.5 rounded-full px-1 py-1.5 transition-colors duration-300 touch-none select-none",
+                    isVisible
+                      ? "text-foreground"
+                      : "text-foreground/40 hover:text-foreground/70",
+                  )}
+                >
+                  {isVisible && (
+                    <motion.span
+                      layoutId="mobile-nav-active"
+                      className="absolute inset-0 rounded-full bg-accent"
+                      animate={{ scale: pressed ? 1.1 : 1 }}
+                      transition={activeTransition}
+                    />
+                  )}
+
+                  <Icon
+                    size={18}
+                    weight={isVisible ? "fill" : "regular"}
+                    className="relative"
                   />
-                )}
 
-                <Icon
-                  size={18}
-                  weight={active ? "fill" : "regular"}
-                  className="relative"
-                />
-
-                <span className="relative text-[10px] font-mono tracking-wide">
-                  {label}
-                </span>
-              </Link>
-            );
-          })}
-        </GlassSurface>
+                  <span className="relative text-[10px] font-mono tracking-wide">
+                    {label}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </nav>
       </motion.div>
     </>
   );

@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["192.168.0.104"],
   experimental: {
     viewTransition: true,
+    useTypeScriptCli: true,
   },
   reactCompiler: true,
   images: {

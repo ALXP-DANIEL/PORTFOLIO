@@ -29,8 +29,8 @@ export default function PageIntro({
       )
         .fromTo(
           "[data-entrance='page-intro-desc']",
-          { autoAlpha: 0, y: 16, filter: "blur(6px)" },
-          { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.6 },
+          { autoAlpha: 0, y: 16 },
+          { autoAlpha: 1, y: 0, duration: 0.6 },
           "-=0.45",
         )
         .fromTo(

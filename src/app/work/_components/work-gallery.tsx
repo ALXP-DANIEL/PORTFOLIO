@@ -76,7 +76,7 @@ export default function WorkGallery({
           onClick={(e) => {
             if (e.target === e.currentTarget) close();
           }}
-          className="fixed inset-0 top-0 left-0 grid h-dvh w-screen max-w-none translate-x-0 translate-y-0 place-items-center gap-0 rounded-none border-0 bg-black/92 p-4 shadow-none ring-0 backdrop-blur-sm sm:max-w-none sm:p-12"
+          className="fixed inset-0 top-0 left-0 grid h-dvh w-screen max-w-none translate-x-0 translate-y-0 place-items-center gap-0 rounded-none border-0 bg-black/97 p-4 shadow-none ring-0 sm:max-w-none sm:p-12"
         >
           <DialogTitle className="sr-only">
             {active?.caption ?? active?.alt ?? "Project image"}
@@ -134,7 +134,7 @@ export default function WorkGallery({
               ) : null}
 
               <div className="absolute inset-x-0 bottom-5 flex justify-center px-4">
-                <div className="flex max-w-[90vw] items-center gap-3 rounded-full border border-white/10 bg-black/50 px-4 py-1.5 backdrop-blur">
+                <div className="flex max-w-[90vw] items-center gap-3 rounded-full border border-white/10 bg-black/85 px-4 py-1.5">
                   <span className="truncate font-mono text-[11px] tracking-wide text-foreground/70">
                     {active.caption ?? active.alt ?? "Preview"}
                   </span>

@@ -55,11 +55,10 @@ export default function Hero() {
       if (fade.length > 0) {
         tl.fromTo(
           fade,
-          { autoAlpha: 0, y: 16, filter: "blur(6px)" },
+          { autoAlpha: 0, y: 16 },
           {
             autoAlpha: 1,
             y: 0,
-            filter: "blur(0px)",
             duration: 0.6,
             stagger: 0.08,
           },
@@ -225,7 +224,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/15" />
       </div>
       {/* Content */}
-      <div className="relative z-10 flex max-w-xl flex-col gap-6 pb-6 md:pb-0">
+      <div className="relative z-10 flex max-w-xl flex-col gap-6">
         <h1 className="text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
           <span className="block overflow-hidden pb-[0.12em]">
             <span data-entrance="hero-title" className="block">

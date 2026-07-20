@@ -43,6 +43,8 @@ export default function GridBackground({
 
     if (!ctx || !overlayCtx) return;
 
+    document.documentElement.dataset.cursorReady = "true";
+
     // narrowed consts so the closures below see non-null types
     const activeCanvas = canvas;
     const activeOverlay = overlay;
@@ -186,6 +188,7 @@ export default function GridBackground({
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("visibilitychange", onVisibilityChange);
+      delete document.documentElement.dataset.cursorReady;
       audio.close();
     };
   }, []);

@@ -1,5 +1,13 @@
+"use client";
+
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import {
+  createContext,
+  type ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 type PageScrollState = {
   atTop: boolean;
@@ -16,7 +24,10 @@ function getScrollState(): PageScrollState {
   };
 }
 
-export function usePageScrollState() {
+const PageScrollStateContext = createContext<PageScrollState | null>(null);
+
+/** Owns the single scroll/resize listener shared by nav, footer, and the dev HUD. */
+export function PageScrollStateProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [state, setState] = useState<PageScrollState>({
     atTop: true,
@@ -42,5 +53,21 @@ export function usePageScrollState() {
     };
   }, [pathname]);
 
-  return state;
+  return (
+    <PageScrollStateContext.Provider value={state}>
+      {children}
+    </PageScrollStateContext.Provider>
+  );
+}
+
+export function usePageScrollState() {
+  const context = useContext(PageScrollStateContext);
+
+  if (!context) {
+    throw new Error(
+      "usePageScrollState must be used within PageScrollStateProvider",
+    );
+  }
+
+  return context;
 }

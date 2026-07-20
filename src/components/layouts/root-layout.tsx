@@ -20,8 +20,10 @@ export default function RootLayoutWrapper({ children }: RootLayoutProps) {
   useEffect(() => {
     if (!isReady || !pathname) return;
 
-    if (window.scrollY <= 16) {
-      window.scrollTo({ top: 26, behavior: "smooth" });
+    // Nudge just past the nav's atTop threshold (usePageScrollState) so the
+    // floating pill settles into place instead of fighting the nav's own state.
+    if (window.scrollY === 0) {
+      window.scrollTo({ top: 32, behavior: "smooth" });
     }
   }, [isReady, pathname]);
 
@@ -29,7 +31,7 @@ export default function RootLayoutWrapper({ children }: RootLayoutProps) {
     <GridBackground>
       <NavigationActionProvider>
         <Navigation />
-        <main className="min-h-dvh py-25 px-5 lg:px-15">
+        <main className="min-h-svh py-25 px-5 lg:px-15">
           <ViewTransitionShell>
             <section className="w-full mx-auto max-w-6xl ">{children}</section>
           </ViewTransitionShell>

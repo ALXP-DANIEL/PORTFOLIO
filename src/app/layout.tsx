@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "@styles/globals.css";
 import { DebugInfo } from "@/components/debug-info";
 import RootLayoutWrapper from "@/components/layouts/root-layout";
@@ -7,23 +7,11 @@ import SplashGate from "@/components/layouts/splash-gate";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { siteConfig } from "@/config/site";
 import { env } from "@/env";
+import { PageScrollStateProvider } from "@/hooks/use-page-scroll-state";
 import { cn } from "@/lib/utils";
 import Maintenance from "./maintenance";
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const jetbrainsMono = JetBrains_Mono({subsets:['latin'],variable:'--font-mono'});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url.base),
@@ -73,22 +61,22 @@ export default function RootLayout({
       className={cn(
         "h-full",
         "antialiased",
-        geistSans.variable,
-        geistMono.variable,
         "font-mono",
         jetbrainsMono.variable,
       )}
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          {isMaintenance ? (
-            <Maintenance />
-          ) : (
-            <SplashGate>
-              <RootLayoutWrapper>{children}</RootLayoutWrapper>
-            </SplashGate>
-          )}
-          <DebugInfo enabled={isDevelopment} />
+          <PageScrollStateProvider>
+            {isMaintenance ? (
+              <Maintenance />
+            ) : (
+              <SplashGate>
+                <RootLayoutWrapper>{children}</RootLayoutWrapper>
+              </SplashGate>
+            )}
+            <DebugInfo enabled={isDevelopment} />
+          </PageScrollStateProvider>
         </ThemeProvider>
       </body>
     </html>

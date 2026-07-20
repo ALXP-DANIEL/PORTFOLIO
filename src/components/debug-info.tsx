@@ -3,10 +3,11 @@
 import { BugIcon } from "@phosphor-icons/react";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { usePageScrollState } from "@/hooks/use-page-scroll-state";
 import { Button } from "./ui/shadcn/button";
 
 function useViewportLabel() {
-  const [label, setLabel] = useState("server");
+  const [label, setLabel] = useState<string | null>(null);
 
   useEffect(() => {
     const update = () => {
@@ -71,6 +72,7 @@ export function DebugInfo({ enabled }: { enabled: boolean }) {
   const [serviceWorkerReady, setServiceWorkerReady] = useState(false);
   const [viewTransitions, setViewTransitions] = useState(false);
   const available = enabled || unlocked;
+  const { atBottom } = usePageScrollState();
 
   useEffect(() => {
     const syncOnline = () => setOnline(navigator.onLine);
@@ -107,10 +109,10 @@ export function DebugInfo({ enabled }: { enabled: boolean }) {
     <motion.aside
       className="fixed bottom-22 left-3 z-50 flex flex-col items-start gap-2 text-xs sm:bottom-20 sm:left-6"
       initial={{ opacity: 0, x: -12 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.25 }}
+      animate={{ opacity: 1, x: 0, y: atBottom ? 20 : 0 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
     >
-      <div className="rounded-3xl bg-background/65">
+      <div className="rounded-3xl border border-border bg-background shadow-lg">
         <Button
           type="button"
           variant="ghost"
@@ -118,7 +120,7 @@ export function DebugInfo({ enabled }: { enabled: boolean }) {
           aria-expanded={open}
           aria-controls="qr-pixel-dev-hud"
           onClick={() => setOpen((current) => !current)}
-          className="h-8 gap-2 rounded-2xl bg-transparent hover:bg-background/50 border border-border"
+          className="h-8 gap-2 rounded-2xl bg-transparent hover:bg-foreground/10"
         >
           <BugIcon />
           DEV
@@ -127,27 +129,30 @@ export function DebugInfo({ enabled }: { enabled: boolean }) {
       {open && (
         <motion.div
           id="qr-pixel-dev-hud"
-          className="glass-panel min-w-56 rounded-3xl bg-background/65 p-3 text-muted-foreground"
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.18 }}
         >
-          <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
-            <dt>Viewport</dt>
-            <dd className="text-foreground">{viewport}</dd>
-            <dt>FPS</dt>
-            <dd className="text-foreground tabular-nums">{fps}</dd>
-            <dt>Network</dt>
-            <dd className="text-foreground">{online ? "online" : "offline"}</dd>
-            <dt>Service worker</dt>
-            <dd className="text-foreground">
-              {serviceWorkerReady ? "available" : "unavailable"}
-            </dd>
-            <dt>View transitions</dt>
-            <dd className="text-foreground">
-              {viewTransitions ? "supported" : "unsupported"}
-            </dd>
-          </dl>
+          <div className="min-w-56 rounded-3xl border border-border bg-background p-3 text-muted-foreground shadow-lg">
+            <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+              <dt>Viewport</dt>
+              <dd className="text-foreground">{viewport ?? "…"}</dd>
+              <dt>FPS</dt>
+              <dd className="text-foreground tabular-nums">{fps}</dd>
+              <dt>Network</dt>
+              <dd className="text-foreground">
+                {online ? "online" : "offline"}
+              </dd>
+              <dt>Service worker</dt>
+              <dd className="text-foreground">
+                {serviceWorkerReady ? "available" : "unavailable"}
+              </dd>
+              <dt>View transitions</dt>
+              <dd className="text-foreground">
+                {viewTransitions ? "supported" : "unsupported"}
+              </dd>
+            </dl>
+          </div>
         </motion.div>
       )}
     </motion.aside>
