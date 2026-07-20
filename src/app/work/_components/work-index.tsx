@@ -82,10 +82,10 @@ export default function WorkIndex({
   return (
     <section ref={rootRef}>
       <div className="mb-7 flex items-baseline justify-between gap-3">
-        <SectionLabel className="tracking-[0.24em] text-foreground/45">
+        <SectionLabel className="tracking-[0.24em] text-foreground/60">
           All Work
         </SectionLabel>
-        <p className="font-mono text-[11px] tracking-wide text-foreground/30">
+        <p className="font-mono text-[11px] tracking-wide text-foreground/55">
           {String(projects.length).padStart(2, "0")} projects
         </p>
       </div>

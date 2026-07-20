@@ -52,6 +52,15 @@ export default function BlurImage({
 
   const finishReveal = useCallback(() => {
     clearRevealTimer();
+
+    // Eager images are LCP candidates — Chrome excludes opacity:0 elements
+    // from LCP consideration, so holding one back for the decorative reveal
+    // delay directly inflates the metric. Reveal those the instant they load.
+    if (eager) {
+      setIsRevealed(true);
+      return;
+    }
+
     const elapsed = Date.now() - revealStartedAt.current;
     const remaining = Math.max(REVEAL_DELAY_MS - elapsed, 0);
 
@@ -59,7 +68,7 @@ export default function BlurImage({
       setIsRevealed(true);
       revealTimer.current = null;
     }, remaining);
-  }, [clearRevealTimer]);
+  }, [clearRevealTimer, eager]);
 
   useEffect(() => {
     clearRevealTimer();

@@ -16,6 +16,8 @@ export default function Logo({ className, wrapperClassName }: LogoProps) {
     <BlurImage
       src="/logo.svg"
       alt="Logo"
+      width={100}
+      height={100}
       className={cn("h-4 w-auto", className)}
       wrapperClassName={cn("block", wrapperClassName)}
     />

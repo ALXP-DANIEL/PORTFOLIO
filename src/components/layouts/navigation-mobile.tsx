@@ -105,7 +105,7 @@ export default function NavigationMobile({
                     "relative flex min-w-0 flex-col items-center gap-0.5 rounded-full px-1 py-1.5 transition-colors duration-300 touch-none select-none",
                     isVisible
                       ? "text-foreground"
-                      : "text-foreground/40 hover:text-foreground/70",
+                      : "text-foreground/60 hover:text-foreground/70",
                   )}
                 >
                   {isVisible && (
