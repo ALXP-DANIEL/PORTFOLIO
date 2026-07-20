@@ -5,10 +5,8 @@ import NavigationDesktop from "./navigation-desktop";
 import NavigationMobile from "./navigation-mobile";
 
 const activeTransition = {
-  type: "spring" as const,
-  stiffness: 460,
-  damping: 38,
-  mass: 0.8,
+  duration: 0.3,
+  ease: "power3.out",
 };
 
 export default function Navigation() {

@@ -18,7 +18,7 @@ export default function WorkFacts({ project }: { project: Project }) {
     >
       {facts.map((fact) => (
         <div key={fact.label} className="bg-background/60 p-4">
-          <dt className="font-mono text-[10px] tracking-[0.18em] text-foreground/40 uppercase">
+          <dt className="font-mono text-[10px] tracking-[0.18em] text-foreground/60 uppercase">
             {fact.label}
           </dt>
           <dd className="mt-2 text-base font-medium tracking-tight text-foreground">

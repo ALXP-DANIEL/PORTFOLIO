@@ -138,7 +138,7 @@ export default function WorkGallery({
                   <span className="truncate font-mono text-[11px] tracking-wide text-foreground/70">
                     {active.caption ?? active.alt ?? "Preview"}
                   </span>
-                  <span className="shrink-0 font-mono text-[11px] tracking-wide text-foreground/40 tabular-nums">
+                  <span className="shrink-0 font-mono text-[11px] tracking-wide text-foreground/60 tabular-nums">
                     {String((index ?? 0) + 1).padStart(2, "0")} /{" "}
                     {String(count).padStart(2, "0")}
                   </span>

@@ -74,7 +74,7 @@ export default function WorkSpotlight({
       ) : null}
 
       <div className="relative mb-6 flex items-center justify-between gap-3">
-        <SectionLabel className="tracking-[0.24em] text-foreground/45">
+        <SectionLabel className="tracking-[0.24em] text-foreground/60">
           Spotlight
         </SectionLabel>
         <div className="flex items-center gap-2">
@@ -139,10 +139,7 @@ export default function WorkSpotlight({
             className="mt-6 flex max-h-18 min-h-18 flex-wrap content-start gap-2 overflow-y-auto pr-1"
           >
             {project.tech.map((item) => (
-              <Tag
-                key={item}
-                className="h-7 shrink-0 bg-background/90"
-              >
+              <Tag key={item} className="h-7 shrink-0 bg-background/90">
                 {item}
               </Tag>
             ))}

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "@styles/globals.css";
 import { DebugInfo } from "@/components/debug-info";
@@ -11,7 +11,10 @@ import { PageScrollStateProvider } from "@/hooks/use-page-scroll-state";
 import { cn } from "@/lib/utils";
 import Maintenance from "./maintenance";
 
-const jetbrainsMono = JetBrains_Mono({subsets:['latin'],variable:'--font-mono'});
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url.base),
@@ -46,6 +49,26 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: siteConfig.name,
+  alternateName: siteConfig.author,
+  url: siteConfig.url.base,
+  jobTitle: "Full-Stack Web Developer",
+  description: siteConfig.description,
+  sameAs: Object.values(siteConfig.links).filter((link) =>
+    link.startsWith("http"),
+  ),
+};
+
 const isMaintenance = env.IS_MAINTENANCE === "true";
 const isDevelopment = env.NODE_ENV === "development";
 
@@ -65,6 +88,13 @@ export default function RootLayout({
         jetbrainsMono.variable,
       )}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD built from our own site config, no user input
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <PageScrollStateProvider>

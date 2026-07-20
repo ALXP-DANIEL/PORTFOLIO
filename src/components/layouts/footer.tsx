@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "motion/react";
+import gsap from "gsap";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { Icons } from "@/components/icons";
 import { siteConfig } from "@/config/site";
@@ -15,12 +15,29 @@ export default function Footer() {
   const { atBottom } = usePageScrollState();
   const year = new Date().getFullYear();
   const emailHref = `mailto:${siteConfig.links.email}`;
+  const mounted = useRef(false);
+
+  useEffect(() => {
+    const el = footerRef.current;
+    if (!el) return;
+
+    if (!mounted.current) {
+      gsap.set(el, { bottom: atBottom ? 0 : 16 });
+      mounted.current = true;
+      return;
+    }
+
+    gsap.to(el, {
+      bottom: atBottom ? 0 : 16,
+      duration: 0.35,
+      ease: "power1.out",
+      overwrite: "auto",
+    });
+  }, [atBottom]);
 
   return (
-    <motion.footer
+    <footer
       ref={footerRef}
-      animate={{ bottom: atBottom ? 0 : 16 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
       className="site-footer pointer-events-none fixed inset-x-0 z-250 px-4"
     >
       <div className="pointer-events-auto">
@@ -76,6 +93,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 }

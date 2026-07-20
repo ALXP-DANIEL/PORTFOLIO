@@ -49,7 +49,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
         <div className="flex flex-wrap items-center gap-3">
           <span
             data-entrance="detail-head"
-            className="font-mono text-[11px] tracking-[0.2em] text-foreground/45 uppercase"
+            className="font-mono text-[11px] tracking-[0.2em] text-foreground/60 uppercase"
           >
             {project.category} · {project.year}
           </span>
@@ -182,7 +182,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
                 key={highlight}
                 className="flex items-baseline gap-5 border-b border-foreground/8 py-5 last:border-b-0"
               >
-                <span className="font-mono text-xs text-foreground/30 tabular-nums">
+                <span className="font-mono text-xs text-foreground/60 tabular-nums">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="text-lg leading-8 text-foreground/75">
@@ -219,7 +219,7 @@ export default function WorkDetailView({ project }: WorkDetailViewProps) {
         >
           <div className="flex items-baseline justify-between gap-3">
             <SectionLabel>Gallery</SectionLabel>
-            <span className="font-mono text-[11px] tracking-wide text-foreground/30">
+            <span className="font-mono text-[11px] tracking-wide text-foreground/60">
               {String(project.gallery.length).padStart(2, "0")} shots
             </span>
           </div>

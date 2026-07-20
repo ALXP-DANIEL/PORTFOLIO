@@ -20,9 +20,9 @@ function Section({ label, children }: { label: string; children: ReactNode }) {
       data-reveal
       className="flex flex-col gap-6 border-t border-border first:border-t-0 first:pt-0 pt-10"
     >
-      <p className="font-mono text-[11px] tracking-[0.22em] text-foreground/40 uppercase">
+      <h2 className="font-mono text-[11px] tracking-[0.22em] text-foreground/60 uppercase">
         {label}
-      </p>
+      </h2>
       {children}
     </section>
   );
@@ -41,10 +41,10 @@ function TimelineRow({
   return (
     <li className="grid gap-x-8 gap-y-3 border-t border-foreground/8 py-8 first:border-t-0 first:pt-0 sm:grid-cols-[190px_1fr]">
       <div className="flex flex-col gap-1">
-        <p className="font-mono text-[11px] tracking-wide text-foreground/45 tabular-nums">
+        <p className="font-mono text-[11px] tracking-wide text-foreground/60 tabular-nums">
           {period}
         </p>
-        <p className="font-mono text-[10px] tracking-[0.16em] text-foreground/30 uppercase">
+        <p className="font-mono text-[10px] tracking-[0.16em] text-foreground/60 uppercase">
           {meta}
         </p>
       </div>
@@ -126,7 +126,7 @@ export default function AboutBody() {
         <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
           {skillsConfig.map((group) => (
             <div key={group.group}>
-              <p className="font-mono text-[10px] tracking-[0.2em] text-foreground/35 uppercase">
+              <p className="font-mono text-[10px] tracking-[0.2em] text-foreground/60 uppercase">
                 {group.group}
               </p>
               <div className="mt-3 flex flex-wrap gap-1.5">
@@ -183,7 +183,7 @@ export default function AboutBody() {
                 <span className="text-sm font-medium text-foreground/80">
                   {lang.name}
                 </span>
-                <span className="font-mono text-[11px] tracking-wide text-foreground/40">
+                <span className="font-mono text-[11px] tracking-wide text-foreground/60">
                   {lang.level}
                 </span>
               </div>

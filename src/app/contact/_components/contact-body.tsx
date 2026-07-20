@@ -63,7 +63,7 @@ export default function ContactBody() {
     <div ref={ref} className="flex flex-col gap-12 sm:gap-16">
       {/* statement */}
       <div data-reveal className="flex flex-col gap-4">
-        <p className="font-mono text-[11px] tracking-[0.22em] text-foreground/40 uppercase">
+        <p className="font-mono text-[11px] tracking-[0.22em] text-foreground/60 uppercase">
           Get in touch
         </p>
         <h2 className="max-w-2xl text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
@@ -76,7 +76,7 @@ export default function ContactBody() {
         data-reveal
         className="flex flex-col gap-4 border-t border-border pt-10"
       >
-        <p className="font-mono text-[11px] tracking-[0.18em] text-foreground/35 uppercase">
+        <p className="font-mono text-[11px] tracking-[0.18em] text-foreground/60 uppercase">
           Email
         </p>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
@@ -105,7 +105,7 @@ export default function ContactBody() {
       >
         {FACTS.map((fact) => (
           <div key={fact.label} className="bg-background/60 p-5">
-            <dt className="font-mono text-[10px] tracking-[0.18em] text-foreground/40 uppercase">
+            <dt className="font-mono text-[10px] tracking-[0.18em] text-foreground/60 uppercase">
               {fact.label}
             </dt>
             <dd className="mt-2 flex items-center gap-2 text-base font-medium tracking-tight text-foreground">
@@ -126,7 +126,7 @@ export default function ContactBody() {
         data-reveal
         className="flex flex-col gap-5 border-t border-border pt-10"
       >
-        <p className="font-mono text-[11px] tracking-[0.18em] text-foreground/35 uppercase">
+        <p className="font-mono text-[11px] tracking-[0.18em] text-foreground/60 uppercase">
           Elsewhere
         </p>
         <div className="flex flex-wrap gap-3">

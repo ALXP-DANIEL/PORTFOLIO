@@ -1,8 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import gsap from "gsap";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
@@ -13,12 +13,37 @@ type ThemeToggleProps = {
 export function ThemeToggle({ atTop = true }: ThemeToggleProps) {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const sunRef = useRef<HTMLSpanElement>(null);
+  const moonRef = useRef<HTMLSpanElement>(null);
 
   // next-themes only knows the real theme after mount; avoid hydration mismatch.
   useEffect(() => setMounted(true), []);
 
   const isDark = mounted && resolvedTheme === "dark";
   const toggle = () => setTheme(isDark ? "light" : "dark");
+
+  // Cross-animate both icons in place — no mount/unmount, so no exit
+  // choreography needed (unlike Motion's AnimatePresence).
+  useEffect(() => {
+    const sun = sunRef.current;
+    const moon = moonRef.current;
+    if (!sun || !moon) return;
+
+    gsap.to(sun, {
+      opacity: isDark ? 0 : 1,
+      rotate: isDark ? 90 : 0,
+      scale: isDark ? 0.5 : 1,
+      duration: 0.3,
+      ease: "back.out(1.7)",
+    });
+    gsap.to(moon, {
+      opacity: isDark ? 1 : 0,
+      rotate: isDark ? 0 : -90,
+      scale: isDark ? 1 : 0.5,
+      duration: 0.3,
+      ease: "back.out(1.7)",
+    });
+  }, [isDark]);
 
   return (
     <button
@@ -32,18 +57,20 @@ export function ThemeToggle({ atTop = true }: ThemeToggleProps) {
           : "rounded-t-[1.25rem] rounded-b-[1.25rem]",
       )}
     >
-      <AnimatePresence initial={false}>
-        <motion.span
-          key={isDark ? "moon" : "sun"}
-          initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
-          animate={{ opacity: 1, rotate: 0, scale: 1 }}
-          exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
-          transition={{ type: "spring", stiffness: 320, damping: 24 }}
-          className="absolute"
-        >
-          {isDark ? <Icons.Layout.Theme.Dark /> : <Icons.Layout.Theme.Sun />}
-        </motion.span>
-      </AnimatePresence>
+      <span
+        ref={sunRef}
+        className="absolute"
+        style={{ opacity: isDark ? 0 : 1 }}
+      >
+        <Icons.Layout.Theme.Sun />
+      </span>
+      <span
+        ref={moonRef}
+        className="absolute"
+        style={{ opacity: isDark ? 1 : 0 }}
+      >
+        <Icons.Layout.Theme.Dark />
+      </span>
     </button>
   );
 }

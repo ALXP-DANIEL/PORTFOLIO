@@ -12,11 +12,6 @@ export const socialsConfig = [
     icon: "GitHub",
   },
   {
-    platform: "Discord",
-    link: "https://discord.gg/your-server",
-    icon: "Discord",
-  },
-  {
     platform: "LinkedIn",
     link: "https://www.linkedin.com/in/thealifhaker1/",
     icon: "LinkedIn",

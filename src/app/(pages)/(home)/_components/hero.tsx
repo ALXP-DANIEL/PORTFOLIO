@@ -237,7 +237,7 @@ export default function Hero() {
           data-entrance="hero-fade"
           className="font-mono text-base text-foreground/70 sm:text-xl"
         >
-          <span className="text-foreground/30">{"// "}</span>
+          <span className="text-foreground/60">{"// "}</span>
           <span ref={roleRef} aria-live="off">
             {ROLES[0]}
           </span>

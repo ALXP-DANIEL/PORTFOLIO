@@ -70,7 +70,10 @@ export function useDraggableNav(links: readonly RouteTypes[]) {
       },
       onPointerMove: (event: React.PointerEvent) => {
         const p = pointer.current;
-        if (!p.active || !event.currentTarget.hasPointerCapture(event.pointerId))
+        if (
+          !p.active ||
+          !event.currentTarget.hasPointerCapture(event.pointerId)
+        )
           return;
 
         const pos = axis === "x" ? event.clientX : event.clientY;

@@ -92,10 +92,10 @@ export default function WorkIndex({
 
       {projects.length === 0 ? (
         <div className="flex flex-col items-center gap-3 border-t border-border py-24 text-center">
-          <p className="font-mono text-[11px] tracking-[0.24em] text-foreground/35 uppercase">
+          <p className="font-mono text-[11px] tracking-[0.24em] text-foreground/60 uppercase">
             Nothing here yet
           </p>
-          <p className="max-w-sm text-sm leading-7 text-foreground/45">
+          <p className="max-w-sm text-sm leading-7 text-foreground/60">
             Projects show up here once a repo has a{" "}
             <span className="font-mono text-foreground/70">project.json</span>,
             or once one is added in config.
@@ -160,16 +160,16 @@ export default function WorkIndex({
                       dim ? "opacity-35" : "opacity-100",
                     )}
                   >
-                    <span className="w-10 shrink-0 font-mono text-xs text-foreground/35 tabular-nums">
+                    <span className="w-10 shrink-0 font-mono text-xs text-foreground/60 tabular-nums">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <span className="flex-1 text-4xl font-semibold tracking-tight text-foreground transition-transform duration-300 ease-out group-hover:translate-x-2 xl:text-5xl">
                       {project.title}
                     </span>
-                    <span className="hidden w-44 shrink-0 font-mono text-[11px] tracking-wide text-foreground/45 xl:block">
+                    <span className="hidden w-44 shrink-0 font-mono text-[11px] tracking-wide text-foreground/60 xl:block">
                       {project.category}
                     </span>
-                    <span className="w-14 shrink-0 text-right font-mono text-xs text-foreground/40 tabular-nums">
+                    <span className="w-14 shrink-0 text-right font-mono text-xs text-foreground/60 tabular-nums">
                       {project.year}
                     </span>
                     <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-foreground/15 text-foreground/40 transition-all duration-300 group-hover:border-foreground/40 group-hover:text-foreground">
@@ -220,7 +220,7 @@ export default function WorkIndex({
                       </span>
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="font-mono text-[9px] tracking-[0.18em] text-foreground/40 uppercase">
+                      <p className="font-mono text-[9px] tracking-[0.18em] text-foreground/60 uppercase">
                         {project.type}
                       </p>
                       <h3 className="mt-0.5 truncate text-base font-medium tracking-tight text-foreground">
@@ -230,7 +230,7 @@ export default function WorkIndex({
                         {project.featured ? (
                           <span className="size-1.5 rounded-full bg-amber-300" />
                         ) : null}
-                        <span className="font-mono text-[10px] tracking-wide text-foreground/40">
+                        <span className="font-mono text-[10px] tracking-wide text-foreground/60">
                           {project.year}
                         </span>
                       </div>

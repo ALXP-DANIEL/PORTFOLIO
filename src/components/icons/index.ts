@@ -3,7 +3,6 @@ import {
   ArrowUpRightIcon,
   BriefcaseIcon,
   CaretUpIcon,
-  DiscordLogoIcon,
   EnvelopeIcon,
   GithubLogoIcon,
   HouseIcon,
@@ -22,7 +21,6 @@ const SocialIcons = {
   X: XLogoIcon,
   GitHub: GithubLogoIcon,
   LinkedIn: LinkedinLogoIcon,
-  Discord: DiscordLogoIcon,
   Instagram: InstagramLogoIcon,
 } as const satisfies Record<SocialLinks, Icon>;
 

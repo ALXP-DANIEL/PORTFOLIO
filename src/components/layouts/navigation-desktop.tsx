@@ -1,11 +1,12 @@
 "use client";
 
-import { motion } from "motion/react";
+import gsap from "gsap";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Logo from "@/components/ui/logo";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useDraggableNav } from "@/hooks/use-draggable-nav";
+import { useFlipPill } from "@/hooks/use-flip-pill";
 import { usePageScrollState } from "@/hooks/use-page-scroll-state";
 import { cn } from "@/lib/utils";
 import type { NavigationProps } from "@/types/route";
@@ -14,27 +15,74 @@ import {
   useNavigationAction,
 } from "./navigation-action";
 
+/** Animates a fixed element's edge offsets, skipping the transition on first mount. */
+function useEdgeOffset<T extends HTMLElement>(
+  ref: React.RefObject<T | null>,
+  vars: gsap.TweenVars,
+  deps: unknown[],
+) {
+  const mounted = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (!mounted.current) {
+      gsap.set(el, vars);
+      mounted.current = true;
+      return;
+    }
+
+    gsap.to(el, {
+      ...vars,
+      duration: 0.35,
+      ease: "power1.out",
+      overwrite: "auto",
+    });
+    // biome-ignore lint/correctness/useExhaustiveDependencies: vars is rebuilt per render from deps
+  }, deps);
+}
+
 export default function NavigationDesktop({
   links,
   activeTransition,
 }: NavigationProps) {
   const navRef = useRef<HTMLDivElement>(null);
+  const actionRef = useRef<HTMLDivElement>(null);
+  const pillRef = useRef<HTMLSpanElement>(null);
+  const pillInnerRef = useRef<HTMLSpanElement>(null);
   const { atTop } = usePageScrollState();
   const { action } = useNavigationAction();
   const { trackRef, visibleIndex, pressed, getLinkHandlers } =
     useDraggableNav(links);
 
+  useEdgeOffset(
+    navRef,
+    { top: atTop ? 0 : 20, bottom: "auto", left: 20, right: "auto" },
+    [atTop],
+  );
+  useEdgeOffset(
+    actionRef,
+    { top: atTop ? 0 : 20, bottom: "auto", right: 20, left: "auto" },
+    [atTop],
+  );
+
+  useFlipPill(pillRef, visibleIndex, activeTransition);
+
+  useEffect(() => {
+    const inner = pillInnerRef.current;
+    if (!inner) return;
+    gsap.to(inner, {
+      scale: pressed ? 1.1 : 1,
+      duration: activeTransition.duration,
+      ease: activeTransition.ease,
+    });
+  }, [pressed, activeTransition]);
+
   return (
     <>
-      <motion.div
+      <div
         ref={navRef}
-        animate={{
-          top: atTop ? 0 : 20,
-          bottom: "auto",
-          left: 20,
-          right: "auto",
-        }}
-        transition={{ duration: 0.35, ease: "easeOut" }}
         className="site-nav-desktop fixed z-250 hidden lg:block"
       >
         <nav
@@ -66,16 +114,19 @@ export default function NavigationDesktop({
                     "relative flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-mono tracking-wide transition-colors duration-300 touch-none select-none",
                     isVisible
                       ? "text-foreground"
-                      : "text-foreground/45 hover:text-foreground/75",
+                      : "text-foreground/60 hover:text-foreground/75",
                   )}
                 >
                   {isVisible && (
-                    <motion.span
-                      layoutId="desktop-nav-active"
-                      className="absolute inset-0 rounded-full bg-accent"
-                      animate={{ scale: pressed ? 1.1 : 1 }}
-                      transition={activeTransition}
-                    />
+                    <span
+                      ref={pillRef}
+                      className="absolute inset-0 rounded-full"
+                    >
+                      <span
+                        ref={pillInnerRef}
+                        className="absolute inset-0 rounded-full bg-accent"
+                      />
+                    </span>
                   )}
 
                   <Icon
@@ -90,16 +141,10 @@ export default function NavigationDesktop({
             })}
           </div>
         </nav>
-      </motion.div>
+      </div>
 
-      <motion.div
-        animate={{
-          top: atTop ? 0 : 20,
-          bottom: "auto",
-          right: 20,
-          left: "auto",
-        }}
-        transition={{ duration: 0.35, ease: "easeOut" }}
+      <div
+        ref={actionRef}
         className="fixed z-250 hidden items-center gap-2 lg:flex"
       >
         {action ? (
@@ -123,7 +168,7 @@ export default function NavigationDesktop({
         ) : null}
 
         <ThemeToggle atTop={atTop} />
-      </motion.div>
+      </div>
     </>
   );
 }

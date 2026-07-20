@@ -7,10 +7,8 @@ export type RouteTypes = {
 };
 
 export type NavigationTransition = {
-  type: "spring";
-  stiffness: number;
-  damping: number;
-  mass: number;
+  duration: number;
+  ease: string;
 };
 
 export type NavigationProps = {
