@@ -40,9 +40,10 @@ export function createGridAudio(hasFinePointer: () => boolean) {
     try {
       const audio = getAudioContext();
 
-      if (audio.state === "suspended") {
-        void audio.resume();
-      }
+      // A hover-driven tick isn't a user gesture, so the browser will refuse
+      // to resume a suspended context and log a warning on every attempt.
+      // Only a genuine click/tap (see playTactileClick) may unlock it.
+      if (audio.state !== "running") return;
 
       const osc = audio.createOscillator();
       const gain = audio.createGain();
@@ -113,6 +114,12 @@ export function createGridAudio(hasFinePointer: () => boolean) {
     if (now - lastClickAt < CLICK_TICK_COOLDOWN) return;
 
     lastClickAt = now;
+
+    // A click/tap is a genuine user gesture — safe to unlock here.
+    const audio = getAudioContext();
+    if (audio.state === "suspended") {
+      void audio.resume();
+    }
 
     playTone(CLICK_SOUND);
   }

@@ -177,7 +177,6 @@ export default function Hero() {
             sizes="(min-width: 768px) 100vw, 0px"
             wrapperClassName="absolute inset-0 h-full w-full"
             className="h-full w-full object-cover object-right"
-            eager
           />
         </div>
 
