@@ -16,16 +16,21 @@ export type GitHubRepo = {
   pushed_at: string;
   updated_at: string;
   owner: { login: string };
+  /** Server-only token that discovered this repo; never serialized to clients. */
+  cmsToken?: string;
 };
 
-function headers(accept = "application/vnd.github+json"): Headers {
+function headers(
+  token: string | undefined,
+  accept = "application/vnd.github+json",
+): Headers {
   const h = new Headers({
     Accept: accept,
     "User-Agent": "portfolio-site",
     "X-GitHub-Api-Version": "2022-11-28",
   });
-  if (env.GITHUB_TOKEN) {
-    h.set("Authorization", `Bearer ${env.GITHUB_TOKEN}`);
+  if (token) {
+    h.set("Authorization", `Bearer ${token}`);
   }
   return h;
 }
@@ -34,9 +39,10 @@ async function request(
   path: string,
   tags: string[],
   accept?: string,
+  token = env.GITHUB_TOKEN,
 ): Promise<Response | null> {
   const res = await fetch(`${GITHUB_API_BASE}${path}`, {
-    headers: headers(accept),
+    headers: headers(token, accept),
     next: {
       // Refresh from GitHub at most weekly (ISR). A push webhook or the manual
       // refresh can bust the `github-sync` tag for an instant update.
@@ -56,8 +62,9 @@ async function request(
 export async function fetchGitHubJson<T>(
   path: string,
   tags: string[],
+  token?: string,
 ): Promise<T | null> {
-  const res = await request(path, tags);
+  const res = await request(path, tags, undefined, token);
   return res ? ((await res.json()) as T) : null;
 }
 
@@ -65,20 +72,22 @@ export async function fetchGitHubText(
   path: string,
   tags: string[],
   accept = "application/vnd.github.raw+json",
+  token?: string,
 ): Promise<string | null> {
-  const res = await request(path, tags, accept);
+  const res = await request(path, tags, accept, token);
   return res ? await res.text() : null;
 }
 
-// The token is the only thing required — it identifies whose repos to scan.
-export const isGitHubConfigured = () => Boolean(env.GITHUB_TOKEN);
+// Tokens are the only configuration required; each identifies repos to scan.
+export const isGitHubConfigured = () =>
+  Boolean(env.GITHUB_TOKEN || env.GITHUB_WORK_TOKEN);
 
 // Safety ceiling so a misconfig can't loop forever (100 repos/page).
 const MAX_REPO_PAGES = 20;
 
 /**
- * List candidate repos to scan for a root `project.json`: every one of the
- * token owner's non-archived repos (paginated — no 100 cap).
+ * List candidate repos to scan for a root `project.json`: every non-archived
+ * repo the token owner owns or collaborates on (paginated — no 100 cap).
  *
  * Forks are included on purpose: a `project.json` is the opt-in signal, so a
  * forked repo only shows if you added (or inherited) that file — which lets you
@@ -86,18 +95,30 @@ const MAX_REPO_PAGES = 20;
  */
 export async function listShowcaseRepos(): Promise<GitHubRepo[]> {
   const all: GitHubRepo[] = [];
+  const tokens = [...new Set([env.GITHUB_TOKEN, env.GITHUB_WORK_TOKEN])].filter(
+    (token): token is string => Boolean(token),
+  );
 
-  for (let page = 1; page <= MAX_REPO_PAGES; page++) {
-    const repos = await fetchGitHubJson<GitHubRepo[]>(
-      `/user/repos?per_page=100&page=${page}&sort=updated&affiliation=owner`,
-      [`repos:me:${page}`],
-    );
-    if (!repos || repos.length === 0) break;
-    all.push(...repos);
-    if (repos.length < 100) break; // last page
+  for (const [tokenIndex, token] of tokens.entries()) {
+    for (let page = 1; page <= MAX_REPO_PAGES; page++) {
+      const repos = await fetchGitHubJson<GitHubRepo[]>(
+        `/user/repos?per_page=100&page=${page}&sort=updated&affiliation=owner,collaborator`,
+        [`repos:identity:${tokenIndex}:${page}`],
+        token,
+      );
+      if (!repos || repos.length === 0) break;
+      all.push(...repos.map((repo) => ({ ...repo, cmsToken: token })));
+      if (repos.length < 100) break; // last page
+    }
   }
 
-  return all.filter((repo) => !repo.archived);
+  const unique = new Map<string, GitHubRepo>();
+  for (const repo of all) {
+    if (!repo.archived && !unique.has(repo.full_name)) {
+      unique.set(repo.full_name, repo);
+    }
+  }
+  return [...unique.values()];
 }
 
 /** Fetch a text file (e.g. metadata/info.json) from a repo, or null if absent. */
@@ -105,14 +126,19 @@ export function fetchRepoFile(repo: GitHubRepo, path: string) {
   return fetchGitHubText(
     `/repos/${repo.owner.login}/${repo.name}/contents/${path}`,
     [`repo:${repo.full_name}:${path}`],
+    "application/vnd.github.raw+json",
+    repo.cmsToken,
   );
 }
 
 /** Fetch the rendered-source README markdown, or null. */
 export function fetchRepoReadme(repo: GitHubRepo) {
-  return fetchGitHubText(`/repos/${repo.owner.login}/${repo.name}/readme`, [
-    `repo:${repo.full_name}:readme`,
-  ]);
+  return fetchGitHubText(
+    `/repos/${repo.owner.login}/${repo.name}/readme`,
+    [`repo:${repo.full_name}:readme`],
+    "application/vnd.github.raw+json",
+    repo.cmsToken,
+  );
 }
 
 const isAbsoluteUrl = (value: string) => /^https?:\/\//i.test(value);
