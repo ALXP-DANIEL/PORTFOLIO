@@ -145,6 +145,7 @@ export default function WorkIndex({
           <ul className="hidden lg:block" onMouseLeave={() => setActive(null)}>
             {projects.map((project, index) => {
               const dim = active !== null && active !== index;
+              const cover = project.cover ?? project.gallery[0]?.src;
               return (
                 <li
                   key={project.slug}
@@ -162,6 +163,18 @@ export default function WorkIndex({
                   >
                     <span className="w-10 shrink-0 font-mono text-xs text-foreground/60 tabular-nums">
                       {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="relative block aspect-video w-28 shrink-0 overflow-hidden bg-foreground/5 xl:w-36">
+                      {cover ? (
+                        <BlurImage
+                          src={cover}
+                          alt=""
+                          fill
+                          sizes="144px"
+                          wrapperClassName="absolute inset-0 h-full w-full"
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : null}
                     </span>
                     <span className="flex-1 text-4xl font-semibold tracking-tight text-foreground transition-transform duration-300 ease-out group-hover:translate-x-2 xl:text-5xl">
                       {project.title}
