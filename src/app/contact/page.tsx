@@ -14,7 +14,7 @@ export default function ContactPage() {
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-14 sm:gap-20">
       <PageIntro
         title="Contact"
-        description="Open to full-time roles, freelance projects, and collaborations. The fastest way to reach me is email."
+        description="Currently a programmer at PKT Logistics. Always happy to talk shop, trade ideas, or hear about something interesting — email is the fastest way to reach me."
       />
       <ContactBody />
     </div>

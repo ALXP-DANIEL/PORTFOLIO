@@ -11,7 +11,7 @@ import { socialsConfig } from "@/config/sosial";
 gsap.registerPlugin(ScrollTrigger);
 
 const FACTS = [
-  { label: "Status", value: "Available for work" },
+  { label: "Now", value: "Programmer @ PKT Logistics" },
   { label: "Based in", value: "Malaysia · Remote" },
   { label: "Response", value: "Within a day" },
 ];
@@ -67,7 +67,7 @@ export default function ContactBody() {
           Get in touch
         </p>
         <h2 className="max-w-2xl text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
-          Have a project, a role, or just an idea? Let&apos;s talk.
+          Have an idea, or just want to say hi? Let&apos;s talk.
         </h2>
       </div>
 
@@ -109,7 +109,7 @@ export default function ContactBody() {
               {fact.label}
             </dt>
             <dd className="mt-2 flex items-center gap-2 text-base font-medium tracking-tight text-foreground">
-              {fact.label === "Status" ? (
+              {fact.label === "Now" ? (
                 <span className="relative flex size-1.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
                   <span className="relative inline-flex size-1.5 rounded-full bg-emerald-400" />

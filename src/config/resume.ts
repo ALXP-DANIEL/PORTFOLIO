@@ -12,6 +12,18 @@ export const aboutConfig: readonly string[] = [
 
 export const experienceConfig: readonly Experience[] = [
   {
+    role: "Programmer",
+    company: "PKT Logistics (M) Sdn Bhd",
+    location: "Shah Alam, Malaysia · On-site",
+    period: "Aug 2026 — Present",
+    type: "Full-time",
+    points: [
+      "Build and maintain web applications for the ICT department on C#, ASP.NET Core, and ASP.NET MVC.",
+      "Develop backend services, business logic, and RESTful APIs for internal system integrations.",
+      "Work with PostgreSQL and Microsoft SQL Server, with Vue.js on the frontend.",
+    ],
+  },
+  {
     role: "Full-Stack Web Developer",
     company: "Lapasar Sdn Bhd",
     location: "Malaysia · Remote",
@@ -58,6 +70,7 @@ export const skillsConfig: readonly SkillGroup[] = [
     items: [
       "Angular",
       "React",
+      "Vue.js",
       "Next.js",
       "TypeScript",
       "JavaScript",
@@ -71,6 +84,8 @@ export const skillsConfig: readonly SkillGroup[] = [
   {
     group: "Backend",
     items: [
+      "C#",
+      "ASP.NET Core",
       "Laravel",
       "PHP",
       "Node.js",
@@ -83,7 +98,7 @@ export const skillsConfig: readonly SkillGroup[] = [
   },
   {
     group: "Database",
-    items: ["MySQL", "MariaDB", "PostgreSQL", "Neon"],
+    items: ["MySQL", "MariaDB", "PostgreSQL", "SQL Server", "Neon"],
   },
   {
     group: "AI · Media · Storage",
