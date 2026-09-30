@@ -3,6 +3,7 @@
 import gsap from "gsap";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { CommandTrigger } from "@/components/ui/command-trigger";
 import Logo from "@/components/ui/logo";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useDraggableNav } from "@/hooks/use-draggable-nav";
@@ -167,6 +168,7 @@ export default function NavigationDesktop({
           </div>
         ) : null}
 
+        <CommandTrigger atTop={atTop} />
         <ThemeToggle atTop={atTop} />
       </div>
     </>

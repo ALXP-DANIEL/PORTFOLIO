@@ -2,7 +2,9 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import Link from "next/link";
 import { useRef } from "react";
+import { openCommandPalette } from "@/components/command-palette/events";
 import { Icons } from "@/components/icons";
 import BlurImage from "@/components/ui/blur-image";
 import { siteConfig } from "@/config/site";
@@ -10,8 +12,8 @@ import { useMagnetic } from "@/hooks/use-magnetic";
 import { useSplashGsap } from "@/hooks/use-splash-gsap";
 import { useScrambleText } from "../_hooks/use-scramble-text";
 
-const HERO_IMAGE = "/hero-desktop.png";
-const HERO_MOBILE_IMAGE = "/hero-mobile.png";
+const HERO_IMAGE = "/hero-desktop.webp";
+const HERO_MOBILE_IMAGE = "/hero-mobile.webp";
 const RESUME_URL = "/RESUME.pdf";
 
 const ROLES = [
@@ -152,7 +154,7 @@ export default function Hero() {
   return (
     <section
       ref={rootRef}
-      className="relative flex min-h-[calc(100svh-8rem)] w-full flex-col justify-end overflow-hidden py-12 md:justify-center md:overflow-visible md:py-16"
+      className="relative flex min-h-[calc(100svh-8rem)] w-full flex-col justify-end overflow-hidden pt-12 pb-24 md:justify-center md:overflow-visible md:py-16"
       style={{ perspective: "1400px" }}
     >
       {/* Desktop background */}
@@ -225,6 +227,17 @@ export default function Hero() {
       </div>
       {/* Content */}
       <div className="relative z-10 flex max-w-xl flex-col gap-6">
+        <p
+          data-entrance="hero-rise"
+          className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1 font-mono text-[11px] tracking-wide text-foreground/65 backdrop-blur-sm"
+        >
+          <span className="relative flex size-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
+            <span className="relative inline-flex size-1.5 rounded-full bg-emerald-400" />
+          </span>
+          Open to new roles · Malaysia / Remote
+        </p>
+
         <h1 className="text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
           <span className="block overflow-hidden pb-[0.12em]">
             <span data-entrance="hero-title" className="block">
@@ -269,6 +282,28 @@ export default function Hero() {
               weight="bold"
             />
           </a>
+          <Link
+            href="/work"
+            data-reticle
+            className="group inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-5 py-2.5 text-sm font-medium text-foreground/80 backdrop-blur-sm transition-colors hover:bg-foreground/5 hover:text-foreground"
+          >
+            See the work
+            <Icons.Generic.Forward
+              className="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
+              weight="bold"
+            />
+          </Link>
+          <button
+            type="button"
+            data-reticle
+            onClick={openCommandPalette}
+            className="hidden items-center gap-2 px-2 py-2.5 font-mono text-xs tracking-wide text-foreground/45 transition-colors hover:text-foreground lg:inline-flex"
+          >
+            <kbd className="rounded-md border border-border px-1.5 py-0.5 text-[10px]">
+              ⌘K
+            </kbd>
+            to explore
+          </button>
         </div>
       </div>
     </section>

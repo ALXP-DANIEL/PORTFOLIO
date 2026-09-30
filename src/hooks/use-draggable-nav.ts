@@ -22,6 +22,7 @@ export function useDraggableNav(links: readonly RouteTypes[]) {
   const visibleIndex = dragIndex ?? activeIndex;
 
   // Hold the indicator at the drag position until the new route lands.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname is the trigger
   useEffect(() => {
     setDragIndex(null);
   }, [pathname]);

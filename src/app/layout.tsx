@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "@styles/globals.css";
+import CommandPaletteRoot from "@/components/command-palette";
+import { ConsoleGreeting } from "@/components/console-greeting";
 import { DebugInfo } from "@/components/debug-info";
 import RootLayoutWrapper from "@/components/layouts/root-layout";
 import SplashGate from "@/components/layouts/splash-gate";
@@ -103,9 +105,13 @@ export default function RootLayout({
             {isMaintenance ? (
               <Maintenance />
             ) : (
-              <SplashGate>
-                <RootLayoutWrapper>{children}</RootLayoutWrapper>
-              </SplashGate>
+              <>
+                <SplashGate>
+                  <RootLayoutWrapper>{children}</RootLayoutWrapper>
+                </SplashGate>
+                <CommandPaletteRoot />
+                <ConsoleGreeting />
+              </>
             )}
             <DebugInfo enabled={isDevelopment} />
           </PageScrollStateProvider>

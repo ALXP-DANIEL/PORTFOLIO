@@ -1,16 +1,25 @@
 import {
   ArrowLeftIcon,
+  ArrowRightIcon,
   ArrowUpRightIcon,
   BriefcaseIcon,
   CaretUpIcon,
+  CircleHalfIcon,
+  CommandIcon,
+  CopyIcon,
   EnvelopeIcon,
+  FileTextIcon,
+  FolderIcon,
   GithubLogoIcon,
   HouseIcon,
   type Icon,
   InstagramLogoIcon,
   LinkedinLogoIcon,
+  MagnifyingGlassIcon,
   MoonIcon,
+  PaperPlaneTiltIcon,
   SunIcon,
+  TerminalIcon,
   UserIcon,
   XLogoIcon,
 } from "@phosphor-icons/react";
@@ -51,5 +60,17 @@ export const Icons = {
 
   Generic: {
     Back: ArrowLeftIcon,
+    Forward: ArrowRightIcon,
+  },
+
+  Palette: {
+    Command: CommandIcon,
+    Search: MagnifyingGlassIcon,
+    Copy: CopyIcon,
+    Resume: FileTextIcon,
+    Theme: CircleHalfIcon,
+    Send: PaperPlaneTiltIcon,
+    Project: FolderIcon,
+    Terminal: TerminalIcon,
   },
 } as const;
