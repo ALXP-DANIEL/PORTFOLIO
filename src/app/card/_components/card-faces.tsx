@@ -30,12 +30,16 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
-/** Pointer-follow highlight; lives inside each face so it turns with the flip. */
+/**
+ * Pointer-follow highlight; lives inside each face so it turns with the flip.
+ * Mouse only: touch has no hover to drive it, and mobile Safari blends it
+ * unreliably inside 3D-flipped layers.
+ */
 function Glare() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-0 opacity-60 mix-blend-soft-light"
+      className="pointer-events-none absolute inset-0 hidden opacity-60 mix-blend-soft-light pointer-fine:block"
       style={{
         background:
           "radial-gradient(circle at var(--gx, 30%) var(--gy, 20%), rgba(255,255,255,0.55), transparent 55%)",
