@@ -9,6 +9,7 @@ import { Icons } from "@/components/icons";
 import { routeConfig } from "@/config/route";
 import { siteConfig } from "@/config/site";
 import { socialsConfig } from "@/config/sosial";
+import { useOverlayCursor } from "@/hooks/use-overlay-cursor";
 import { cn } from "@/lib/utils";
 import { OPEN_COMMAND_PALETTE_EVENT } from "./events";
 
@@ -82,6 +83,8 @@ export default function CommandPalette({
   const [active, setActive] = useState(0);
   const [flash, setFlash] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
+
+  useOverlayCursor(open);
 
   // ⌘K / Ctrl+K anywhere, "/" when not typing, plus a custom event for buttons.
   useEffect(() => {

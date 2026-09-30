@@ -15,6 +15,12 @@ import WorkCover from "./work-cover";
 const isLocalHref = (href: string) =>
   href.startsWith("/") || href.startsWith("#") || href.startsWith("?");
 
+/** Frameable live sites open inside the portfolio's shell; others leave. */
+const openHref = (project: Project) =>
+  project.embeddable
+    ? `/work/${project.slug}/live`
+    : (project.actions.open ?? "");
+
 export default function WorkSpotlight({
   projects,
 }: {
@@ -161,9 +167,9 @@ export default function WorkSpotlight({
               />
             </Link>
             {project.actions.open ? (
-              isLocalHref(project.actions.open) ? (
+              isLocalHref(openHref(project)) ? (
                 <Link
-                  href={project.actions.open}
+                  href={openHref(project)}
                   data-reticle
                   className="inline-flex items-center gap-2 rounded-full border border-border bg-background/90 px-4 py-2 font-mono text-xs tracking-wide text-foreground/70 transition-colors hover:bg-foreground/8 hover:text-foreground"
                 >
@@ -171,7 +177,7 @@ export default function WorkSpotlight({
                 </Link>
               ) : (
                 <a
-                  href={project.actions.open}
+                  href={openHref(project)}
                   target="_blank"
                   rel="noreferrer"
                   data-reticle

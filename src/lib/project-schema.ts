@@ -61,6 +61,8 @@ export const projectSchema = z.object({
   cover: z.string().optional(),
   /** Raw markdown body, sourced from the repo README. */
   readme: z.string().optional(),
+  /** Whether `actions.open` allows being framed, so it can open in-page. */
+  embeddable: z.boolean().optional(),
   featured: z.boolean(),
   flags: projectFlagsSchema,
   stats: projectStatsSchema.optional(),

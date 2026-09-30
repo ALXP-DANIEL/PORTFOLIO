@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { projectsConfig } from "@/config/project";
+import { isEmbeddable } from "@/lib/embed";
 import {
   fetchRepoFile,
   fetchRepoReadme,
@@ -101,7 +102,17 @@ export const getProjects = cache(async (): Promise<Project[]> => {
   }
 
   // GitHub + hand-authored, deduped. No demo fallback — empty means empty.
-  return dedupeBySlug([...github, ...manualProjects]);
+  const projects = dedupeBySlug([...github, ...manualProjects]);
+
+  // Probe each external live link once so the UI knows whether it can open
+  // the project in-page or has to hand off to a new tab.
+  return Promise.all(
+    projects.map(async (project) => {
+      const open = project.actions.open;
+      if (!open?.startsWith("http")) return project;
+      return { ...project, embeddable: await isEmbeddable(open) };
+    }),
+  );
 });
 
 export const getFeaturedProjects = cache(async (): Promise<Project[]> => {

@@ -157,6 +157,16 @@
     html[data-cursor-ready="true"] * {
       cursor: none !important;
     }
+
+    /* Pointer is inside an embedded site the reticle can't track. */
+    html[data-reticle-hidden="true"] .site-reticle {
+      opacity: 0;
+    }
+
+    /* The reticle paints beneath modal overlays; hand back the real cursor. */
+    html[data-cursor-ready="true"][data-overlay-open="true"] * {
+      cursor: auto !important;
+    }
   }
 
   /* Safety net for every CSS transition/animation site-wide — GSAP's own

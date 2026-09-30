@@ -1,4 +1,5 @@
 import {
+  ArrowClockwiseIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
   ArrowUpRightIcon,
@@ -15,12 +16,14 @@ import {
   type Icon,
   InstagramLogoIcon,
   LinkedinLogoIcon,
+  LockSimpleIcon,
   MagnifyingGlassIcon,
   MoonIcon,
   PaperPlaneTiltIcon,
   SunIcon,
   TerminalIcon,
   UserIcon,
+  XIcon,
   XLogoIcon,
 } from "@phosphor-icons/react";
 
@@ -72,5 +75,11 @@ export const Icons = {
     Send: PaperPlaneTiltIcon,
     Project: FolderIcon,
     Terminal: TerminalIcon,
+  },
+
+  Portal: {
+    Close: XIcon,
+    Reload: ArrowClockwiseIcon,
+    Secure: LockSimpleIcon,
   },
 } as const;

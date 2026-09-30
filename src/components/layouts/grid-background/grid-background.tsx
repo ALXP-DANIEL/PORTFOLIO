@@ -205,7 +205,7 @@ export default function GridBackground({
 
       <canvas
         ref={overlayRef}
-        className="pointer-events-none fixed inset-0"
+        className="site-reticle pointer-events-none fixed inset-0 transition-opacity duration-200"
         style={{ zIndex: 250 }}
       />
     </>
