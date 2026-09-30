@@ -125,7 +125,7 @@ export default function BlurImage({
           alt={alt}
           fill
           sizes={sizes ?? "100vw"}
-          priority={eager}
+          preload={eager}
           draggable={false}
           onLoad={markLoaded}
           onError={markError}
