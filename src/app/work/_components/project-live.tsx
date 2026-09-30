@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Icons } from "@/components/icons";
-import { NavigationActionSlot } from "@/components/layouts/navigation-action";
 import { useSplashGsap } from "@/hooks/use-splash-gsap";
 import { cn } from "@/lib/utils";
 
@@ -16,15 +17,28 @@ const toolButton =
   "grid size-8 shrink-0 place-items-center rounded-full text-foreground/60 transition-colors hover:bg-foreground/8 hover:text-foreground";
 
 /**
- * A live project running inside the portfolio's own shell: the site keeps its
- * nav and footer, and the project loads in a browser-window frame below.
+ * A live project in a near-full-screen window: 90% of the viewport on
+ * desktop, edge-to-edge (minus a hairline gutter) on phones. The site's own
+ * nav and footer step aside while it's open; the slim top bar carries back,
+ * the project title, reload and new-tab.
  */
 export default function ProjectLive({ slug, title, url }: ProjectLiveProps) {
+  const router = useRouter();
   const rootRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [reloadKey, setReloadKey] = useState(0);
   const [pointerInside, setPointerInside] = useState(false);
   const host = new URL(url).host;
+  const caseHref = `/work/${slug}`;
+
+  // Hide the site's floating nav and footer so nothing overlaps the window.
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.immersive = "true";
+    return () => {
+      delete root.dataset.immersive;
+    };
+  }, []);
 
   // The page's reticle cursor can't follow the pointer into the iframe, so it
   // would freeze on the edge; hide it while the embedded site has the pointer.
@@ -36,6 +50,16 @@ export default function ProjectLive({ slug, title, url }: ProjectLiveProps) {
       delete root.dataset.reticleHidden;
     };
   }, [pointerInside]);
+
+  // Esc goes back to the case study (only fires while focus is on our page,
+  // not inside the embedded site).
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") router.push(caseHref);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [router, caseHref]);
 
   // The window opens like a portal: a circle growing from its centre.
   useSplashGsap(
@@ -55,29 +79,34 @@ export default function ProjectLive({ slug, title, url }: ProjectLiveProps) {
   );
 
   return (
-    <div
-      ref={rootRef}
-      className="relative left-1/2 w-[min(calc(100vw-2.5rem),1600px)] -translate-x-1/2"
-    >
-      <NavigationActionSlot
-        spec={{
-          kind: "link",
-          href: `/work/${slug}`,
-          label: "← Case study",
-          icon: Icons.Generic.Back,
-        }}
-      />
-
+    <div ref={rootRef}>
       <div
         data-live-window
-        className="invisible flex h-[calc(100svh-13rem)] min-h-[420px] flex-col overflow-hidden rounded-3xl border border-border bg-background shadow-2xl lg:h-[calc(100svh-15rem)]"
+        className="invisible fixed inset-2 z-300 flex flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl sm:inset-x-[5vw] sm:inset-y-[5svh] sm:rounded-3xl"
       >
-        <div className="relative flex h-13 shrink-0 items-center gap-2 border-b border-border px-3">
-          <span className="hidden truncate px-2 font-mono text-xs text-foreground/60 sm:block sm:max-w-40">
-            {title}
-          </span>
+        <div className="relative flex h-11 shrink-0 items-center gap-1 border-b border-border px-2">
+          <Link
+            href={caseHref}
+            data-reticle
+            aria-label={`Back to ${title} case study`}
+            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full px-2.5 font-mono text-xs text-foreground/60 transition-colors hover:bg-foreground/8 hover:text-foreground"
+          >
+            <Icons.Generic.Back className="size-3.5" weight="bold" />
+            <span className="hidden sm:inline">Back</span>
+          </Link>
+
+          <div className="flex min-w-0 flex-1 items-baseline justify-center gap-2 px-2 font-mono">
+            <h1 className="truncate text-xs font-medium text-foreground">
+              {title}
+            </h1>
+            <span className="hidden truncate text-[11px] text-foreground/40 sm:inline">
+              {host}
+            </span>
+          </div>
+
           <button
             type="button"
+            data-reticle
             onClick={() => {
               setLoading(true);
               setReloadKey((key) => key + 1);
@@ -87,22 +116,16 @@ export default function ProjectLive({ slug, title, url }: ProjectLiveProps) {
           >
             <Icons.Portal.Reload className="size-4" weight="bold" />
           </button>
-
-          <div className="mx-auto flex min-w-0 max-w-md flex-1 items-center justify-center gap-2 rounded-full bg-foreground/5 px-4 py-1.5 font-mono text-xs text-foreground/60">
-            <Icons.Portal.Secure className="size-3.5 shrink-0" weight="bold" />
-            <span className="truncate">{host}</span>
-          </div>
-
           <a
             href={url}
             target="_blank"
             rel="noreferrer"
             data-reticle
-            className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 font-mono text-xs text-foreground/60 transition-colors hover:bg-foreground/8 hover:text-foreground"
+            aria-label="Open in a new tab"
+            className={toolButton}
           >
-            <span className="hidden sm:inline">New tab</span>
             <Icons.Layout.Footer.ArrowUpRight
-              className="size-3.5"
+              className="size-4"
               weight="bold"
             />
           </a>

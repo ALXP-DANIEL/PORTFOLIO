@@ -133,6 +133,12 @@
     overscroll-behavior: none;
   }
 
+  /* Live project window takes over the screen; the floating chrome steps aside. */
+  html[data-immersive="true"] [data-site-chrome] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
   * {
     -webkit-user-select: none;
     user-select: none;

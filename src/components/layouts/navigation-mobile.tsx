@@ -81,6 +81,7 @@ export default function NavigationMobile({
     <>
       <div
         ref={brandRef}
+        data-site-chrome
         className="site-nav-mobile-brand fixed z-250 block lg:hidden"
       >
         <div
@@ -97,6 +98,7 @@ export default function NavigationMobile({
 
       <div
         ref={actionRef}
+        data-site-chrome
         className="fixed z-250 flex items-center gap-2 lg:hidden"
       >
         {action ? (
@@ -125,6 +127,7 @@ export default function NavigationMobile({
 
       <div
         ref={trackRef as React.RefObject<HTMLDivElement>}
+        data-site-chrome
         className="site-nav-mobile fixed left-1/2 z-250 block -translate-x-1/2 lg:hidden"
       >
         <nav

@@ -84,6 +84,7 @@ export default function NavigationDesktop({
     <>
       <div
         ref={navRef}
+        data-site-chrome
         className="site-nav-desktop fixed z-250 hidden lg:block"
       >
         <nav
@@ -146,6 +147,7 @@ export default function NavigationDesktop({
 
       <div
         ref={actionRef}
+        data-site-chrome
         className="fixed z-250 hidden items-center gap-2 lg:flex"
       >
         {action ? (

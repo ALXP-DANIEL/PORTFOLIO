@@ -38,6 +38,7 @@ export default function Footer() {
   return (
     <footer
       ref={footerRef}
+      data-site-chrome
       className="site-footer pointer-events-none fixed inset-x-0 z-250 px-4"
     >
       <div className="pointer-events-auto">
