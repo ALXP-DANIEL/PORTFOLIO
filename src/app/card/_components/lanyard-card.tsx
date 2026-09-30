@@ -259,7 +259,8 @@ export default function LanyardCard({
               className="absolute inset-0 transform-3d will-change-transform"
             >
               <div
-                className="absolute inset-0 transform-3d transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+                data-flipped={flipped}
+                className="group absolute inset-0 transform-3d transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
                 style={{ transform: `rotateY(${flipped ? 180 : 0}deg)` }}
               >
                 <CardFront />

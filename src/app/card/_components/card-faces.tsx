@@ -78,7 +78,10 @@ export function CardFront() {
           <p className="flex items-center gap-[1.2cqw] text-[2.95cqw] text-[#b5b5b5]">
             <span className="text-[#8a8a8a]">{"//"}</span>
             {cardContact.title}
-            <span className="inline-block h-[2.95cqw] w-[1.5cqw] animate-pulse bg-[#e5e5e5]" />
+            {/* Animated, so it gets its own layer that can escape the face's backface
+                culling mid-flip. Hide it while the front faces away; on the way back
+                it reappears at the halfway point of the 700ms flip. */}
+            <span className="inline-block h-[2.95cqw] w-[1.5cqw] animate-pulse bg-[#e5e5e5] backface-hidden transition-[visibility] delay-300 duration-0 group-data-[flipped=true]:invisible group-data-[flipped=true]:delay-0" />
           </p>
         </div>
       </div>
