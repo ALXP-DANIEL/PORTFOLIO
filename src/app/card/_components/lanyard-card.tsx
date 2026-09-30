@@ -31,7 +31,6 @@ export default function LanyardCard({
   const rigRef = useRef<HTMLDivElement>(null);
   const tiltRef = useRef<HTMLDivElement>(null);
   const strapRef = useRef<SVGPathElement>(null);
-  const glareRef = useRef<HTMLDivElement>(null);
   const movedRef = useRef(false);
   const [dragging, setDragging] = useState(false);
 
@@ -179,8 +178,8 @@ export default function LanyardCard({
     const nx = (event.clientX - rect.left) / rect.width;
     const ny = (event.clientY - rect.top) / rect.height;
     state.tiltTarget = { x: (0.5 - ny) * 16, y: (nx - 0.5) * 22 };
-    glareRef.current?.style.setProperty("--gx", `${nx * 100}%`);
-    glareRef.current?.style.setProperty("--gy", `${ny * 100}%`);
+    tiltRef.current?.style.setProperty("--gx", `${nx * 100}%`);
+    tiltRef.current?.style.setProperty("--gy", `${ny * 100}%`);
   };
 
   const endDrag = (event: React.PointerEvent<HTMLButtonElement>) => {
@@ -266,16 +265,6 @@ export default function LanyardCard({
                 <CardFront />
                 <CardBack />
               </div>
-
-              <div
-                ref={glareRef}
-                className="pointer-events-none absolute inset-0 rounded-[2.4cqw] opacity-60 mix-blend-soft-light"
-                style={{
-                  background:
-                    "radial-gradient(circle at var(--gx, 30%) var(--gy, 20%), rgba(255,255,255,0.55), transparent 55%)",
-                  transform: "translateZ(1px)",
-                }}
-              />
             </div>
           </button>
 

@@ -30,6 +30,20 @@ export function LogoMark({ className }: { className?: string }) {
   );
 }
 
+/** Pointer-follow highlight; lives inside each face so it turns with the flip. */
+function Glare() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 opacity-60 mix-blend-soft-light"
+      style={{
+        background:
+          "radial-gradient(circle at var(--gx, 30%) var(--gy, 20%), rgba(255,255,255,0.55), transparent 55%)",
+      }}
+    />
+  );
+}
+
 export function CardFront() {
   return (
     <div
@@ -64,6 +78,7 @@ export function CardFront() {
           </p>
         </div>
       </div>
+      <Glare />
     </div>
   );
 }
@@ -119,6 +134,7 @@ export function CardBack() {
           </svg>
         </div>
       </div>
+      <Glare />
     </div>
   );
 }
