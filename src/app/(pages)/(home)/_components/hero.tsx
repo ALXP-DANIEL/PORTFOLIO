@@ -227,17 +227,6 @@ export default function Hero() {
       </div>
       {/* Content */}
       <div className="relative z-10 flex max-w-xl flex-col gap-6">
-        <p
-          data-entrance="hero-rise"
-          className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1 font-mono text-[11px] tracking-wide text-foreground/65 backdrop-blur-sm"
-        >
-          <span className="relative flex size-1.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
-            <span className="relative inline-flex size-1.5 rounded-full bg-emerald-400" />
-          </span>
-          Open to new roles · Malaysia / Remote
-        </p>
-
         <h1 className="text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl">
           <span className="block overflow-hidden pb-[0.12em]">
             <span data-entrance="hero-title" className="block">
