@@ -9,7 +9,10 @@ import SectionLabel from "@/components/ui/section-label";
 import Tag from "@/components/ui/tag";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/project";
-import { useSpotlightMotion } from "../_hooks/use-spotlight-motion";
+import {
+  AUTOPLAY_MS,
+  useSpotlightMotion,
+} from "../_hooks/use-spotlight-motion";
 import WorkCover from "./work-cover";
 
 const isLocalHref = (href: string) =>
@@ -31,7 +34,6 @@ export default function WorkSpotlight({
   const rootRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const coverRef = useRef<HTMLDivElement>(null);
-  const fillRef = useRef<HTMLSpanElement>(null);
 
   const count = projects.length;
   const project = projects[active];
@@ -39,11 +41,10 @@ export default function WorkSpotlight({
 
   const go = (dir: number) => setActive((a) => (a + dir + count) % count);
 
-  useSpotlightMotion({
+  const { held } = useSpotlightMotion({
     rootRef,
     contentRef,
     coverRef,
-    fillRef,
     active,
     count,
     paused,
@@ -237,10 +238,13 @@ export default function WorkSpotlight({
               style={{ transform: index < active ? "scaleX(1)" : "scaleX(0)" }}
             />
             {index === active ? (
+              // CSS keyframes run on the compositor, off the main thread.
               <span
-                ref={fillRef}
-                className="absolute inset-0 origin-left rounded-full bg-foreground/80"
-                style={{ transform: "scaleX(0)" }}
+                className="absolute inset-0 origin-left scale-x-0 rounded-full bg-foreground/80"
+                style={{
+                  animation: `spotlight-fill ${AUTOPLAY_MS}ms linear forwards`,
+                  animationPlayState: held ? "paused" : "running",
+                }}
               />
             ) : null}
           </button>

@@ -20,7 +20,7 @@ export function updateAndDrawPulses(scene: GridScene) {
     ? PULSE_LIFETIME_MOBILE
     : PULSE_LIFETIME_DESKTOP;
 
-  if (Math.random() < pulseRate) {
+  if (Math.random() < pulseRate * scene.step) {
     const col = Math.floor(Math.random() * Math.ceil(scene.w / CELL));
     const row = Math.floor(Math.random() * Math.ceil(scene.h / CELL));
     scene.pulses.push({ col, row, age: 0 });
@@ -47,7 +47,7 @@ export function updateAndDrawPulses(scene: GridScene) {
     ctx.closePath();
     ctx.fill();
 
-    p.age++;
+    p.age += scene.step;
   }
 
   scene.pulses = scene.pulses.filter((p) => p.age < pulseLifetime);

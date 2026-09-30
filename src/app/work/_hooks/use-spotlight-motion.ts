@@ -1,15 +1,14 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { type RefObject, useEffect, useRef } from "react";
+import { type RefObject, useEffect, useState } from "react";
 import { useSplashGsap } from "@/hooks/use-splash-gsap";
 
-const AUTOPLAY_MS = 5600;
+export const AUTOPLAY_MS = 5600;
 
 type SpotlightMotionArgs = {
   rootRef: RefObject<HTMLDivElement | null>;
   contentRef: RefObject<HTMLDivElement | null>;
   coverRef: RefObject<HTMLDivElement | null>;
-  fillRef: RefObject<HTMLSpanElement | null>;
   active: number;
   count: number;
   paused: boolean;
@@ -26,45 +25,36 @@ export function useSpotlightMotion({
   rootRef,
   contentRef,
   coverRef,
-  fillRef,
   active,
   count,
   paused,
   setActive,
   setPaused,
 }: SpotlightMotionArgs) {
-  const fillTween = useRef<gsap.core.Tween | null>(null);
+  // Hold the carousel while it's off screen: no slide swaps, image reveals or
+  // re-renders competing with scrolling elsewhere on the page.
+  const [inView, setInView] = useState(true);
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const observer = new IntersectionObserver(([entry]) =>
+      setInView(entry.isIntersecting),
+    );
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, [rootRef]);
+  const held = paused || !inView;
 
   // autoplay — a self-rescheduling timeout stays in sync with the progress fill.
   // `active` is an intentional dep so each slide change restarts the timer.
   // biome-ignore lint/correctness/useExhaustiveDependencies: active resets the timer
   useEffect(() => {
-    if (paused || count <= 1) return;
+    if (held || count <= 1) return;
     const id = window.setTimeout(() => {
       setActive((a) => (a + 1) % count);
     }, AUTOPLAY_MS);
     return () => window.clearTimeout(id);
-  }, [active, paused, count, setActive]);
-
-  // progress fill, restarted per slide; paused independently so it doesn't reset
-  useGSAP(
-    () => {
-      if (!fillRef.current || count <= 1) return;
-      fillTween.current = gsap.fromTo(
-        fillRef.current,
-        { scaleX: 0 },
-        { scaleX: 1, duration: AUTOPLAY_MS / 1000, ease: "none" },
-      );
-      return () => {
-        fillTween.current?.kill();
-      };
-    },
-    { dependencies: [active], scope: rootRef },
-  );
-  useEffect(() => {
-    if (paused) fillTween.current?.pause();
-    else fillTween.current?.resume();
-  }, [paused]);
+  }, [active, held, count, setActive]);
 
   // panel entrance (GSAP — immune to the splash's Framer context)
   useSplashGsap(
@@ -173,4 +163,6 @@ export function useSpotlightMotion({
     },
     { scope: rootRef },
   );
+
+  return { held };
 }

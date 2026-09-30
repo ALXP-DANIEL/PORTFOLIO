@@ -6,3 +6,13 @@
 [data-entrance$="rule"] {
   transform-origin: left center;
 }
+
+/* Spotlight carousel progress bar, one run per slide */
+@keyframes spotlight-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

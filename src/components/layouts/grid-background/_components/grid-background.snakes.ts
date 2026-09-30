@@ -152,8 +152,10 @@ function drawSnakeTrail(scene: GridScene, snake: GridSnake) {
 
     ctx.strokeStyle = `rgba(${scene.colors.ink},${alpha.toFixed(3)})`;
     ctx.lineWidth = snakeLineWidth;
-    ctx.shadowColor = `rgba(${scene.colors.ink},${(alpha * 0.45).toFixed(3)})`;
-    ctx.shadowBlur = snakeGlowBlur;
+    if (snakeGlowBlur > 0) {
+      ctx.shadowColor = `rgba(${scene.colors.ink},${(alpha * 0.45).toFixed(3)})`;
+      ctx.shadowBlur = snakeGlowBlur;
+    }
 
     ctx.beginPath();
     ctx.moveTo(start.x, start.y);
@@ -173,8 +175,10 @@ function drawSnakeTrail(scene: GridScene, snake: GridSnake) {
   const headY = headA.y + (headB.y - headA.y) * headT;
 
   ctx.fillStyle = `rgba(${scene.colors.ink},1)`;
-  ctx.shadowColor = `rgba(${scene.colors.ink},0.85)`;
-  ctx.shadowBlur = snakeGlowBlur + 2;
+  if (snakeGlowBlur > 0) {
+    ctx.shadowColor = `rgba(${scene.colors.ink},0.85)`;
+    ctx.shadowBlur = snakeGlowBlur + 2;
+  }
 
   ctx.beginPath();
   ctx.arc(headX, headY, snakeHeadRadius, 0, Math.PI * 2);
@@ -195,13 +199,13 @@ export function updateAndDrawSnakes(scene: GridScene) {
     ? SNAKE_TAIL_LENGTH_MOBILE
     : SNAKE_TAIL_LENGTH_DESKTOP;
 
-  if (Math.random() < spawnRate) {
+  if (Math.random() < spawnRate * scene.step) {
     spawnSnake(scene);
   }
 
   for (const snake of scene.snakes) {
     drawSnakeTrail(scene, snake);
-    snake.progress += speed;
+    snake.progress += speed * scene.step;
   }
 
   scene.snakes = scene.snakes.filter(

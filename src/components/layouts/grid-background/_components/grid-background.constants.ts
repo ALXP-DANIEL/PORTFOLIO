@@ -34,6 +34,8 @@ export const GRID_STEP_MOBILE = 12;
 
 export const MAX_DPR_DESKTOP = 1.5;
 export const MAX_DPR_MOBILE = 1;
+/** ~30fps budget for the ambient canvas on phones. */
+export const MOBILE_FRAME_MS = 1000 / 30 - 2;
 
 export const CURSOR_ARM = 9;
 export const RETICLE_PAD = 8;
@@ -105,7 +107,8 @@ export const SNAKE_LINE_WIDTH_MOBILE = 1.1;
 export const SNAKE_HEAD_RADIUS_DESKTOP = 2.3;
 export const SNAKE_HEAD_RADIUS_MOBILE = 1.8;
 export const SNAKE_GLOW_BLUR_DESKTOP = 8;
-export const SNAKE_GLOW_BLUR_MOBILE = 2;
+// Canvas shadowBlur is costly on phones; the glow reads fine without it.
+export const SNAKE_GLOW_BLUR_MOBILE = 0;
 
 export type Pulse = {
   col: number;

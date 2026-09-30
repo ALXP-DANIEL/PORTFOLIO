@@ -35,18 +35,33 @@ export function PageScrollStateProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    const sync = () => setState(getScrollState());
+    // Read at most once per frame, and only re-render the nav/footer when a
+    // flag actually flips — scroll fires far more often than either changes.
+    let pending = 0;
+    const read = () => {
+      pending = 0;
+      const next = getScrollState();
+      setState((prev) =>
+        prev.atTop === next.atTop && prev.atBottom === next.atBottom
+          ? prev
+          : next,
+      );
+    };
+    const sync = () => {
+      if (!pending) pending = window.requestAnimationFrame(read);
+    };
 
     if (!pathname) return;
-    sync();
-    const frame = window.requestAnimationFrame(sync);
-    const timeout = window.setTimeout(sync, 360);
+    read();
+    const frame = window.requestAnimationFrame(read);
+    const timeout = window.setTimeout(read, 360);
 
     window.addEventListener("scroll", sync, { passive: true });
     window.addEventListener("resize", sync);
 
     return () => {
       window.cancelAnimationFrame(frame);
+      window.cancelAnimationFrame(pending);
       window.clearTimeout(timeout);
       window.removeEventListener("scroll", sync);
       window.removeEventListener("resize", sync);

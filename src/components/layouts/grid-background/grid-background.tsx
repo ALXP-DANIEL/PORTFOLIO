@@ -8,9 +8,11 @@ import {
   GRID_STEP_DESKTOP,
   GRID_STEP_MOBILE,
   GRID_THEME,
+  type GridThemeColors,
   LERP,
   MAX_DPR_DESKTOP,
   MAX_DPR_MOBILE,
+  MOBILE_FRAME_MS,
   RETICLE_SELECTOR,
 } from "./_components/grid-background.constants";
 import { drawGrid } from "./_components/grid-background.grid";
@@ -71,7 +73,15 @@ export default function GridBackground({
       lockEl: null,
       lock: 0,
       rb: { l: -999, t: -999, r: -999, b: -999 },
+      step: 1,
     };
+
+    // Without a fine pointer nothing warps the grid, so it is drawn once into
+    // an offscreen canvas and blitted each frame instead of re-stroked.
+    let gridCache: HTMLCanvasElement | null = null;
+    let gridCacheColors: GridThemeColors | null = null;
+    let dpr = 1;
+    let lastFrame = 0;
 
     let raf = 0;
     let lastLockEl: Element | null = null;
@@ -90,10 +100,7 @@ export default function GridBackground({
 
       scene.hasFinePointer = window.matchMedia("(pointer: fine)").matches;
 
-      const dpr = Math.min(
-        rawDpr,
-        scene.isMobile ? MAX_DPR_MOBILE : MAX_DPR_DESKTOP,
-      );
+      dpr = Math.min(rawDpr, scene.isMobile ? MAX_DPR_MOBILE : MAX_DPR_DESKTOP);
 
       scene.gridStep = scene.isMobile ? GRID_STEP_MOBILE : GRID_STEP_DESKTOP;
 
@@ -112,6 +119,25 @@ export default function GridBackground({
 
       activeCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
       activeOverlayCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      // Touch devices never see the reticle; drop its full-screen layer.
+      activeOverlay.style.display = scene.hasFinePointer ? "" : "none";
+      scene.step = scene.isMobile ? 2 : 1;
+      gridCache = null;
+    }
+
+    function buildGridCache() {
+      const cache = document.createElement("canvas");
+      cache.width = Math.round(scene.w * dpr);
+      cache.height = Math.round(scene.h * dpr);
+      const cacheCtx = cache.getContext("2d", { alpha: false });
+      if (!cacheCtx) return null;
+      cacheCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cacheCtx.fillStyle = scene.colors.background;
+      cacheCtx.fillRect(0, 0, scene.w, scene.h);
+      drawGrid({ ...scene, ctx: cacheCtx });
+      gridCacheColors = scene.colors;
+      return cache;
     }
 
     function onPointerMove(e: PointerEvent) {
@@ -144,21 +170,33 @@ export default function GridBackground({
       }
     }
 
-    function draw() {
+    function draw(now = performance.now()) {
       raf = requestAnimationFrame(draw);
+
+      // Phones run the ambient animation at 30fps (each frame advances two
+      // steps) to leave headroom for scrolling and page animations.
+      if (scene.isMobile && now - lastFrame < MOBILE_FRAME_MS) return;
+      lastFrame = now;
 
       scene.mx += (scene.tx - scene.mx) * LERP;
       scene.my += (scene.ty - scene.my) * LERP;
 
       scene.colors = colorsRef.current;
 
-      activeCtx.fillStyle = scene.colors.background;
-      activeCtx.fillRect(0, 0, scene.w, scene.h);
+      if (scene.hasFinePointer) {
+        activeCtx.fillStyle = scene.colors.background;
+        activeCtx.fillRect(0, 0, scene.w, scene.h);
+        drawGrid(scene);
+      } else {
+        if (!gridCache || gridCacheColors !== scene.colors) {
+          gridCache = buildGridCache();
+        }
+        if (gridCache) activeCtx.drawImage(gridCache, 0, 0, scene.w, scene.h);
+      }
 
-      drawGrid(scene);
       updateAndDrawPulses(scene);
       updateAndDrawSnakes(scene);
-      drawReticle(scene);
+      if (scene.hasFinePointer) drawReticle(scene);
     }
 
     function onVisibilityChange() {

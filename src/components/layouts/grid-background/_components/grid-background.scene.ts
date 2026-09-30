@@ -41,6 +41,9 @@ export type GridScene = {
   lockEl: Element | null;
   lock: number;
   rb: { l: number; t: number; r: number; b: number };
+
+  /** Simulation steps per drawn frame (2 when the loop runs at 30fps). */
+  step: number;
 };
 
 /** Cursor warp displacement applied to a point, near the pointer only. */

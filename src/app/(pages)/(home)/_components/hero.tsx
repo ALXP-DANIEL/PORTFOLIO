@@ -191,7 +191,7 @@ export default function Hero() {
       {/* Mobile background */}
       <div
         ref={mobileBackgroundRef}
-        className="pointer-events-none absolute inset-0 -z-10 block overflow-hidden will-change-transform transform-3d md:hidden"
+        className="pointer-events-none absolute inset-0 -z-10 block overflow-hidden md:hidden"
         style={{
           maskImage: `
       linear-gradient(to bottom, transparent 0%, black 14%, black 78%, transparent 100%),
@@ -205,10 +205,7 @@ export default function Hero() {
           WebkitMaskComposite: "source-in",
         }}
       >
-        <div
-          data-hero-bg-image
-          className="absolute -inset-6 will-change-transform"
-        >
+        <div data-hero-bg-image className="absolute -inset-6">
           <BlurImage
             src={HERO_MOBILE_IMAGE}
             alt={siteConfig.name}
