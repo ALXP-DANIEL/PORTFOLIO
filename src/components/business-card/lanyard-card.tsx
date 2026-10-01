@@ -132,7 +132,7 @@ export default function LanyardCard({
     };
 
     frame = requestAnimationFrame(step);
-    // Drop-in: the card falls from up by the anchor with a sideways kick and
+    // Drop-in: the card falls from above the viewport with a sideways kick and
     // bounces on its strap — on load, and again whenever the page is
     // scrolled back to the top.
     const drop = () => {
@@ -140,14 +140,15 @@ export default function LanyardCard({
       // Every drop is different: start point, kick, springiness and damping.
       state.spring = rand(...SPRING_RANGE);
       state.damping = rand(...DAMPING_RANGE);
+      // Start fully above the viewport, then fall in on the strap.
       const side = Math.random() < 0.5 ? -1 : 1;
       state.pos = {
-        x: side * rand(0, 160),
-        y: -STRAP_LENGTH * rand(0.4, 1),
+        x: side * rand(0, 140),
+        y: -rand(600, 720),
       };
       state.vel = {
-        x: -side * rand(80, 700) + rand(-150, 150),
-        y: rand(500, 1300),
+        x: -side * rand(60, 500) + rand(-120, 120),
+        y: rand(200, 800),
       };
     };
     drop();

@@ -121,7 +121,8 @@ export default function ContactGlobe() {
           sizeAttenuation: true,
           transparent: true,
           opacity: dark ? 0.8 : 0.7,
-          depthWrite: false,
+          // Writes depth so the glass core (drawn last) dims only the far side.
+          depthWrite: true,
         }),
       ),
     );
@@ -149,18 +150,25 @@ export default function ContactGlobe() {
           sizeAttenuation: true,
           transparent: true,
           opacity: 0.16,
-          depthWrite: false,
+          // Writes depth so the glass core (drawn last) dims only the far side.
+          depthWrite: true,
         }),
       ),
     );
 
-    // Opaque core: hides the far hemisphere and anything orbiting behind it.
+    // Semi-transparent core: dims, rather than hides, the far hemisphere.
     const core = new THREE.Mesh(
       new THREE.SphereGeometry(GLOBE_RADIUS * 0.985, 48, 48),
       new THREE.MeshBasicMaterial({
         color: dark ? 0x0a0a0a : 0xfafafa,
+        transparent: true,
+        opacity: 0.6,
+        // No depth write: the far side (and the Kuala Lumpur pin when it turns
+        // away) stays visible, dimmed, through the glassy core.
+        depthWrite: false,
       }),
     );
+    core.renderOrder = 10;
     globe.add(core);
 
     // Home pin + pulsing ring.
