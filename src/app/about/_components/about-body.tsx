@@ -55,7 +55,7 @@ function TimelineRow({
   );
 }
 
-/** Square brand tile: the logo on white, else a mono monogram, else an icon. */
+/** Organisation mark: the logo as-is, else a mono monogram, else an icon. */
 function OrgMark({
   logo,
   monogram,
@@ -66,21 +66,21 @@ function OrgMark({
   name: string;
 }) {
   return (
-    <span className="grid size-11 shrink-0 place-items-center overflow-hidden rounded-xl border border-border bg-white">
+    <span className="grid size-14 shrink-0 place-items-center">
       {logo ? (
         <Image
           src={logo}
           alt={`${name} logo`}
-          width={44}
-          height={44}
-          className="size-full object-contain p-1.5"
+          width={56}
+          height={56}
+          className="size-full object-contain"
         />
       ) : monogram ? (
-        <span className="font-mono text-[11px] font-semibold tracking-wide text-neutral-800">
+        <span className="font-mono text-sm font-semibold tracking-wide text-foreground/70">
           {monogram}
         </span>
       ) : (
-        <HardDrivesIcon className="size-5 text-neutral-700" aria-hidden />
+        <HardDrivesIcon className="size-8 text-foreground/70" aria-hidden />
       )}
     </span>
   );
@@ -227,7 +227,7 @@ export default function AboutBody() {
 
       {/* languages */}
       <Section label="Languages">
-        <div className="grid max-w-lg gap-6 sm:grid-cols-2">
+        <div className="grid max-w-2xl gap-6 sm:grid-cols-3">
           {languagesConfig.map((lang) => (
             <div key={lang.name}>
               <div className="flex items-baseline justify-between gap-2">

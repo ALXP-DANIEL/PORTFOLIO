@@ -169,4 +169,5 @@ export const educationConfig: readonly Education[] = [
 export const languagesConfig: readonly Language[] = [
   { name: "Malay", level: "Fluent", proficiency: 100 },
   { name: "English", level: "Moderate", proficiency: 70 },
+  { name: "Japanese", level: "Learning", proficiency: 15 },
 ];
