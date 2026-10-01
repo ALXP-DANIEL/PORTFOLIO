@@ -157,15 +157,15 @@ export default function LanyardCard({
     };
     drop();
 
-    // Scroll momentum: page motion jolts the card on its strap. A fast scroll
-    // up flings it upward (and a scroll down tugs it down), then the spring
-    // settles it — no reset.
+    // Scroll momentum: a fast scroll up flings the card upward on its strap,
+    // then the spring settles it — no reset.
     let lastScroll = window.scrollY;
     const onScroll = () => {
       const delta = window.scrollY - lastScroll;
       lastScroll = window.scrollY;
-      if (state.reduced || state.drag || delta === 0) return;
-      const kick = Math.max(-80, Math.min(80, delta)) * SCROLL_FLING;
+      // Only scrolling up flings the card; scrolling down leaves it hanging.
+      if (state.reduced || state.drag || delta >= 0) return;
+      const kick = Math.max(-80, delta) * SCROLL_FLING;
       state.vel = {
         x: Math.max(
           -2400,
