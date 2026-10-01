@@ -1,25 +1,78 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { buildVCard, cardContact } from "@/app/card/_components/card-data";
+import LanyardCard from "@/app/card/_components/lanyard-card";
 import { Icons } from "@/components/icons";
-import { siteConfig } from "@/config/site";
 import { socialsConfig } from "@/config/sosial";
+import { useSplashGsap } from "@/hooks/use-splash-gsap";
 
-gsap.registerPlugin(ScrollTrigger);
+const TIME_ZONE = "Asia/Kuala_Lumpur";
 
-const FACTS = [
-  { label: "Now", value: "Programmer @ PKT Logistics" },
-  { label: "Based in", value: "Malaysia · Remote" },
-  { label: "Response", value: "Within a day" },
+/** Live wall-clock in Malaysia, so visitors know when a reply is likely. */
+function useLocalTime() {
+  const [time, setTime] = useState<string | null>(null);
+
+  useEffect(() => {
+    const format = new Intl.DateTimeFormat("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: TIME_ZONE,
+    });
+    const tick = () => setTime(format.format(new Date()));
+    tick();
+    const id = window.setInterval(tick, 15_000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  return time;
+}
+
+type Channel = {
+  label: string;
+  value: string;
+  href: string;
+  external?: boolean;
+};
+
+const channels: Channel[] = [
+  {
+    label: "tel",
+    value: cardContact.phone,
+    href: cardContact.phoneHref,
+  },
+  ...socialsConfig.map((social) => ({
+    label: social.platform.toLowerCase(),
+    value: social.link.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, ""),
+    href: social.link,
+    external: true,
+  })),
 ];
 
 export default function ContactBody() {
-  const ref = useRef<HTMLDivElement>(null);
-  const email = siteConfig.links.email;
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [flipped, setFlipped] = useState(false);
   const [copied, setCopied] = useState(false);
+  const time = useLocalTime();
+  const email = cardContact.email;
+
+  useSplashGsap(
+    (gsap) => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.fromTo(
+        "[data-entrance='contact-title']",
+        { yPercent: 115 },
+        { autoAlpha: 1, yPercent: 0, duration: 0.9, stagger: 0.08 },
+      ).fromTo(
+        "[data-entrance='contact-fade']",
+        { autoAlpha: 0, y: 16 },
+        { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.06 },
+        "-=0.5",
+      );
+    },
+    { scope: rootRef },
+  );
 
   const copyEmail = async () => {
     try {
@@ -31,142 +84,134 @@ export default function ContactBody() {
     }
   };
 
-  useGSAP(
-    () => {
-      const blocks = gsap.utils.toArray<HTMLElement>("[data-reveal]");
-      ScrollTrigger.batch(blocks, {
-        start: "top 90%",
-        once: true,
-        onEnter: (batch) =>
-          gsap.fromTo(
-            batch,
-            { autoAlpha: 0, y: 24 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              duration: 0.6,
-              ease: "power3.out",
-              stagger: 0.1,
-            },
-          ),
-      });
-      return () => {
-        for (const t of ScrollTrigger.getAll()) t.kill();
-      };
-    },
-    { scope: ref },
-  );
-
-  const channels = socialsConfig.filter((social) => social.link);
+  const saveContact = () => {
+    const url = URL.createObjectURL(
+      new Blob([buildVCard()], { type: "text/vcard" }),
+    );
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "alxp-daniel.vcf";
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
-    <div ref={ref} className="flex flex-col gap-12 sm:gap-16">
-      {/* statement */}
-      <div data-reveal className="flex flex-col gap-4">
-        <p className="font-mono text-[11px] tracking-[0.22em] text-foreground/60 uppercase">
-          Get in touch
-        </p>
-        <h2 className="max-w-2xl text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
-          Have an idea, or just want to say hi? Let&apos;s talk.
-        </h2>
-      </div>
+    <div
+      ref={rootRef}
+      className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)] lg:gap-12"
+    >
+      <div className="flex flex-col gap-10 lg:pt-10">
+        <div className="flex flex-col gap-5">
+          <p
+            data-entrance="contact-fade"
+            className="flex items-center gap-2 font-mono text-[11px] tracking-[0.2em] text-foreground/55 uppercase"
+          >
+            <span className="text-emerald-500">$</span> contact
+            <span className="text-foreground/30">·</span>
+            <span className="tracking-wide tabular-nums normal-case">
+              Kuala Lumpur {time ?? "--:--"} GMT+8
+            </span>
+          </p>
 
-      {/* email — the main CTA */}
-      <div
-        data-reveal
-        className="flex flex-col gap-4 border-t border-border pt-10"
-      >
-        <p className="font-mono text-[11px] tracking-[0.18em] text-foreground/60 uppercase">
-          Email
-        </p>
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+          <h1 className="text-5xl leading-[0.95] font-semibold tracking-tight text-foreground sm:text-7xl">
+            <span className="block overflow-hidden pb-[0.08em]">
+              <span data-entrance="contact-title" className="block">
+                Say hello.
+              </span>
+            </span>
+            <span className="block overflow-hidden pb-[0.08em]">
+              <span
+                data-entrance="contact-title"
+                className="block text-foreground/35"
+              >
+                I read everything.
+              </span>
+            </span>
+          </h1>
+
+          <p
+            data-entrance="contact-fade"
+            className="max-w-md text-sm leading-7 text-foreground/55 sm:text-base"
+          >
+            Ideas, questions, a project you want a second pair of eyes on — or
+            just to talk shop. Email is the fastest way to reach me; I usually
+            reply within a day.
+          </p>
+        </div>
+
+        {/* primary: email */}
+        <div data-entrance="contact-fade" className="flex flex-col gap-3">
           <a
             href={`mailto:${email}`}
             data-reticle
-            className="text-2xl font-semibold tracking-tight text-foreground transition-colors hover:text-foreground/70 sm:text-4xl"
+            className="group inline-flex w-fit items-center gap-3 text-xl font-semibold tracking-tight break-all text-foreground sm:text-3xl"
           >
             {email}
+            <Icons.Layout.Footer.ArrowUpRight
+              className="size-5 shrink-0 text-foreground/40 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
+              weight="bold"
+            />
           </a>
-          <button
-            type="button"
-            data-reticle
-            onClick={copyEmail}
-            className="inline-flex items-center gap-2 rounded-full border border-foreground/12 px-3.5 py-1.5 font-mono text-[11px] tracking-wide text-foreground/60 transition-colors hover:bg-foreground/5 hover:text-foreground"
-          >
-            {copied ? "Copied ✓" : "Copy"}
-          </button>
-        </div>
-      </div>
-
-      {/* facts */}
-      <dl
-        data-reveal
-        className="grid gap-px overflow-hidden border border-border bg-foreground/5 sm:grid-cols-3"
-      >
-        {FACTS.map((fact) => (
-          <div key={fact.label} className="bg-background/60 p-5">
-            <dt className="font-mono text-[10px] tracking-[0.18em] text-foreground/60 uppercase">
-              {fact.label}
-            </dt>
-            <dd className="mt-2 flex items-center gap-2 text-base font-medium tracking-tight text-foreground">
-              {fact.label === "Now" ? (
-                <span className="relative flex size-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
-                  <span className="relative inline-flex size-1.5 rounded-full bg-emerald-400" />
-                </span>
-              ) : null}
-              {fact.value}
-            </dd>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              data-reticle
+              onClick={copyEmail}
+              className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 font-mono text-xs tracking-wide text-foreground/65 transition-colors hover:bg-foreground/5 hover:text-foreground"
+            >
+              <Icons.Palette.Copy className="size-3.5" />
+              {copied ? "Copied ✓" : "Copy email"}
+            </button>
+            <button
+              type="button"
+              data-reticle
+              onClick={saveContact}
+              className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 font-mono text-xs tracking-wide text-background transition-colors hover:bg-foreground/90"
+            >
+              Save contact
+            </button>
           </div>
-        ))}
-      </dl>
+        </div>
 
-      {/* channels */}
-      <div
-        data-reveal
-        className="flex flex-col gap-5 border-t border-border pt-10"
-      >
-        <p className="font-mono text-[11px] tracking-[0.18em] text-foreground/60 uppercase">
-          Elsewhere
-        </p>
-        <div className="flex flex-wrap gap-3">
-          {channels.map((channel) => {
-            const Icon = Icons.Social[channel.icon];
-            return (
+        {/* everything else, terminal-style */}
+        <ul
+          data-entrance="contact-fade"
+          className="flex flex-col border-t border-border font-mono text-sm"
+        >
+          {channels.map((channel) => (
+            <li key={channel.label} className="border-b border-border">
               <a
-                key={channel.platform}
-                href={channel.link}
-                target="_blank"
-                rel="noreferrer"
+                href={channel.href}
+                target={channel.external ? "_blank" : undefined}
+                rel={channel.external ? "noreferrer" : undefined}
                 data-reticle
-                className="group inline-flex items-center gap-2.5 rounded-full border border-border px-4 py-2 font-mono text-sm tracking-wide text-foreground/65 transition-colors hover:bg-foreground/5 hover:text-foreground"
+                className="group flex items-center gap-4 py-3.5 transition-colors hover:text-foreground"
               >
-                <Icon className="size-4" weight="bold" />
-                {channel.platform}
-                <Icons.Layout.Footer.ArrowUpRight
-                  className="size-3.5 text-foreground/30 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground/70"
+                <span className="w-20 shrink-0 text-xs text-foreground/40">
+                  {channel.label}
+                </span>
+                <span className="min-w-0 flex-1 truncate text-foreground/70 transition-transform duration-500 ease-out group-hover:translate-x-1 group-hover:text-foreground">
+                  {channel.value}
+                </span>
+                <Icons.Generic.Forward
+                  className="size-3.5 shrink-0 text-foreground/25 transition-colors group-hover:text-foreground/70"
                   weight="bold"
                 />
               </a>
-            );
-          })}
-          {siteConfig.url.author ? (
-            <a
-              href={siteConfig.url.author}
-              target="_blank"
-              rel="noreferrer"
-              data-reticle
-              className="group inline-flex items-center gap-2.5 rounded-full border border-border px-4 py-2 font-mono text-sm tracking-wide text-foreground/65 transition-colors hover:bg-foreground/5 hover:text-foreground"
-            >
-              <Icons.Layout.Navigation.Home className="size-4" weight="bold" />
-              Portfolio
-              <Icons.Layout.Footer.ArrowUpRight
-                className="size-3.5 text-foreground/30 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground/70"
-                weight="bold"
-              />
-            </a>
-          ) : null}
-        </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* the card, hanging from the top of the page */}
+      <div className="-mt-25 flex flex-col items-center max-lg:order-first max-lg:-mb-16">
+        <LanyardCard
+          flipped={flipped}
+          onFlip={() => setFlipped((value) => !value)}
+        />
+        <p className="-mt-24 font-mono text-[11px] tracking-wide text-foreground/40 max-lg:hidden">
+          drag it, throw it, click to flip
+        </p>
       </div>
     </div>
   );
