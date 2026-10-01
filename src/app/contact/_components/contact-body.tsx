@@ -160,9 +160,6 @@ export default function ContactBody() {
             flipped={flipped}
             onFlip={() => setFlipped((value) => !value)}
           />
-          <p className="-mt-24 font-mono text-[11px] tracking-wide text-foreground/40 max-lg:hidden">
-            drag it, throw it, click to flip
-          </p>
         </div>
       </div>
 
@@ -176,9 +173,6 @@ export default function ContactBody() {
         >
           Find me elsewhere
         </h2>
-        <p className="text-center text-sm text-foreground/50">
-          Hover a bubble for details · tap twice on touch to open
-        </p>
         <ContactGlobe />
       </section>
     </div>

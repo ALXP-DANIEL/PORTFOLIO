@@ -310,7 +310,11 @@ export default function ContactGlobe() {
         el.style.transform = `translate3d(${x + look.x * drift}px, ${y + look.y * drift}px, 0) translate(-50%, -50%) scale(${scale})`;
         // Same look front and back; a bubble on the far side simply passes
         // behind the opaque globe (stacked under the canvas layer).
-        el.style.zIndex = front ? "20" : "1";
+        // The open bubble (and its detail card) always sits above the globe.
+        const open = activeRef.current === CHANNELS[i].id;
+        el.style.zIndex = open ? "40" : front ? "20" : "1";
+        // Bubbles in the lower half open their card upward, toward space.
+        el.dataset.below = y > height * 0.5 ? "true" : "false";
         el.dataset.behind = front ? "false" : "true";
       }
     };
@@ -365,8 +369,7 @@ export default function ContactGlobe() {
                 ref={(el) => {
                   bubbleRefs.current[index] = el;
                 }}
-                className="absolute top-0 left-0 transition-opacity duration-300"
-                style={{ zIndex: isActive ? 30 : undefined }}
+                className="group absolute top-0 left-0"
                 onPointerEnter={() => setActive(channel.id)}
               >
                 <a
@@ -400,7 +403,7 @@ export default function ContactGlobe() {
                 {/* details on hover / focus / tap */}
                 <div
                   className={cn(
-                    "absolute top-full left-1/2 mt-3 w-max max-w-64 -translate-x-1/2 rounded-2xl border border-border bg-background/95 px-4 py-3 shadow-2xl backdrop-blur-md transition-[opacity,translate] duration-300",
+                    "absolute top-full left-1/2 mt-3 w-max max-w-64 -translate-x-1/2 group-data-[below=true]:top-auto group-data-[below=true]:bottom-full group-data-[below=true]:mt-0 group-data-[below=true]:mb-3 rounded-2xl border border-border bg-background/95 px-4 py-3 shadow-2xl backdrop-blur-md transition-[opacity,translate] duration-300",
                     isActive
                       ? "pointer-events-auto translate-y-0 opacity-100"
                       : "pointer-events-none -translate-y-1 opacity-0",
