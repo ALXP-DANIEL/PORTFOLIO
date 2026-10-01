@@ -5,6 +5,9 @@ export type Experience = {
   period: string;
   type: string;
   url?: string;
+  /** Square logo under /public; falls back to `monogram` (or an icon). */
+  logo?: string;
+  monogram?: string;
   points: readonly string[];
 };
 
@@ -14,6 +17,8 @@ export type Education = {
   location: string;
   period: string;
   gpa?: string;
+  logo?: string;
+  monogram?: string;
   points: readonly string[];
 };
 

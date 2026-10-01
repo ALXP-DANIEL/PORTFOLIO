@@ -1,8 +1,10 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
+import { HardDrivesIcon } from "@phosphor-icons/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { useRef } from "react";
 import {
@@ -50,6 +52,37 @@ function TimelineRow({
       </div>
       <div>{children}</div>
     </li>
+  );
+}
+
+/** Square brand tile: the logo on white, else a mono monogram, else an icon. */
+function OrgMark({
+  logo,
+  monogram,
+  name,
+}: {
+  logo?: string;
+  monogram?: string;
+  name: string;
+}) {
+  return (
+    <span className="grid size-11 shrink-0 place-items-center overflow-hidden rounded-xl border border-border bg-white">
+      {logo ? (
+        <Image
+          src={logo}
+          alt={`${name} logo`}
+          width={44}
+          height={44}
+          className="size-full object-contain p-1.5"
+        />
+      ) : monogram ? (
+        <span className="font-mono text-[11px] font-semibold tracking-wide text-neutral-800">
+          {monogram}
+        </span>
+      ) : (
+        <HardDrivesIcon className="size-5 text-neutral-700" aria-hidden />
+      )}
+    </span>
   );
 }
 
@@ -109,12 +142,21 @@ export default function AboutBody() {
               period={exp.period}
               meta={`${exp.type} · ${exp.location}`}
             >
-              <h3 className="text-xl font-medium tracking-tight text-foreground">
-                {exp.role}
-              </h3>
-              <p className="mt-0.5 font-mono text-sm text-foreground/50">
-                {exp.company}
-              </p>
+              <div className="flex items-center gap-4">
+                <OrgMark
+                  logo={exp.logo}
+                  monogram={exp.monogram}
+                  name={exp.company}
+                />
+                <div className="min-w-0">
+                  <h3 className="text-xl font-medium tracking-tight text-foreground">
+                    {exp.role}
+                  </h3>
+                  <p className="mt-0.5 font-mono text-sm text-foreground/50">
+                    {exp.company}
+                  </p>
+                </div>
+              </div>
               <Bullets points={exp.points} />
             </TimelineRow>
           ))}
@@ -153,20 +195,29 @@ export default function AboutBody() {
               period={ed.period}
               meta={ed.location}
             >
-              <h3 className="text-xl font-medium tracking-tight text-foreground">
-                {ed.school}
-              </h3>
-              <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1">
-                {ed.qualification ? (
-                  <p className="font-mono text-sm text-foreground/50">
-                    {ed.qualification}
-                  </p>
-                ) : null}
-                {ed.gpa ? (
-                  <span className="rounded-full border border-border bg-foreground/3 px-2.5 py-0.5 font-mono text-[11px] text-foreground/55">
-                    {ed.gpa}
-                  </span>
-                ) : null}
+              <div className="flex items-center gap-4">
+                <OrgMark
+                  logo={ed.logo}
+                  monogram={ed.monogram}
+                  name={ed.school}
+                />
+                <div className="min-w-0">
+                  <h3 className="text-xl font-medium tracking-tight text-foreground">
+                    {ed.school}
+                  </h3>
+                  <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1">
+                    {ed.qualification ? (
+                      <p className="font-mono text-sm text-foreground/50">
+                        {ed.qualification}
+                      </p>
+                    ) : null}
+                    {ed.gpa ? (
+                      <span className="rounded-full border border-border bg-foreground/3 px-2.5 py-0.5 font-mono text-[11px] text-foreground/55">
+                        {ed.gpa}
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
               </div>
               <Bullets points={ed.points} />
             </TimelineRow>

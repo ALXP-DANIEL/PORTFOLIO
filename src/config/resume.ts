@@ -14,6 +14,7 @@ export const experienceConfig: readonly Experience[] = [
   {
     role: "Programmer",
     company: "PKT Logistics (M) Sdn Bhd",
+    logo: "/logos/pkt.webp",
     location: "Shah Alam, Malaysia · On-site",
     period: "Aug 2026 — Present",
     type: "Full-time",
@@ -26,6 +27,7 @@ export const experienceConfig: readonly Experience[] = [
   {
     role: "Full-Stack Web Developer",
     company: "Lapasar Sdn Bhd",
+    logo: "/logos/lapasar.webp",
     location: "Malaysia · Remote",
     period: "Jun 2024 — Mar 2026",
     type: "Full-time",
@@ -40,6 +42,7 @@ export const experienceConfig: readonly Experience[] = [
   {
     role: "Frontend Web Developer",
     company: "AllMeans Pte. Ltd.",
+    logo: "/logos/allmeans.webp",
     location: "Singapore · Remote",
     period: "Aug 2023 — Feb 2024",
     type: "Internship",
@@ -132,6 +135,7 @@ export const skillsConfig: readonly SkillGroup[] = [
 export const educationConfig: readonly Education[] = [
   {
     school: "Harvard University",
+    logo: "/logos/harvard.webp",
     qualification: "CS50x — Introduction to Computer Science",
     location: "Online",
     period: "2024 — 2026",
@@ -142,6 +146,7 @@ export const educationConfig: readonly Education[] = [
   },
   {
     school: "Industrial Training Institute, Kuala Langat",
+    monogram: "ILP",
     qualification: "Diploma in Web Development",
     location: "Malaysia",
     period: "2022 — 2024",
@@ -153,6 +158,7 @@ export const educationConfig: readonly Education[] = [
   },
   {
     school: "SMK Banting",
+    monogram: "SMK",
     qualification: "SPM",
     location: "Malaysia",
     period: "2016 — 2022",
