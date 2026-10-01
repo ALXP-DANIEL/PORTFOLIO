@@ -11,8 +11,6 @@ const MAX_STRETCH = 2.4;
 /** Each drop rolls its own spring feel within these ranges. */
 const SPRING_RANGE = [24, 46] as const;
 const DAMPING_RANGE = [2.8, 6] as const;
-/** Velocity added per pixel of scroll, for the scroll-momentum jolt. */
-const SCROLL_FLING = 14;
 const rand = (min: number, max: number) => min + Math.random() * (max - min);
 const DRAG_THRESHOLD = 6;
 const STRAP_TEXT = "ALXP-DANIEL · FULL-STACK WEB DEVELOPER · ".repeat(6);
@@ -157,28 +155,8 @@ export default function LanyardCard({
     };
     drop();
 
-    // Scroll momentum: a fast scroll up flings the card upward on its strap,
-    // then the spring settles it — no reset.
-    let lastScroll = window.scrollY;
-    const onScroll = () => {
-      const delta = window.scrollY - lastScroll;
-      lastScroll = window.scrollY;
-      // Only scrolling up flings the card; scrolling down leaves it hanging.
-      if (state.reduced || state.drag || delta >= 0) return;
-      const kick = Math.max(-80, delta) * SCROLL_FLING;
-      state.vel = {
-        x: Math.max(
-          -2400,
-          Math.min(2400, state.vel.x + rand(-0.25, 0.25) * Math.abs(kick)),
-        ),
-        y: Math.max(-2400, Math.min(2400, state.vel.y + kick)),
-      };
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
