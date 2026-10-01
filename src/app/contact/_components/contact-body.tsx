@@ -75,7 +75,10 @@ export default function ContactBody() {
   };
 
   return (
-    <div ref={rootRef} className="flex flex-col gap-20 sm:gap-28">
+    <div
+      ref={rootRef}
+      className="flex flex-col gap-20 overflow-x-clip sm:gap-28"
+    >
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,540px)] lg:gap-12">
         <div className="flex flex-col gap-10 lg:pt-10">
           <div className="flex flex-col gap-5">

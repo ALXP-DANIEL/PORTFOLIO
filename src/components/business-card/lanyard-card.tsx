@@ -228,10 +228,13 @@ export default function LanyardCard({
       </svg>
 
       {/* positioned at the clip point; the rig pivots around it */}
-      <div className="absolute left-1/2" style={{ top: STRAP_LENGTH }}>
+      <div
+        className="absolute inset-x-0 flex justify-center"
+        style={{ top: STRAP_LENGTH }}
+      >
         <div
           ref={rigRef}
-          className="relative -translate-x-1/2 will-change-transform"
+          className="relative will-change-transform"
           style={{ transformOrigin: "50% 0" }}
         >
           {/* metal clip */}

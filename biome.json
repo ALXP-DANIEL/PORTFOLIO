@@ -13,7 +13,8 @@
       "!.next",
       "!dist",
       "!build",
-      "!QR-PIXEL"
+      "!QR-PIXEL",
+      "!src/app/contact/_components/land-points.ts"
     ]
   },
   "formatter": {

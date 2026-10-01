@@ -8,6 +8,7 @@ import { cardContact } from "@/components/business-card/card-data";
 import { Icons } from "@/components/icons";
 import { socialsConfig } from "@/config/sosial";
 import { cn } from "@/lib/utils";
+import { LAND_POINTS } from "./land-points";
 
 type Channel = {
   id: string;
@@ -48,7 +49,7 @@ const CHANNELS: Channel[] = [
 
 const GLOBE_RADIUS = 1;
 const ORBIT_RADIUS = 1.55;
-const POINT_COUNT = 2600;
+const OCEAN_COUNT = 1400;
 /** Kuala Lumpur, where the pin sits. */
 const HOME = { lat: 3.139, lon: 101.687 };
 
@@ -105,44 +106,59 @@ export default function ContactGlobe() {
     globe.rotation.z = THREE.MathUtils.degToRad(-12);
     scene.add(globe);
 
-    // Fibonacci sphere: evenly spread dots, sized by a gentle random jitter.
-    const positions = new Float32Array(POINT_COUNT * 3);
+    // Continents: precomputed dots that fall on land.
+    const landGeometry = new THREE.BufferGeometry();
+    landGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(LAND_POINTS, 3),
+    );
+    globe.add(
+      new THREE.Points(
+        landGeometry,
+        new THREE.PointsMaterial({
+          color: ink,
+          size: 0.022,
+          sizeAttenuation: true,
+          transparent: true,
+          opacity: dark ? 0.8 : 0.7,
+          depthWrite: false,
+        }),
+      ),
+    );
+
+    // Oceans: a sparse, faint lattice so the sphere still reads as round.
+    const oceanPositions = new Float32Array(OCEAN_COUNT * 3);
     const golden = Math.PI * (3 - Math.sqrt(5));
-    for (let i = 0; i < POINT_COUNT; i++) {
-      const y = 1 - (i / (POINT_COUNT - 1)) * 2;
+    for (let i = 0; i < OCEAN_COUNT; i++) {
+      const y = 1 - (i / (OCEAN_COUNT - 1)) * 2;
       const r = Math.sqrt(1 - y * y);
       const t = golden * i;
-      positions.set(
-        [
-          Math.cos(t) * r * GLOBE_RADIUS,
-          y * GLOBE_RADIUS,
-          Math.sin(t) * r * GLOBE_RADIUS,
-        ],
-        i * 3,
-      );
+      oceanPositions.set([Math.cos(t) * r, y, Math.sin(t) * r], i * 3);
     }
-    const dotsGeometry = new THREE.BufferGeometry();
-    dotsGeometry.setAttribute(
+    const oceanGeometry = new THREE.BufferGeometry();
+    oceanGeometry.setAttribute(
       "position",
-      new THREE.BufferAttribute(positions, 3),
+      new THREE.BufferAttribute(oceanPositions, 3),
     );
-    const dotsMaterial = new THREE.PointsMaterial({
-      color: ink,
-      size: 0.018,
-      sizeAttenuation: true,
-      transparent: true,
-      opacity: dark ? 0.55 : 0.5,
-      depthWrite: false,
-    });
-    globe.add(new THREE.Points(dotsGeometry, dotsMaterial));
+    globe.add(
+      new THREE.Points(
+        oceanGeometry,
+        new THREE.PointsMaterial({
+          color: ink,
+          size: 0.012,
+          sizeAttenuation: true,
+          transparent: true,
+          opacity: 0.16,
+          depthWrite: false,
+        }),
+      ),
+    );
 
-    // Faint solid core so the back hemisphere reads as "behind".
+    // Opaque core: hides the far hemisphere and anything orbiting behind it.
     const core = new THREE.Mesh(
       new THREE.SphereGeometry(GLOBE_RADIUS * 0.985, 48, 48),
       new THREE.MeshBasicMaterial({
         color: dark ? 0x0a0a0a : 0xfafafa,
-        transparent: true,
-        opacity: 0.82,
       }),
     );
     globe.add(core);
@@ -200,8 +216,7 @@ export default function ContactGlobe() {
       height = stage.clientHeight;
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
-      // Keep the whole orbit in frame on narrow screens.
-      camera.position.z = width < 640 ? 6.4 : 5.2;
+      camera.position.set(0, 0, 6.2);
       camera.updateProjectionMatrix();
     };
     resize();
@@ -213,6 +228,21 @@ export default function ContactGlobe() {
       visible = entry.isIntersecting;
     });
     intersection.observe(stage);
+
+    // Parallax: the 3D scene turns toward the pointer (or, on touch,
+    // with scroll), and each bubble sits at its own depth, so near bubbles
+    // swing further than far ones.
+    const look = { x: 0, y: 0, tx: 0, ty: 0 };
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    const clampUnit = (v: number) => Math.max(-1, Math.min(1, v));
+    const onPointer = (event: PointerEvent) => {
+      const rect = stage.getBoundingClientRect();
+      look.tx = clampUnit(((event.clientX - rect.left) / rect.width - 0.5) * 2);
+      look.ty = clampUnit(((event.clientY - rect.top) / rect.height - 0.5) * 2);
+    };
+    if (!reduced && !coarse) {
+      window.addEventListener("pointermove", onPointer, { passive: true });
+    }
 
     let orbitAngle = 0;
     let last = performance.now();
@@ -238,6 +268,21 @@ export default function ContactGlobe() {
         (ring.material as THREE.MeshBasicMaterial).opacity = 1 - pulse;
       }
 
+      if (!reduced && coarse) {
+        const rect = stage.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        look.ty = clampUnit(
+          (center - window.innerHeight / 2) / (window.innerHeight / 2),
+        );
+        look.tx = look.ty * -0.5;
+      }
+      look.x += (look.tx - look.x) * 0.07;
+      look.y += (look.ty - look.y) * 0.07;
+      // Tilt the 3D scene itself (never the canvas, which would skew the
+      // sphere): the orbit swings by depth, the globe stays round.
+      scene.rotation.x = look.y * 0.28;
+      scene.rotation.y = look.x * 0.4;
+
       renderer.render(scene, camera);
 
       // Place each bubble at its projected orbit position.
@@ -260,9 +305,12 @@ export default function ContactGlobe() {
         const front = depth > -0.2;
         const scale =
           0.78 + ((depth + ORBIT_RADIUS) / (ORBIT_RADIUS * 2)) * 0.32;
-        el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(${scale})`;
+        // Nearer bubbles drift further with the pointer than far ones.
+        const drift = (depth + ORBIT_RADIUS) * 14;
+        el.style.transform = `translate3d(${x + look.x * drift}px, ${y + look.y * drift}px, 0) translate(-50%, -50%) scale(${scale})`;
+        // Same look front and back; a bubble on the far side simply passes
+        // behind the opaque globe (stacked under the canvas layer).
         el.style.zIndex = front ? "20" : "1";
-        el.style.opacity = front ? "1" : "0.35";
         el.dataset.behind = front ? "false" : "true";
       }
     };
@@ -270,6 +318,7 @@ export default function ContactGlobe() {
 
     return () => {
       cancelAnimationFrame(raf);
+      window.removeEventListener("pointermove", onPointer);
       resizeObserver.disconnect();
       intersection.disconnect();
       renderer.dispose();
@@ -296,13 +345,13 @@ export default function ContactGlobe() {
   return (
     <div
       ref={stageRef}
-      className="relative mx-auto aspect-square w-full max-w-[720px] select-none"
+      className="relative mx-auto aspect-square w-full max-w-[460px] select-none"
       onPointerLeave={() => setActive(null)}
     >
       <canvas
         ref={canvasRef}
         aria-hidden
-        className="absolute inset-0 h-full w-full"
+        className="pointer-events-none absolute inset-0 z-10 h-full w-full"
       />
 
       <ul aria-label="Ways to reach me" className="absolute inset-0">
