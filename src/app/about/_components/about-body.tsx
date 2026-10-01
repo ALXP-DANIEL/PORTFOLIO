@@ -55,7 +55,7 @@ function TimelineRow({
   );
 }
 
-/** Organisation mark: the logo as-is, else a mono monogram, else an icon. */
+/** Organisation mark on a white tile: the logo, else a monogram, else an icon. */
 function OrgMark({
   logo,
   monogram,
@@ -66,7 +66,7 @@ function OrgMark({
   name: string;
 }) {
   return (
-    <span className="grid size-14 shrink-0 place-items-center">
+    <span className="grid size-14 shrink-0 place-items-center overflow-hidden rounded-xl border border-border bg-white">
       {logo ? (
         <Image
           src={logo}
@@ -76,11 +76,11 @@ function OrgMark({
           className="size-full object-contain"
         />
       ) : monogram ? (
-        <span className="font-mono text-sm font-semibold tracking-wide text-foreground/70">
+        <span className="font-mono text-sm font-semibold tracking-wide text-neutral-800">
           {monogram}
         </span>
       ) : (
-        <HardDrivesIcon className="size-8 text-foreground/70" aria-hidden />
+        <HardDrivesIcon className="size-7 text-neutral-700" aria-hidden />
       )}
     </span>
   );

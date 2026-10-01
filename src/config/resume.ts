@@ -146,7 +146,7 @@ export const educationConfig: readonly Education[] = [
   },
   {
     school: "Industrial Training Institute, Kuala Langat",
-    monogram: "ILP",
+    logo: "/logos/ilp.webp",
     qualification: "Diploma in Web Development",
     location: "Malaysia",
     period: "2022 — 2024",
@@ -158,7 +158,7 @@ export const educationConfig: readonly Education[] = [
   },
   {
     school: "SMK Banting",
-    monogram: "SMK",
+    logo: "/logos/smk.webp",
     qualification: "SPM",
     location: "Malaysia",
     period: "2016 — 2022",
