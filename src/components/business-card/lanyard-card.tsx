@@ -7,9 +7,11 @@ import { CardBack, CardFront } from "./card-faces";
 /** Resting distance from the strap anchor to the card's clip, in px. */
 const STRAP_LENGTH = 220;
 /** How far the strap may stretch before it pulls the card back. */
-const MAX_STRETCH = 1.35;
-const SPRING = 38;
-const DAMPING = 5.5;
+const MAX_STRETCH = 2.4;
+/** Each drop rolls its own spring feel within these ranges. */
+const SPRING_RANGE = [24, 46] as const;
+const DAMPING_RANGE = [2.8, 6] as const;
+const rand = (min: number, max: number) => min + Math.random() * (max - min);
 const DRAG_THRESHOLD = 6;
 const STRAP_TEXT = "ALXP-DANIEL · FULL-STACK WEB DEVELOPER · ".repeat(6);
 
@@ -48,6 +50,8 @@ export default function LanyardCard({
       lastTime: number;
     },
     reduced: false,
+    spring: 38,
+    damping: 5.5,
   });
 
   useEffect(() => {
@@ -68,8 +72,8 @@ export default function LanyardCard({
       const { pos, vel, tilt, tiltTarget } = state;
 
       if (!state.drag) {
-        vel.x += (-SPRING * pos.x - DAMPING * vel.x) * dt;
-        vel.y += (-SPRING * pos.y - DAMPING * vel.y) * dt;
+        vel.x += (-state.spring * pos.x - state.damping * vel.x) * dt;
+        vel.y += (-state.spring * pos.y - state.damping * vel.y) * dt;
         pos.x += vel.x * dt;
         pos.y += vel.y * dt;
       }
@@ -87,9 +91,9 @@ export default function LanyardCard({
 
       // Swing: the card leans away from the direction it's travelling.
       const swing = Math.max(
-        -40,
+        -65,
         Math.min(
-          40,
+          65,
           Math.atan2(pos.x, STRAP_LENGTH + pos.y) * 57.3 * 0.6 - vel.x * 0.03,
         ),
       );
@@ -133,12 +137,18 @@ export default function LanyardCard({
     // scrolled back to the top.
     const drop = () => {
       if (state.reduced || state.drag) return;
+      // Every drop is different: start point, kick, springiness and damping.
+      state.spring = rand(...SPRING_RANGE);
+      state.damping = rand(...DAMPING_RANGE);
       const side = Math.random() < 0.5 ? -1 : 1;
       state.pos = {
-        x: side * (40 + Math.random() * 60),
-        y: -STRAP_LENGTH * 0.9,
+        x: side * rand(0, 160),
+        y: -STRAP_LENGTH * rand(0.4, 1),
       };
-      state.vel = { x: side * -(260 + Math.random() * 220), y: 900 };
+      state.vel = {
+        x: -side * rand(80, 700) + rand(-150, 150),
+        y: rand(500, 1300),
+      };
     };
     drop();
 
