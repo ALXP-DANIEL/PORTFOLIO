@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { buildVCard, cardContact } from "@/app/card/_components/card-data";
-import LanyardCard from "@/app/card/_components/lanyard-card";
+import { buildVCard, cardContact } from "@/components/business-card/card-data";
+import LanyardCard from "@/components/business-card/lanyard-card";
 import { Icons } from "@/components/icons";
 import { socialsConfig } from "@/config/sosial";
 import { useSplashGsap } from "@/hooks/use-splash-gsap";
