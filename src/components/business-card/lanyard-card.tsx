@@ -36,8 +36,8 @@ export default function LanyardCard({
 
   // Physics state lives in refs so the rAF loop never re-renders React.
   const sim = useRef({
-    pos: { x: 0, y: -60 } as Vec,
-    vel: { x: 90, y: 0 } as Vec,
+    pos: { x: 0, y: 0 } as Vec,
+    vel: { x: 0, y: 0 } as Vec,
     tilt: { x: 0, y: 0 } as Vec,
     tiltTarget: { x: 0, y: 0 } as Vec,
     drag: null as null | {
@@ -128,7 +128,33 @@ export default function LanyardCard({
     };
 
     frame = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frame);
+    // Drop-in: the card falls from up by the anchor with a sideways kick and
+    // bounces on its strap — on load, and again whenever the page is
+    // scrolled back to the top.
+    const drop = () => {
+      if (state.reduced || state.drag) return;
+      const side = Math.random() < 0.5 ? -1 : 1;
+      state.pos = {
+        x: side * (40 + Math.random() * 60),
+        y: -STRAP_LENGTH * 0.9,
+      };
+      state.vel = { x: side * -(260 + Math.random() * 220), y: 900 };
+    };
+    drop();
+
+    let wasAway = window.scrollY > 240;
+    const onScroll = () => {
+      const away = window.scrollY > 240;
+      if (wasAway && window.scrollY < 8) drop();
+      if (away) wasAway = true;
+      else if (window.scrollY < 8) wasAway = false;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   const onPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {

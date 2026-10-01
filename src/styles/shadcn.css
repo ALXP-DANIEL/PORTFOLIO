@@ -133,6 +133,13 @@
     overscroll-behavior: none;
   }
 
+  /* Swinging/dragged elements may cross the viewport edge; clip there
+     (clip, unlike hidden, keeps sticky/fixed positioning working). */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   /* Live project window takes over the screen; the floating chrome steps aside. */
   html[data-immersive="true"] [data-site-chrome] {
     opacity: 0;
