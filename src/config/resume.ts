@@ -12,7 +12,7 @@ export const aboutConfig: readonly string[] = [
 
 export const experienceConfig: readonly Experience[] = [
   {
-    role: "Programmer",
+    role: "Backend Programmer",
     company: "PKT Logistics (M) Sdn Bhd",
     logo: "/logos/pkt.webp",
     location: "Shah Alam, Malaysia · On-site",
