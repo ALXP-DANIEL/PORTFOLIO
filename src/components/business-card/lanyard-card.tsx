@@ -94,7 +94,10 @@ export default function LanyardCard({
         -65,
         Math.min(
           65,
-          Math.atan2(pos.x, STRAP_LENGTH + pos.y) * 57.3 * 0.6 - vel.x * 0.03,
+          // Lean from plumb, mirrored when the card is above the anchor so a
+          // card dropping (or dragged) from overhead isn't flipped sideways.
+          Math.atan2(pos.x, Math.abs(STRAP_LENGTH + pos.y) + 60) * 57.3 * 0.6 -
+            vel.x * 0.03,
         ),
       );
 
