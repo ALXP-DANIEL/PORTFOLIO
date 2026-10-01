@@ -8,46 +8,8 @@ import SectionLabel from "@/components/ui/section-label";
 import { experienceConfig } from "@/config/resume";
 import { useSplashGsap } from "@/hooks/use-splash-gsap";
 
-/** First professional role — the clock "years shipping" counts from. */
-const CAREER_START = new Date("2023-08-01");
-
-type Stat = {
-  value: number;
-  decimals?: number;
-  prefix?: string;
-  suffix?: string;
-  label: string;
-};
-
-function yearsSince(date: Date) {
-  const ms = Date.now() - date.getTime();
-  return Math.max(1, Math.floor(ms / (365.25 * 24 * 60 * 60 * 1000)));
-}
-
-export default function HomeStory({ projectCount }: { projectCount: number }) {
+export default function HomeStory() {
   const rootRef = useRef<HTMLDivElement>(null);
-
-  const stats: Stat[] = [
-    {
-      value: yearsSince(CAREER_START),
-      suffix: "+",
-      label: "Years shipping production code",
-    },
-    {
-      value: projectCount,
-      label: "Projects live in the index",
-    },
-    {
-      value: 2,
-      suffix: "×",
-      label: "WorldSkills Malaysia Belia competitor",
-    },
-    {
-      value: 3.71,
-      decimals: 2,
-      label: "Diploma GPA in web development",
-    },
-  ];
 
   useSplashGsap(
     (gsap) => {
@@ -68,23 +30,6 @@ export default function HomeStory({ projectCount }: { projectCount: number }) {
         if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
       }
 
-      // Count each stat up from zero the first time it scrolls into view.
-      for (const el of gsap.utils.toArray<HTMLElement>("[data-count]")) {
-        const target = Number(el.dataset.count);
-        const decimals = Number(el.dataset.decimals ?? 0);
-        const counter = { value: 0 };
-        const tween = gsap.to(counter, {
-          value: target,
-          duration: 1.4,
-          ease: "power2.out",
-          onUpdate: () => {
-            el.textContent = counter.value.toFixed(decimals);
-          },
-          scrollTrigger: { trigger: el, start: "top 92%", once: true },
-        });
-        if (tween.scrollTrigger) triggers.push(tween.scrollTrigger);
-      }
-
       return () => {
         for (const trigger of triggers) trigger.kill();
       };
@@ -94,34 +39,6 @@ export default function HomeStory({ projectCount }: { projectCount: number }) {
 
   return (
     <div ref={rootRef} className="flex flex-col gap-32 sm:gap-40">
-      {/* at a glance */}
-      <section
-        data-story
-        aria-labelledby="glance-heading"
-        className="flex flex-col gap-8"
-      >
-        <SectionLabel id="glance-heading">At a glance</SectionLabel>
-        <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-border bg-border lg:grid-cols-4">
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="flex flex-col justify-between gap-6 bg-background p-5 sm:p-7"
-            >
-              <dd className="order-first text-4xl font-semibold tracking-tight text-foreground tabular-nums sm:text-6xl">
-                {stat.prefix}
-                <span data-count={stat.value} data-decimals={stat.decimals}>
-                  {stat.value.toFixed(stat.decimals ?? 0)}
-                </span>
-                <span className="text-foreground/35">{stat.suffix}</span>
-              </dd>
-              <dt className="font-mono text-[11px] leading-5 tracking-wide text-foreground/55">
-                {stat.label}
-              </dt>
-            </div>
-          ))}
-        </dl>
-      </section>
-
       {/* path so far */}
       <section
         data-story
