@@ -11,6 +11,8 @@ const MAX_STRETCH = 2.4;
 /** Each drop rolls its own spring feel within these ranges. */
 const SPRING_RANGE = [24, 46] as const;
 const DAMPING_RANGE = [2.8, 6] as const;
+/** Velocity added per pixel of scroll, for the scroll-momentum jolt. */
+const SCROLL_FLING = 14;
 const rand = (min: number, max: number) => min + Math.random() * (max - min);
 const DRAG_THRESHOLD = 6;
 const STRAP_TEXT = "ALXP-DANIEL · FULL-STACK WEB DEVELOPER · ".repeat(6);
@@ -135,9 +137,8 @@ export default function LanyardCard({
     };
 
     frame = requestAnimationFrame(step);
-    // Drop-in: the card falls from above the viewport with a sideways kick and
-    // bounces on its strap — on load, and again whenever the page is
-    // scrolled back to the top.
+    // Drop-in: on load the card falls from above the viewport with a sideways
+    // kick and bounces on its strap.
     const drop = () => {
       if (state.reduced || state.drag) return;
       // Every drop is different: start point, kick, springiness and damping.
@@ -156,12 +157,22 @@ export default function LanyardCard({
     };
     drop();
 
-    let wasAway = window.scrollY > 240;
+    // Scroll momentum: page motion jolts the card on its strap. A fast scroll
+    // up flings it upward (and a scroll down tugs it down), then the spring
+    // settles it — no reset.
+    let lastScroll = window.scrollY;
     const onScroll = () => {
-      const away = window.scrollY > 240;
-      if (wasAway && window.scrollY < 8) drop();
-      if (away) wasAway = true;
-      else if (window.scrollY < 8) wasAway = false;
+      const delta = window.scrollY - lastScroll;
+      lastScroll = window.scrollY;
+      if (state.reduced || state.drag || delta === 0) return;
+      const kick = Math.max(-80, Math.min(80, delta)) * SCROLL_FLING;
+      state.vel = {
+        x: Math.max(
+          -2400,
+          Math.min(2400, state.vel.x + rand(-0.25, 0.25) * Math.abs(kick)),
+        ),
+        y: Math.max(-2400, Math.min(2400, state.vel.y + kick)),
+      };
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
