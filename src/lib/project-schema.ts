@@ -99,6 +99,7 @@ export const projectManifestSchema = z.object({
   overview: z.string().optional(),
   year: z.string().optional(),
   spotlight: z.boolean().default(false),
+  showInPortfolio: z.boolean().default(true),
   techStack: z.array(z.string()).default([]),
   highlights: z.array(z.string()).default([]),
   thumbnail: z.string().optional(),
@@ -192,9 +193,10 @@ export function manifestToProject(
 
 /** Validate + normalize hand-authored `project.json`-shaped entries. */
 export function defineProjects(manifests: ProjectManifest[]): Project[] {
-  return manifests.map((manifest) =>
-    manifestToProject(projectManifestSchema.parse(manifest)),
-  );
+  return manifests
+    .map((manifest) => projectManifestSchema.parse(manifest))
+    .filter((manifest) => manifest.showInPortfolio)
+    .map((manifest) => manifestToProject(manifest));
 }
 
 /** Deterministic hue (0-359) derived from a slug, so each project owns a colour. */

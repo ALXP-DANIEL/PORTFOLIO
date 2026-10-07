@@ -6,6 +6,7 @@
   "summary": "Project case studies, interactive motion, and GitHub as a CMS.",
   "year": "2026",
   "spotlight": true,
+  "showInPortfolio": false,
   "techStack": [
     "Next.js",
     "React",

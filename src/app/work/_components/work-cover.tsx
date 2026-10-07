@@ -47,8 +47,8 @@ export default function WorkCover({
             alt=""
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            wrapperClassName="absolute inset-x-[6%] top-[18%] bottom-[12%]"
-            className="h-full w-full object-contain"
+            wrapperClassName="absolute inset-0 h-full w-full"
+            className="h-full w-full object-cover"
             eager={eager}
           />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_92%_92%,rgba(0,0,0,0.78),rgba(0,0,0,0.34)_30%,transparent_58%)]" />

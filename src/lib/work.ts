@@ -40,7 +40,7 @@ async function loadRepoProject(repo: GitHubRepo): Promise<Project | null> {
     const parsed = projectManifestSchema.safeParse(
       parseJson(await fetchRepoFile(repo, "project.json")),
     );
-    if (!parsed.success) return null;
+    if (!parsed.success || !parsed.data.showInPortfolio) return null;
 
     const readme = await fetchRepoReadme(repo);
 
