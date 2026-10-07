@@ -59,6 +59,7 @@ export const projectSchema = z.object({
   highlights: z.array(z.string()),
   gallery: z.array(projectImageSchema),
   cover: z.string().optional(),
+  spotlightCover: z.string().optional(),
   /** Raw markdown body, sourced from the repo README. */
   readme: z.string().optional(),
   /** Whether `actions.open` allows being framed, so it can open in-page. */
@@ -102,6 +103,8 @@ export const projectManifestSchema = z.object({
   highlights: z.array(z.string()).default([]),
   thumbnail: z.string().optional(),
   spotlightImage: z.string().optional(),
+  profileImage: z.string().optional(),
+  profileSummary: z.string().max(40).optional(),
   previewImages: z.array(imageInputSchema).default([]),
   actions: projectActionsSchema.default({}),
 });
@@ -174,6 +177,9 @@ export function manifestToProject(
     highlights: data.highlights,
     gallery,
     cover: data.thumbnail ? resolve(data.thumbnail) : undefined,
+    spotlightCover: data.spotlightImage
+      ? resolve(data.spotlightImage)
+      : undefined,
     featured: data.spotlight,
     flags,
     stats: ctx.stats,

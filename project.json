@@ -1,0 +1,24 @@
+{
+  "slug": "portfolio",
+  "title": "Portfolio",
+  "type": "Full-Stack Web App",
+  "category": "Personal Portfolio",
+  "summary": "Project case studies, interactive motion, and GitHub as a CMS.",
+  "year": "2026",
+  "spotlight": true,
+  "techStack": [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "GSAP"
+  ],
+  "actions": {
+    "open": "https://alifdaniel.dpdns.org",
+    "github": "https://github.com/ALXP-DANIEL/PORTFOLIO"
+  },
+  "thumbnail": "./metadata/picture/cover-thumbnail.jpeg",
+  "spotlightImage": "./metadata/picture/cover-spotlight.jpeg",
+  "profileImage": "./metadata/picture/profile-cover-v2.jpeg",
+  "profileSummary": "Interfaces, stories, experiments."
+}

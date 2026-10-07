@@ -37,7 +37,8 @@ export default function WorkSpotlight({
 
   const count = projects.length;
   const project = projects[active];
-  const spotlightImage = project?.cover ?? project?.gallery[0]?.src;
+  const spotlightImage =
+    project?.spotlightCover ?? project?.cover ?? project?.gallery[0]?.src;
 
   const go = (dir: number) => setActive((a) => (a + dir + count) % count);
 

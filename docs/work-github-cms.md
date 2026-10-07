@@ -54,6 +54,12 @@ technical description.
 
 ## Images
 
+Follow [Project presentation](project-presentation.md) for image dimensions,
+filenames, crop rules, and the shared portfolio/profile design. `thumbnail`
+drives the index and case-study cover; `spotlightImage` drives the spotlight
+with thumbnail fallback. `profileImage` and `profileSummary` are used by the
+profile repository's bento generator.
+
 For public repositories, relative image paths are resolved through
 `raw.githubusercontent.com`.
 
